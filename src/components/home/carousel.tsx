@@ -4,7 +4,7 @@ import { GrFormPrevious } from "react-icons/gr";
 import { Link } from "react-router-dom";
 
 const Carousel = () => {
-   const [items,setItems] = useState([]);
+   const [items,setItems] = useState<any>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const goNext = () => {
@@ -37,9 +37,9 @@ const Carousel = () => {
           className="flex transition-transform ease-in-out duration-300 h-full"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
-          {items.map((item) => (
+          {items.length>0 && items?.map((item:any) => (
             <div
-              key={item.id}
+              key={item._id}
               className="w-full flex-shrink-0 flex items-center justify-center"
             >
               <img
