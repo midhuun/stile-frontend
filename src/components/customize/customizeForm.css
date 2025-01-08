@@ -1,0 +1,17 @@
+.work-bg{
+    background-image: url('https://i.ibb.co/9sqSKJn/work.jpg');
+}
+@keyframes scroll {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+.animate-scroll {
+    animation: scroll 15s linear infinite;
+    display: flex;
+    width: calc(2 * 100%);
+  }

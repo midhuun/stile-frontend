@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Doto:wght@100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body{
+    font-family: "Montserrat", serif;
+    padding-top: 70px;
+}
+
+.custom-btn{
+    font-family: "Josefin Sans", serif;
+
+}
+@media (max-width: 768px){
+    body{
+        padding-top: 30px;
+    }
+}

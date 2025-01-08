@@ -1,0 +1,246 @@
+//@ts-nocheck
+import React, { useContext, useState } from "react";
+import { HeaderContext } from "../../context/appContext";
+import { motion } from "framer-motion";
+import Logo from '../../assets/logo.png';
+import validator from "validator";
+import { auth } from "../../firestore/store";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+const OtpLoginPopup = () => {
+   
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [otp, setOtp] = useState(["", "", "", "","",""]);
+  const [otpSent, setOtpSent] = useState(false); // State to track if OTP is sent
+  const { isUserOpen, setisUserOpen,isAuthenticated,setisAuthenticated } = useContext<any>(HeaderContext);
+  const [isverifying,setisverifying] = useState(false);
+  const [iserror, setiserror] = useState(false);
+
+  const [error, seterror] = useState("");
+  const [confirmationResult, setConfirmationResult] = useState<any>(null);
+  const [btnmsg,setBtnmsg] = useState("Send OTP");
+  function oncaptchaVerify() {
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+       auth,"recaptcha",
+        {
+          size: "invisible",
+          callback: (response) => {
+            onSignup();
+          },
+          "expired-callback": () => {
+            console.log("Recaptcha expired");
+          },
+        }
+      );
+    }
+  }
+  function onSignup(e){
+    setBtnmsg("Sending OTP")
+    e.preventDefault();
+    setisverifying(true);
+    try{
+      if(!validator.isMobilePhone(mobileNumber,"en-IN")){
+        setiserror(true);
+        toast.error("Invalid Mobile Number");
+        seterror("Invalid Mobile Number")
+        setTimeout(() => {
+          setiserror(false)
+        }, 2500);
+        seterror("Enter valid Phone Number");
+        throw new Error("Enter Valid Phone Number")
+      }
+    auth.settings.appVerificationDisabledForTesting = true;
+    oncaptchaVerify();
+    const appVerifier = window.recaptchaVerifier;
+    const phoneNumber = "+91" + mobileNumber; // Phone number with country code
+    signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+      .then((result) => {
+        setConfirmationResult(result);
+        console.log("Sign-in success",confirmationResult);
+        toast.done("OTP Sent");
+        setOtpSent(true);
+      })
+      .catch((error) => {
+        console.error("Enter Valid details", error);
+
+      });
+    }
+    catch(err){
+      console.log(err);
+      setiserror(true)
+      setTimeout(() => {
+        setiserror(false)
+      }, 2500);
+      seterror("Enter Valid details");
+
+    }
+  }
+  const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const newOtp = [...otp];
+    newOtp[index] = e.target.value;
+    setOtp(newOtp);
+    if (e.target.value && index < 3) {
+      document.getElementById(`otp-input-${index + 1}`)?.focus();
+    }
+  };
+  async function otpVerified(){
+    const res = await fetch("https://stile-backend.vercel.app/user/login",
+    {method:"POST",
+      headers:{"Content-Type":"application/json"},
+      credentials:'include',
+      body:JSON.stringify({phone:mobileNumber})
+      });
+    const data = await res.json();
+    console.log(data);
+    setisAuthenticated(true);
+    setisUserOpen(false);
+    setisverifying(false);
+    setOtpSent(false);
+    setMobileNumber("");
+    setOtp(["", "", "", "","",""]);
+  }
+  function onOTPVerify() {
+    console.log(otp.join(""));
+    console.log(confirmationResult)
+    if (!confirmationResult) {
+      console.log("No confirmation result available");
+      return;
+    }
+    confirmationResult
+      .confirm(otp.join(""))
+      .then(async (res) => {
+        console.log("OTP verified, user signed in:", res);
+        otpVerified()
+      })
+      .catch((err) => {
+        console.error("OTP verification failed:", err);
+        setiserror(true)
+        setTimeout(() => {
+          setiserror(false)
+        }, 2500);
+        seterror("Enter correct OTP");
+      });
+  }
+  return (
+    <div>
+      {isUserOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div id="recaptcha"></div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+            className="bg-white relative rounded-lg shadow-lg w-[90%] max-w-md flex flex-col h-auto overflow-hidden"
+          >
+            <ToastContainer autoClose={5000} position="top-right " hideProgressBar={false} theme="light" />
+            <button
+              onClick={() => setisUserOpen(false)}
+              className="absolute -top-3 right-2 hover:scale-105 text-black hover:text-red-500 text-[40px]"
+            >
+              ×
+            </button>
+
+            {/* Header Section */}
+            <div className="bg-white text-black p-6 flex flex-col items-center">
+              <img
+                src={Logo}
+                alt="Stile Sagio Logo"
+                className="w-24 h-24 object-contain"
+              />
+              <h2 className="text-lg md:text-xl font-bold mt-4">Stile Sagio</h2>
+              <p className="text-gray-300 text-center text-sm mt-2">
+                Login to enjoy exclusive benefits:
+              </p>
+            </div>
+
+            {/* Mobile Number Form (Before OTP is sent) */}
+            {!otpSent && (
+              <div className="p-6 flex flex-col">
+                <h2 className="text-md md:text-lg font-semibold text-gray-800 text-center mb-4">
+                  Login with OTP
+                </h2>
+                <p className="text-gray-600 text-sm md:text-lg text-center mb-4">
+                  Enter your mobile number to receive an OTP for verification.
+                </p>
+                <form onSubmit={onSignup} className="space-y-4">
+                  <div className="text-sm md:text-md">
+                    <label
+                      htmlFor="mobileNumber"
+                      className="block text-gray-700 font-medium mb-1"
+                    >
+                      Mobile Number
+                    </label>
+                    <input
+                      type="text"
+                      id="mobileNumber"
+                      value={mobileNumber}
+                      onChange={(e) => setMobileNumber(e.target.value)}
+                      placeholder="Enter your mobile number"
+                      className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      maxLength={10}
+                      required
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full py-3 bg-black text-white rounded-lg shadow-md"
+                  >
+                 {btnmsg}
+                  </button>
+                </form>
+                <div className="mt-4 text-center">
+                  <p className="text-sm text-gray-500">
+                    We will send an OTP to your registered mobile number for verification.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* OTP Form Section (Visible after OTP is sent) */}
+            {otpSent && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                className="p-6 flex flex-col space-y-4"
+              >
+                <h2 className="text-md md:text-lg font-semibold text-gray-800 text-center mb-4">
+                  Enter OTP
+                </h2>
+                <div className="flex justify-center gap-4 mb-4">
+                  {otp.map((digit, index) => (
+                    <input
+                      key={index}
+                      id={`otp-input-${index}`}
+                      type="text"
+                      maxLength={1}
+                      value={digit}
+                      onChange={(e) => handleOtpChange(e, index)}
+                      className="w-12 h-12 text-center border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    />
+                  ))}
+                </div>
+                <button
+                  onClick={onSignup}
+                  className="w-full py-2 bg-gray-300 text-gray-800 rounded-lg"
+                >
+                  Resend OTP
+                </button>
+                <button
+                  onClick={onOTPVerify}
+                  className="w-full py-2 bg-[#000435] text-white rounded-lg"
+                >
+                 Verify
+                </button>
+              </motion.div>
+            )}
+          </motion.div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default OtpLoginPopup;
