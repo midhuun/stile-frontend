@@ -104,12 +104,12 @@ export default function Header() {
               <li
                 onMouseEnter={handleDropdownOpen}
                 onMouseLeave={handleDropdownClose}
-                className="cursor-pointer relative"
+                className="cursor-pointer "
               >
                 Shop All
                 {isdropDown && (
                   <div
-                    className="absolute bg-white shadow-lg border rounded-lg p-2 w-full left-0 h-[300px] top-14"
+                    className="absolute bg-white shadow-lg border rounded-lg p-2 w-[100vw] left-0 h-[300px] top-14"
                     onMouseEnter={handleDropdownOpen}
                     onMouseLeave={handleDropdownClose}
                   >
