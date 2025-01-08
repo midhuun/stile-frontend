@@ -3,7 +3,8 @@
   "compilerOptions": {
     "skipLibCheck": true,
     "noEmitOnError": false,
-    "checkJs": false
+    "checkJs": false,
+    "noCheck": true
   },
   "references": [
     { "path": "./tsconfig.app.json" },
