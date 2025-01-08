@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useState } from 'react'
 import './App.css'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import Header from './components/header/header'
@@ -11,15 +11,13 @@ import CartPage from './components/cart/cart'
 import CustomizeOrder from './components/customize/customize'
 import CustomizeNowForm from './components/customize/customizeForm'
 import Bag from './components/header/bag'
-import HeaderProvider, { HeaderContext } from './context/appContext'
+import HeaderProvider from './context/appContext'
 import ShippingPolicy from './components/FooterDetails/shippingPolicy'
 import ReturnAndExchanges from './components/FooterDetails/returnExchange'
 import TermsAndConditions from './components/FooterDetails/terms'
-import Loading from './components/loading/loading'
 import OtpLoginPopup from './components/login/login'
 
 function App() {
-  const [isloading,setisloading] = useState(true);
   return (
     <>
      <Router>

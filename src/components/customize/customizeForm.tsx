@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import './customizeForm.css';
 const CustomizeNowForm = () => {
   const [formData, setFormData] = useState({

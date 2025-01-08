@@ -6,7 +6,7 @@ import { BsFillCartCheckFill } from "react-icons/bs";
 import { FaTruck } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
-import { addtoCart,removeFromCart,deleteFromCart } from "../../store/reducers/cartReducer";
+import { addtoCart } from "../../store/reducers/cartReducer";
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../store/store";
 import { HeaderContext } from "../../context/appContext";

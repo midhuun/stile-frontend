@@ -1,9 +1,8 @@
-import React, { useRef, useState } from 'react'
+import React, {  useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Product } from '../../types/CategoryType';
 
 const ProductCard:React.FC<{product:Product}> = ({product}) => {
-    const imageRef = useRef(null);
   const [currentImage, setCurrentImage] = useState(product.images[0]);
     const handleMouseEnter = () => {
         if (product.images.length > 1) {

@@ -31,11 +31,11 @@ export default function Header() {
       setisAuthenticated(false);
     }
   }
-
+  console.log(mobile);
   useEffect(() => {
     isUser();
   }, []);
-
+  console.log(isAuthenticated)
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
