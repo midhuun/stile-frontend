@@ -9,7 +9,7 @@ const CategoryPage = () => {
     const [products,setProducts] = useState<Product[]>([]);
     console.log(subcategoryName);
     async function getcategories(){
-        const response = await fetch(`https://admin-stile-12333.vercel.app0/category/${subcategoryName}`);
+        const response = await fetch(`https://stile-backend-gnqp.vercel.app0/category/${subcategoryName}`);
         const data:any = await response.json();
         setCategory(data?.category);
         setProducts(data?.products)
