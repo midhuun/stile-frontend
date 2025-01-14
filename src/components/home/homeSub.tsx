@@ -46,7 +46,7 @@ const HomeSub = () => {
             return (
               <div className="mt-5 w-full px-3 md:px-6" key={subcategory._id}>
                 <h1 className="font-semibold pb-10">{subcategory.name}</h1>
-                <div className="flex flex-wrap gap-4">
+                <div className="flex md:justify-start justify-center flex-wrap gap-4">
                   {uniqueProducts.map((product:any, index:number) => (
                     <div key={index}>
                       <ProductCard product={product} />
