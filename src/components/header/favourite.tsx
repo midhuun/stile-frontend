@@ -6,7 +6,7 @@ import { HeaderContext } from "../../context/appContext";
 const Favorites = () => {
   const { isFavouriteOpen, setisFavouriteOpen, favourites, setFavourites } = useContext<any>(HeaderContext);
   async function getFavorites(){
-    const res = await fetch('https://stile-backend-gnqp.vercel.app0/user/favourites',{credentials:'include'});
+    const res = await fetch('https://stile-backend-gnqp.vercel.app/user/favourites',{credentials:'include'});
     const data = await res.json();
     setFavourites(data.favourites);
   }
@@ -16,7 +16,7 @@ const Favorites = () => {
   }, []);
   const handleRemoveFavorite = async (item:any) => {
     try {
-      const res = await fetch(`https://stile-backend-gnqp.vercel.app0/user/removeFromFavourites`, {
+      const res = await fetch(`https://stile-backend-gnqp.vercel.app/user/removeFromFavourites`, {
         method: 'POST',
         credentials: 'include',
         headers: {

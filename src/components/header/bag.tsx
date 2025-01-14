@@ -13,7 +13,7 @@ const Bag = () => {
   }, []);
   const handleCart = async(value:any) => {
     console.log(value);
-    const res= await fetch(`https://stile-backend-gnqp.vercel.app0/user/${value.value}`,{
+    const res= await fetch(`https://stile-backend-gnqp.vercel.app/user/${value.value}`,{
       method: 'POST',
       credentials:'include',
       headers: {

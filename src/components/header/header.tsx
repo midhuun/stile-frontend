@@ -23,7 +23,7 @@ export default function Header() {
   const [mobile, setMobile] = useState(null);
  
   async function isUser() {
-    const response = await fetch("https://stile-backend-gnqp.vercel.app0/user", { credentials: 'include' });
+    const response = await fetch("https://stile-backend-gnqp.vercel.app/user", { credentials: 'include' });
     const data = await response.json();
     console.log(data?.user);
     if (data) {
