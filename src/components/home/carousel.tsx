@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const Carousel = () => {
    const [items,setItems] = useState<any>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState<any>(0);
 
   const goNext = () => {
     if (currentIndex < items.length - 1) {
@@ -21,7 +21,6 @@ const Carousel = () => {
   async function getBanner() {
     const res= await fetch("https://stile-backend.vercel.app/banner");
     const data = await res.json();
-    console.log(data);
     setItems(data);
   }
  
@@ -71,7 +70,7 @@ const Carousel = () => {
 
         {/* Dots Indicator */}
         <div className="absolute bottom-12 flex justify-center w-full">
-          {items.map((_, index) => (
+          {items.map((_:any, index:number) => (
             <button
               key={index}
               className={`h-2 w-2 rounded-full mx-1 ${

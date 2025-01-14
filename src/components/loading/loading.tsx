@@ -1,18 +1,12 @@
-import './loading.css';
+import './Loading.css'; // Import the CSS file for styling
+
 const Loading = () => {
   return (
-    <div className='fixed z-[400] bg-white min-h-screen w-full'>
-  <div className="flex w-full h-screen justify-center items-center">
- <div className="spinner">
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-</div>
+    <div className="fixed min-h-screen w-full top-0 z-[1000] bg-white flex flex-col justify-center items-center">
+      <div className="spinner"></div>
+      <p className='pt-10 font-semibold text-lg text-gray-700'>Loading...</p>
     </div>
-    </div>
-  )
-}
+  );
+};
 
 export default Loading;

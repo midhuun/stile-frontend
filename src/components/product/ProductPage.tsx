@@ -1,50 +1,84 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Product } from "../../types/CategoryType";
-import { IoCloseSharp } from "react-icons/io5";
+import { IoCloseSharp, IoHeartSharp } from "react-icons/io5";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import { FaTruck } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
-import { addtoCart } from "../../store/reducers/cartReducer";
-import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "../../store/store";
 import { HeaderContext } from "../../context/appContext";
 import Suggestion from "./suggestion";
+import { getCart, getFavourites } from "../../utils/getItems";
+import Loading from "../loading/loading";
 const ProductPage = () => {
-    const cart = useSelector((state:RootState)=>state.Cart);
-    const dispatch = useDispatch();
   const params: any = useParams();
   const { product } = params;
   const [productdata, setproductdata] = useState<Product | null>(null);
-  const [quantity, setQuantity] = useState<number>(1);
-  const {setiscartOpen,iscartOpen} = useContext(HeaderContext);
+  const {setiscartOpen,setisFavouriteOpen,setFavourites,cart,setcart} = useContext<any>(HeaderContext);
   const [activeSize, setActiveSize] = useState<string>("M");
   const [active, setActive] = useState<number>(0);
   const [chartOpen, setchartOpen] = useState<Boolean>(false);
+  const [isLoading,setisLoading] = useState<Boolean>(false);
   const [dropdowns, setDropdowns] = useState<any>({
     description: false,
     shipping: false,
     manufacturer: false,
   });
+   const isProduct = productdata && cart?.find((cartItem:any)=>cartItem.product._id === productdata._id && cartItem.selectedSize === activeSize);
+   console.dir(isProduct);
+  const addToFavorite = async() => {
+    const res= await fetch(`http://localhost:3000/user/addtoFavourites`,{
+      method: 'POST',
+      credentials:'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({id:productdata?._id})
+      });
+    const data = await res.json();
+    const favouriteItems = await getFavourites();
+    setFavourites(favouriteItems);
+    console.log(data);
+    setisFavouriteOpen(true);
+  }
+ console.log("cart",cart);
+  const handleCart = async(value:any) => {
+    const res= await fetch(`http://localhost:3000/user/${value}`,{
+      method: 'POST',
+      credentials:'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({productdata,selectedSize:activeSize})
+    })
+    const data = await res.json();
+    console.log(data);
+      await getCart().then((data)=>setcart(data)).catch((err)=>console.log(err));
+      setiscartOpen(true);
+  }
+  
   const toggleDropdown = (key: string) => {
     setDropdowns((prev:any) => ({ ...prev, [key]: !prev[key] }));
   };
+  const getProduct = async () => {
+    try {
+      const response = await fetch(`https://stile-backend.vercel.app/product/${product}`);
+      const data = await response.json();
+      setproductdata(data[0]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
     window.scrollTo(0, 0);
-    const getProduct = async () => {
-      try {
-        const response = await fetch(`https://stile-backend.vercel.app/product/${product}`);
-        const data = await response.json();
-        setproductdata(data[0]);
-        console.log(data[0]);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getProduct();
+     setisLoading(true);
+     setTimeout(() => {
+      setisLoading(false)
+     }, 1500);
+     getProduct();
+     getCart().then((data)=>setcart(data));
   }, []);
-  console.log(productdata)
+
   function handleChangeImage(data: string) {
     if (data === "prev") {
       if (active === 0) return;
@@ -57,16 +91,17 @@ const ProductPage = () => {
       setActive((prev) => prev + 1);
     }
   }
-   function addClick(){
-    setiscartOpen(true);
-    dispatch(addtoCart(productdata))
-   }
+  //  function addClick(){
+  //   setiscartOpen(true);
+  //   dispatch(addtoCart(productdata))
+  //  }
   function handleThumbnailClick(index: number) {
     setActive(index);
   }
 
   return (
     <>
+    {isLoading && <Loading />}
     <div className="w-full p-3 flex justify-center">
       <div className="flex flex-col md:flex-row justify-center md:justify-start md:gap-10  md:pt-10">
         {/* Left Side - Thumbnails and Main Image */}
@@ -74,7 +109,7 @@ const ProductPage = () => {
           <div className="hidden md:flex md:gap-3">
             {/* Thumbnails */}
             <div className="flex flex-col gap-2 w-1/5">
-              {productdata?.images?.map((image, index) => (
+              {productdata?.images?.map((image:any, index:any) => (
                 <img
                   key={index}
                   src={image}
@@ -87,9 +122,10 @@ const ProductPage = () => {
               ))}
             </div>
             {/* Main Image */}
-            <div className="w-4/5">
+            <div className="w-4/5 relative">
+            <IoHeartSharp onClick={()=>addToFavorite()} className="absolute cursor-pointer top-4 right-4 text-red-500" size={26} />
               <img
-                className="w-full h-[90vh] object-cover border"
+                className="w-full h-[90vh] object-top object-cover border"
                 src={productdata?.images?.[active]}
                 alt="Main Product"
               />
@@ -99,7 +135,7 @@ const ProductPage = () => {
           {/* Mobile Carousel */}
           <div className="md:hidden h-[70vh] flex overflow-hidden relative">
             <img
-              className="w-full h-full object-cover transition-transform duration-500"
+              className="w-full h-full object-cover object-top transition-transform duration-500"
               src={productdata?.images?.[active]}
               alt="Mobile Product View"
             />
@@ -130,17 +166,17 @@ const ProductPage = () => {
           <div>
             <p className="text-sm md:text-md font-medium">Select Size:</p>
             <div className="flex gap-3 mt-2">
-              {["S", "M", "L", "XL"].map((size) => (
+              {productdata?.sizes?.map((size:any) => (
                 <div
-                  key={size}
-                  onClick={() => setActiveSize(size)}
-                  className={`cursor-pointer text-xs md:text-md px-2 py-1 md:px-4 md:py-2 border ${
-                    activeSize === size
+                  key={size?._id}
+                  onClick={() => setActiveSize(size.size)}
+                  className={`cursor-pointer uppercase text-semibold text-xs md:text-md px-2 py-1 md:px-4 md:py-2 border ${
+                    activeSize === size.size
                       ? "bg-black text-white"
                       : "bg-white text-black border-gray-500"
                   }`}
                 >
-                  {size}
+                  {size.size}
                 </div>
               ))}
             </div>
@@ -152,15 +188,15 @@ const ProductPage = () => {
             <div className="flex items-center mt-2 border w-[120px]">
               <button
                 onClick={() =>
-                  setQuantity((prev) => (prev > 1 ? prev - 1 : prev))
+                 handleCart('removeFromCart')
                 }
                 className="md:px-3 px-2 py-1 md:py-2 hover:bg-gray-200"
               >
                 -
               </button>
-              <p className="flex-1 text-center">{quantity}</p>
+              <p className="flex-1 text-center">{isProduct && isProduct.quantity || 1}</p>
               <button
-                onClick={() => setQuantity((prev) => prev + 1)}
+                onClick={() => handleCart('addToCart')}
                 className="md:px-3 px-2 py-1 md:py-2 hover:bg-gray-200"
               >
                 +
@@ -173,7 +209,7 @@ const ProductPage = () => {
             <Link to='/checkout' className="w-full text-sm md:text-md py-3 bg-black text-center text-white rounded-md hover:opacity-90">
               Buy Now
             </Link>
-            <button onClick={()=>addClick()} className="w-full text-sm md:text-md py-3 border border-gray-500 rounded-md hover:border-black">
+            <button onClick={()=>handleCart('addToCart')} className="w-full text-sm md:text-md py-3 border border-gray-500 rounded-md hover:border-black">
               Add to Cart
             </button>
           </div>
@@ -197,7 +233,7 @@ const ProductPage = () => {
                     <IoCloseSharp className="text-2xl" />
                   </button>
                   <div className="flex w-full justify-center items-center">
-                  <img src={productdata?.subcategory.sizeurl} className=" object-contain w-full  h-[60vh]" alt="Size Chart Icon" />
+                  <img src={productdata?.subcategory.sizeurl} className="min-w-[300px]  h-[60vh]" alt="Size Chart Icon" />
                   </div>
                 </div>
               </div>
@@ -233,7 +269,7 @@ const ProductPage = () => {
               { key: "description", label: "Description" },
               { key: "shipping", label: "Shipping Information" },
               { key: "manufacturer", label: "Manufactured By" },
-            ].map(({ key, label }) => (
+            ].map(({ key, label }:any) => (
               <div key={key} className="border-b p-3">
                 <div
                   onClick={() => toggleDropdown(key)}
@@ -254,30 +290,33 @@ const ProductPage = () => {
                       <ul className="list-disc list-inside space-y-1 text-xs md:text-sm">
                         <li>Free shipping on all prepaid orders.</li>
                         <li>A handling fee of Rs. 100 is charged for COD orders.</li>
-                        <li>Products are shipped from our warehouse within 2 to 3 working days.</li>
+                        <li>Products are shipped from our warehouse within few working days.</li>
                         <li>You will receive a tracking number once your order has been shipped.</li>
                       </ul>
                     
                       {/* Returns & Exchange Section */}
-                      <h2 className="font-bold text-base md:text-lg mt-4 mb-2">RETURNS & EXCHANGE</h2>
-                      <ul className="list-disc list-inside space-y-1 text-xs md:text-sm">
-                        <li>7 days return policy.</li>
-                        <li>No return on Boxers, Trunks, All Accessories & Flat store items (for hygiene reasons).</li>
-                        <li>Returns need to be initiated through The Stile Sagio Application.</li>
-                        <li>Products returned must be unused, unworn, and have original tags intact.</li>
-                        <li>Shipping charges are non-refundable.</li>
-                        <li>For multi-item orders, only one return request is applicable.</li>
-                        <li>
-                          COD payments will receive store credit equal to the paid amount, redeemable anytime.
-                        </li>
-                        <li>
-                          For prepaid orders, refunds will be initiated to the original payment source after inspection (5-7 business days for processing).
-                        </li>
-                        <li>A nominal fee of INR 100 is charged for return or exchange pickup requests.</li>
-                        <li>
-                          Exchanges allowed within the specified timeframe for eligible products. Price difference, if any, must be paid.
-                        </li>
-                      </ul>
+                      <h2 className="font-bold text-base md:text-lg mt-4 mb-2">RETURNS, CANCELLATION & EXCHANGE POLICY</h2>
+<p className="text-xs md:text-sm mb-4">
+  At The Stile Sagio, our focus is on complete customer satisfaction. If you are displeased with our services, we offer an exchange, provided the reasons are genuine and verified after investigation. Please carefully review the details of each product before making a purchase, as it contains all the necessary information about the items or services you are ordering.
+</p>
+
+<h3 className="font-semibold text-sm md:text-base mb-2">Cancellation / Refund Policy</h3>
+<ul className="list-disc list-inside space-y-1 text-xs md:text-sm">
+  <li>We do not accept cancellations or refunds, as we start manufacturing and dispatching orders immediately after they are placed.</li>
+</ul>
+
+<h3 className="font-semibold text-sm md:text-base mt-4 mb-2">Exchange Policy</h3>
+<ul className="list-disc list-inside space-y-1 text-xs md:text-sm">
+  <li>We strive to provide the best quality goods to our customers.</li>
+  <li>Ensure you select the correct size using the size guide before placing an order. Exchanges/returns for incorrect sizes ordered by customers will not be entertained.</li>
+  <li>If you receive an incorrect or damaged product, we offer an exchange.</li>
+  <li>Exchange requests must be initiated within 48 hours of product delivery. Requests submitted later will not be eligible for exchange.</li>
+  <li>Refunds for credit card payments will be issued to the original card used at purchase. Payments made through gateways will be refunded to the same account.</li>
+  <li>For support, please contact us via WhatsApp by clicking the icon visible on your screen.</li>
+</ul>
+
+
+
                     </div>
                     
                     )}
@@ -296,7 +335,7 @@ const ProductPage = () => {
 
 
     {/* You May Also Like */}
-    <Suggestion subid={productdata?.subcategory} id={productdata?._id} />
+    <Suggestion subid={productdata?.subcategory._id} id={productdata?._id} />
     </>
   );
 };

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { createSlice } from "@reduxjs/toolkit";
 import { CartType } from "../../types/CartType";
 const inititalState:CartType[] | [] = []

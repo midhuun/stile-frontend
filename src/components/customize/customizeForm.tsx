@@ -1,7 +1,7 @@
-import  { useState } from "react";
+import  { useEffect, useState } from "react";
 import './customizeForm.css';
 const CustomizeNowForm = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<any>({
     name: "",
     email: "",
     phone: "",
@@ -11,13 +11,15 @@ const CustomizeNowForm = () => {
     backDesign: null,
     message: "",
   });
-
-  const handleInputChange = (e) => {
+  useEffect(()=>{
+    window.scrollTo(0,0);
+  })
+  const handleInputChange = (e:any) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e:any) => {
     const { name } = e.target;
     const file = e.target.files[0];
     setFormData({ ...formData, [name]: file });
@@ -35,7 +37,7 @@ const CustomizeNowForm = () => {
       Please check the attached designs.
     `;
 
-    const whatsappURL = `https://wa.me/yourwhatsappnumber?text=${encodeURIComponent(
+    const whatsappURL:any = `https://wa.me/yourwhatsappnumber?text=${encodeURIComponent(
       whatsappMessage
     )}`;
     window.open(whatsappURL, "_blank");
@@ -58,7 +60,7 @@ const CustomizeNowForm = () => {
             <input
               type="text"
               name="name"
-              value={formData.name}
+              value={formData?.name}
               onChange={handleInputChange}
               className="w-full border border-gray-300 rounded-lg p-2 md:p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               placeholder="Enter your name"
@@ -71,7 +73,7 @@ const CustomizeNowForm = () => {
             <input
               type="email"
               name="email"
-              value={formData.email}
+              value={formData?.email}
               onChange={handleInputChange}
               className="w-full border border-gray-300 rounded-lg  p-2 md:p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               placeholder="Enter your email"
@@ -84,7 +86,7 @@ const CustomizeNowForm = () => {
             <input
               type="tel"
               name="phone"
-              value={formData.phone}
+              value={formData?.phone}
               onChange={handleInputChange}
               className="w-full border border-gray-300 rounded-lg  p-2 md:p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               placeholder="Enter your phone number"
@@ -97,7 +99,7 @@ const CustomizeNowForm = () => {
             <input
               type="text"
               name="productType"
-              value={formData.productType}
+              value={formData?.productType}
               onChange={handleInputChange}
               className="w-full border border-gray-300 rounded-lg  p-2 md:p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               placeholder="e.g., T-Shirt, Mug"
@@ -110,7 +112,7 @@ const CustomizeNowForm = () => {
             <input
               type="number"
               name="quantity"
-              value={formData.quantity}
+              value={formData?.quantity}
               onChange={handleInputChange}
               className="w-full border border-gray-300 rounded-lg  p-2 md:p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               placeholder="Enter quantity"
@@ -144,7 +146,7 @@ const CustomizeNowForm = () => {
             </label>
             <textarea
               name="message"
-              value={formData.message}
+              value={formData?.message}
               onChange={handleInputChange}
               className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               

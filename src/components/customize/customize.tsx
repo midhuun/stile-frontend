@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import './customizeForm.css';
 import { clients } from "./clients";
-const customizationOptions = [
+const customizationOptions:any = [
     {
       title: 'Color Options',
       description: `
@@ -147,8 +147,7 @@ const CustomizeOrder = () => {
     
     {/* Subtext */}
     <p className="text-lg md:text-2xl mb-6 max-w-2xl drop-shadow-sm">
-      Bring your creativity to life with personalized apparel designs. From bold colors to unique engravings, 
-      your style, your way.
+    If you're looking for customized products with a low minimum order quantity (MOQ), please click the link below to explore your options and start your order!
     </p>
     
     {/* Call to Action */}
@@ -174,7 +173,7 @@ const CustomizeOrder = () => {
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-        {customizationOptions.map((option, index) => (
+        {customizationOptions.map((option:any, index:number) => (
           <motion.div
             key={index}
             initial={{ opacity: 0, scale: 0.9 }}
@@ -183,10 +182,10 @@ const CustomizeOrder = () => {
             className="bg-white rounded-lg shadow-lg p-6 hover:shadow-2xl transition-shadow duration-300"
           >
             <div className="flex items-center justify-center mb-4">
-              {option.icon}
+              {option?.icon}
             </div>
-            <h2 className="text-2xl font-semibold mb-2 text-center">{option.title}</h2>
-            <p className="text-gray-700 text-base text-center">{option.description}</p>
+            <h2 className="text-2xl font-semibold mb-2 text-center">{option?.title}</h2>
+            <p className="text-gray-700 text-base text-center">{option?.description}</p>
           </motion.div>
         ))}
       </div>
@@ -208,7 +207,7 @@ const CustomizeOrder = () => {
       <h2 className=" text-lg md:text-3xl font-bold mb-6 text-center">Our Clients</h2>
       <div className="relative p-2 overflow-hidden">
         <div className="flex gap-5 md:gap-6 animate-scroll">
-          {clients.map((client, index) => (
+          {[clients,...clients,...clients].map((client:any, index:number) => (
             <div
               key={index}
               className="flex-shrink-0 h-20 w-20 md:w-40 md:h-40 bg-white shadow-md rounded-full flex items-center justify-center"
@@ -234,9 +233,11 @@ const CustomizeOrder = () => {
           With endless customization possibilities, your product will reflect your unique style.
           Add colors, engravings, and more to create something that feels personal and special.
         </p>
+        <Link to='/customize/quote'>
         <button className="bg-blue-500 text-white py-3 px-8 rounded-lg shadow-lg hover:bg-blue-600 transition duration-300">
           Customize Now
         </button>
+        </Link>
       </motion.div>
     </div>
   );

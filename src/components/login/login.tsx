@@ -10,16 +10,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from "react-toastify";
 const OtpLoginPopup = () => {
    
-  const [mobileNumber, setMobileNumber] = useState("");
-  const [otp, setOtp] = useState(["", "", "", "","",""]);
-  const [otpSent, setOtpSent] = useState(false); // State to track if OTP is sent
+  const [mobileNumber, setMobileNumber] = useState<any>("");
+  const [otp, setOtp] = useState<any>(["", "", "", "","",""]);
+  const [otpSent, setOtpSent] = useState<any>(false); // State to track if OTP is sent
   const { isUserOpen, setisUserOpen,isAuthenticated,setisAuthenticated } = useContext<any>(HeaderContext);
-  const [isverifying,setisverifying] = useState(false);
-  const [iserror, setiserror] = useState(false);
+  const [isverifying,setisverifying] = useState<any>(false);
+  const [iserror, setiserror] = useState<any>(false);
 
-  const [error, seterror] = useState("");
+  const [error, seterror] = useState<any>("");
   const [confirmationResult, setConfirmationResult] = useState<any>(null);
-  const [btnmsg,setBtnmsg] = useState("Send OTP");
+  const [btnmsg,setBtnmsg] = useState<any>("Send OTP");
   function oncaptchaVerify() {
     if (!window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(
@@ -37,8 +37,11 @@ const OtpLoginPopup = () => {
     }
   }
   function onSignup(e){
-    setBtnmsg("Sending OTP")
     e.preventDefault();
+    setBtnmsg("Sending OTP");
+    setTimeout(() => {
+      setBtnmsg("Send OTP");
+    }, 2000);
     setisverifying(true);
     try{
       if(!validator.isMobilePhone(mobileNumber,"en-IN")){
@@ -86,7 +89,7 @@ const OtpLoginPopup = () => {
     }
   };
   async function otpVerified(){
-    const res = await fetch("https://stile-backend.vercel.app/user/login",
+    const res = await fetch("http://localhost:3000/user/login",
     {method:"POST",
       headers:{"Content-Type":"application/json"},
       credentials:'include',
@@ -125,8 +128,8 @@ const OtpLoginPopup = () => {
   }
   return (
     <div>
-      {isUserOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      {isUserOpen && !isAuthenticated && (
+        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black bg-opacity-50">
           <div id="recaptcha"></div>
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}

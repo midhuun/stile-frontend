@@ -1,142 +1,147 @@
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
-import { addtoCart, deleteFromCart } from "../../store/reducers/cartReducer";
+import { useContext, useEffect } from "react";
+import { HeaderContext } from "../../context/appContext";
+import { getCart } from "../../utils/getItems";
 
 const CartPage = () => {
-  const cartItems = useSelector((state: RootState) => state.Cart || []);
-  const dispatch = useDispatch();
   const calculateTotal = () => {
-    return cartItems.reduce((total, item) => total + item.discountedPrice! * item.quantity, 0);
+    return cart?.reduce(
+      (total: any, item: any) =>
+        total + item?.product?.discountedPrice! * item.quantity,
+      0
+    );
   };
 
+  const { cart, setcart } = useContext<any>(HeaderContext);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    getCart().then((data) => setcart(data));
+  }, []);
+
   return (
-    <div className=" flex justify-center items-center">
-    <div className=" p-4 flex w-full md:w-[80%]  flex-col justify-center md:flex-row">
-      {/* Address Form Section */}
-      <div className="md:w-1/2 p-4">
-        <h1 className="text-2xl font-semibold mb-6">Shipping Address</h1>
-        <form className="space-y-4">
-          <input
-            type="text"
-            placeholder="Full Name"
-            className="w-full p-2 border rounded-md"
-            required
-          />
-          <input
-            type="text"
-            placeholder="Address"
-            className="w-full p-2 border rounded-md"
-            required
-          />
-          <input
-            type="text"
-            placeholder="Apartment, Suite, etc."
-            className="w-full p-2 border rounded-md"
-          />
-          <input
-            type="text"
-            placeholder="City"
-            className="w-full p-2 border rounded-md"
-            required
-          />
-          <input
-            type="text"
-            placeholder="State"
-            className="w-full p-2 border rounded-md"
-            required
-          />
-          <input
-            type="text"
-            placeholder="Pin Code"
-            className="w-full p-2 border rounded-md"
-            required
-          />
-          
-          {/* Shipping Method Dropdown */}
-          <select className="w-full p-2 border rounded-md" required>
-            <option value="">Select Shipping Method</option>
-            <option value="razorpay">Razorpay</option>
-            <option value="cod">Cash on Delivery</option>
-          </select>
+    <div className="bg-gray-100 min-h-screen p-4">
+      <div className="max-w-screen-xl mx-auto flex flex-col md:flex-row gap-6">
+        {/* Address Form Section */}
+        <div className="flex-1 p-4 bg-white rounded-lg shadow-lg">
+          <h1 className="text-2xl font-semibold mb-4">Shipping Address</h1>
+          <form className=" text-sm">
+            <label className="px-2 font-semibold">Full Name <span className="text-red-500">*</span></label>
+            <input
+              type="text"
+              placeholder="Enter your  Name"
+              className="w-full my-3 p-3 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
+              required
+            />
+            <label className="px-2 font-semibold">Address<span className="text-red-500">*</span></label>
+            <input
+              type="text"
+              placeholder="Enter your Address"
+              className="w-full my-3 p-3 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
+              required
+            />
+            <label className="px-2 font-semibold">Apartment No<span className="text-red-500">*</span></label>
+            <input
+              type="text"
+              placeholder="Apartment, Suite, etc."
+              className="w-full my-3 p-3 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
+            />
+            <label className="px-2 font-semibold">City<span className="text-red-500">*</span></label>
+            <input
+              type="text"
+              placeholder="Enter your City Name"
+              className="w-full my-3 p-3 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
+              required
+            />
+            <label className="px-2 font-semibold">State <span className="text-red-500">*</span></label>
+            <input
+              type="text"
+              placeholder="Enter your State Name"
+              className="w-full my-3 p-3 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
+              required
+            />
+            <label className="px-2 font-semibold">Pincode<span className="text-red-500">*</span></label>
+            <input
+              type="text"
+              placeholder="Pin Code"
+              className="w-full my-3 p-3 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
+              required
+            />
 
-          {/* Cash on Delivery Description */}
-          <p className="text-sm text-gray-600 mt-2">
-            Cash on Delivery orders will be confirmed after the order. Extra charges will be applicable.
-          </p>
-        </form>
-      </div>
+            <p className="text-sm text-gray-500 mt-2">
+              <strong>Note:</strong> Cash on Delivery orders may incur additional charges.
+            </p>
+          </form>
+        </div>
 
-      {/* Cart Summary Section */}
-      <div className="md:w-1/2 p-4 bg-[#f2f1f1]">
-        <h1 className="text-2xl font-semibold mb-6">Your Cart</h1>
-
-        {cartItems.length === 0 ? (
-          <p>Your cart is empty. Add some products to proceed!</p>
-        ) : (
-          <>
-            {cartItems?.map((item) => (
-              <div
-                key={item._id}
-                className="flex justify-between items-center border-b py-4"
-              >
-                {/* Product Details */}
-                <div className="flex items-center space-x-4">
-                  <img
-                    src={item.images[0]}
-                    alt={item.name}
-                    className="w-[70px] h-[70px] object-cover rounded-md"
-                  />
-                  <div>
-                    <h2 className="text-lg font-medium">{item.name}</h2>
-                    <p className="text-sm text-gray-600">Size: {item.size}</p>
-                    <p className="text-sm">
-                      Price: Rs. {item.discountedPrice} x {item.quantity}
-                    </p>
+        {/* Cart Summary Section */}
+        <div className="flex-1 p-4 bg-white rounded-lg shadow-lg">
+          <h1 className="text-2xl font-semibold mb-4">Your Cart</h1>
+          {cart.length === 0 ? (
+            <p className="text-center text-gray-500">
+              Your cart is empty. Add some products to proceed!
+            </p>
+          ) : (
+            <>
+              <div className="space-y-4">
+                {cart.map((item: any) => (
+                  <div
+                    key={item._id}
+                    className="flex justify-between items-center border-b pb-4"
+                  >
+                    {/* Product Details */}
+                    <div className="flex items-center space-x-4">
+                      <img
+                        src={item?.product?.images[0]}
+                        alt={item?.product?.name}
+                        className="w-[60px] h-[60px] object-cover rounded-md"
+                      />
+                      <div>
+                        <h2 className="text-lg font-medium">
+                          {item?.product?.name}
+                        </h2>
+                        <p className="text-sm text-gray-500">
+                          Size: {item?.selectedSize}
+                        </p>
+                        <p className="text-sm text-gray-700">
+                          Rs. {item?.product?.discountedPrice} x {item?.quantity}
+                        </p>
+                      </div>
+                    </div>
+                  
                   </div>
-                </div>
+                ))}
+              </div>
 
-                {/* Quantity Controls */}
-                <div className="flex items-center space-x-4">
-                  <button
-                    onClick={() => dispatch(deleteFromCart(item))}
-                    className="px-3 py-1 border rounded-md hover:bg-gray-200"
-                  >
-                    -
-                  </button>
-                  <p>{item.quantity}</p>
-                  <button
-                    onClick={() => dispatch(addtoCart(item))}
-                    className="px-3 py-1 border rounded-md hover:bg-gray-200"
-                  >
-                    +
-                  </button>
+              {/* Order Summary Section */}
+              <div className="mt-6 p-4 border border-gray-300 rounded-lg bg-gray-50">
+                <h2 className="text-xl font-medium mb-4">Order Summary</h2>
+                <div className="flex justify-between text-sm">
+                  <p>Subtotal</p>
+                  <p>Rs. {calculateTotal()}</p>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <p>Shipping</p>
+                  <p>Free</p>
+                </div>
+                <div className="flex justify-between text-lg font-semibold mt-4">
+                  <p>Total</p>
+                  <p>Rs. {calculateTotal()}</p>
                 </div>
               </div>
-            ))}
 
-            {/* Summary Section */}
-            <div className="mt-6 p-4 border rounded-lg shadow-sm">
-              <h2 className="text-xl font-medium mb-4">Order Summary</h2>
-              <div className="flex justify-between text-sm">
-                <p>Subtotal</p>
-                <p>Rs. {calculateTotal()}</p>
+              {/* Secure Checkout Section */}
+              <div className="mt-4 flex items-center space-x-2 text-green-600 text-sm">
+                <span>🔒</span>
+                <p>Your payment is secure and encrypted.</p>
               </div>
-              <div className="flex justify-between text-sm">
-                <p>Shipping</p>
-                <p>Free</p>
-              </div>
-              <div className="flex justify-between text-lg font-semibold mt-4">
-                <p>Total</p>
-                <p>Rs. {calculateTotal()}</p>
-              </div>
-              <button className="w-full mt-4 py-3 bg-black text-white rounded-md hover:opacity-90">
+
+              <button className="w-full mt-6 py-3 bg-black text-white rounded-md hover:bg-gray-800">
                 Proceed to Buy
               </button>
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </div>
       </div>
-    </div>
     </div>
   );
 };

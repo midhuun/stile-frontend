@@ -6,24 +6,28 @@ import { LiaUser } from "react-icons/lia";
 import { HeaderContext } from "../../context/appContext";
 import Logo from '../../assets/logo.png';
 import { RxHamburgerMenu } from "react-icons/rx";
-import { FaFacebook, FaFacebookSquare, FaMapMarkerAlt, FaWhatsapp, FaYoutube } from "react-icons/fa";
+import { FaFacebookSquare, FaMapMarkerAlt, FaWhatsapp, FaYoutube } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { SubCategory } from "../../types/CategoryType";
 import { AiOutlineInstagram } from "react-icons/ai";
+import { FiShoppingBag } from "react-icons/fi";
+import { IoMdLogOut } from "react-icons/io";
+import Cookies from "js-cookie";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { setisUserOpen, iscartOpen, setiscartOpen, isAuthenticated, setisAuthenticated } = useContext<any>(HeaderContext);
+  const { setisUserOpen,isUserOpen, setiscartOpen, isAuthenticated, setisAuthenticated,isFavouriteOpen,setisFavouriteOpen } = useContext(HeaderContext);
   const [isdropDown, setisdropDown] = useState(false);
   const [subcategories, setsubCategories] = useState([]);
   const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
   const [mobile, setMobile] = useState(null);
-
+ 
   async function isUser() {
-    const response = await fetch("https://stile-backend.vercel.app/user", { credentials: 'include' });
+    const response = await fetch("http://localhost:3000/user", { credentials: 'include' });
     const data = await response.json();
+    console.log(data?.user);
     if (data) {
-      setMobile(data.user);
+      setMobile(data?.user?.phone);
     }
     if (response.status === 200) {
       setisAuthenticated(true);
@@ -31,21 +35,23 @@ export default function Header() {
       setisAuthenticated(false);
     }
   }
-  console.log(mobile);
   useEffect(() => {
     isUser();
   }, []);
-  console.log(isAuthenticated)
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
+  function handlelogout(){
+    Cookies.remove('token');
+    setisAuthenticated(false);
+    setisUserOpen(false);
+  }
   async function getcategories() {
     const response = await fetch("https://stile-backend.vercel.app/products");
     const data: any = await response.json();
     setsubCategories(data.subCategories);
   }
-
+  console.log(mobile);
   useEffect(() => {
     getcategories();
   }, []);
@@ -73,9 +79,9 @@ export default function Header() {
   };
 
   return (
-    <div className="fixed bg-white top-0 w-full z-[200]">
+    <div className="fixed bg-white top-[40px] w-full z-[200]">
       <button
-        className="fixed bg-green-500 p-2 rounded-full bottom-8 z-[500] right-3"
+        className="fixed bg-green-500 p-2 rounded-full bottom-8 z-[999] right-3"
         onClick={sendMessage}
       >
         <FaWhatsapp className="text-xl md:text-3xl text-white bg-green-500" />
@@ -115,7 +121,7 @@ export default function Header() {
                   >
                     <div className="flex flex-col flex-wrap px-[10%] py-6 justify-center gap-4">
                       {subcategories.map((subcategory: SubCategory) =>
-                        <Link key={subcategory._id} to={`/subcategory/${subcategory._id}`} className="">
+                        <Link key={subcategory.slug} to={`/subcategory/${subcategory.slug}`} className="">
                           {subcategory.name}
                         </Link>
                       )}
@@ -139,6 +145,9 @@ export default function Header() {
               <li>Track Order</li>
               <Link to="/contact">
                 <li>About Us</li>
+              </Link>
+              <Link to="/customize">
+                <li>Customize </li>
               </Link>
             </ul>
           </div>
@@ -168,7 +177,7 @@ export default function Header() {
                   >
                     <div className="flex flex-col gap-2">
                       {subcategories.map((subcategory: SubCategory) =>
-                        <Link key={subcategory._id} to={`/subcategory/${subcategory._id}`} className="">
+                        <Link key={subcategory.slug} to={`/subcategory/${subcategory.slug}`} className="">
                           {subcategory.name}
                         </Link>
                       )}
@@ -185,7 +194,12 @@ export default function Header() {
               <Link to="/contact">
                 <li className="border-b py-3">About Us</li>
               </Link>
+             {isAuthenticated &&
+             <Link to='/user/account'>
               <li className="border-b py-3">Account</li>
+             </Link>
+             }
+              
             </ul>
             <div className="flex gap-5 justify-center items-center">
               <a href="" className=" flex items-center justify-center ">
@@ -206,18 +220,46 @@ export default function Header() {
 
         {/* Right Side Icons */}
         <div className="flex items-center justify-end space-x-1 md:space-x-2">
+          <div>
           <button>
             <CiSearch className="text-xl md:text-2xl" />
           </button>
-          <button>
+          </div>
+          <div>
+          <button onClick={() => setisFavouriteOpen(!isFavouriteOpen)}>
             <CiHeart className="text-xl md:text-2xl" />
           </button>
-          <button onClick={() => setisUserOpen(true)}>
+          </div>
+          {isAuthenticated ?
+          <div className="relative">
+          <div className={` ${isUserOpen?'absolute':'hidden' } -left-[170px] -bottom-[142px] p-1 bg-white z-[100] h-[120px] w-[190px] border`}>
+            <div className="flex flex-col h-full   p-2 border-b">
+              <Link onClick={()=>setisUserOpen(false)} className="flex gap-1 p-2 cursor-pointer" to='/user/account'>
+            <FiShoppingBag className="text-xl" />
+            <p className="px-2 text-sm">Order History</p>
+            </Link>
+            <button onClick={handlelogout} className="flex gap-1 p-2 mt-3 border cursor-pointer">
+            <IoMdLogOut className="text-xl" />
+            <p className="px-2 text-sm">Logout</p>
+            </button> 
+            </div>
+          </div>
+          <button onClick={() => setisUserOpen(!isUserOpen)}>
             <LiaUser className="text-xl md:text-2xl" />
           </button>
+          </div>
+          :
+          <div>
+          <button onClick={() => setisUserOpen(!isUserOpen)}>
+            <LiaUser className="text-xl md:text-2xl" />
+          </button>
+          </div>
+          }
+          <div>
           <button onClick={() => setiscartOpen(true)}>
             <PiShoppingBagLight className="text-xl md:text-2xl" />
           </button>
+          </div>
         </div>
       </header>
     </div>

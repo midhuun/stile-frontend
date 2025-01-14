@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './App.css'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import Header from './components/header/header'
@@ -16,20 +15,25 @@ import ShippingPolicy from './components/FooterDetails/shippingPolicy'
 import ReturnAndExchanges from './components/FooterDetails/returnExchange'
 import TermsAndConditions from './components/FooterDetails/terms'
 import OtpLoginPopup from './components/login/login'
-
+import Favorites from './components/header/favourite'
+import Account from './account/account'
+import Offer from './components/offer';
 function App() {
   return (
     <>
      <Router>
-    <HeaderProvider>
+    <HeaderProvider> 
     <OtpLoginPopup />
+    <Offer />
+  <div className='md:pt-[90px] pt-[40px]'>
+
     <Header />
     <Bag/>
-    
+    <Favorites />
 <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/product/:product" element={<ProductPage />} />
-      <Route path="/category/:categoryName" element={<CategoryPage/>} />
+      <Route path="/subcategory/:subcategoryName" element={<CategoryPage/>} />
       <Route path="/contact" element={<About/>} /> 
       <Route path="/customize" element={<CustomizeOrder/>} /> 
       <Route path="/customize/quote" element={<CustomizeNowForm/>} />
@@ -37,10 +41,14 @@ function App() {
       <Route path="/returns" element={<ReturnAndExchanges/>} />
       <Route path="/terms" element={<TermsAndConditions/>} />
       <Route path="/checkout" element={<CartPage/>} />
+      <Route path="/user/account" element={<Account/>} />
     </Routes> 
      <Footer />
+     </div> 
      </HeaderProvider>
+     
      </Router>
+     
          </>
   )
 }

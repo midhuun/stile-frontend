@@ -8,6 +8,14 @@ interface HeaderContextType {
     setiscartOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isAuthenticated: boolean;
     setisAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+    cart:any;
+    setcart:React.Dispatch<React.SetStateAction<any>>;
+    isFavouriteOpen:boolean;  
+    setisFavouriteOpen:React.Dispatch<React.SetStateAction<boolean>>;
+    favourites:any;
+    setFavourites:React.Dispatch<React.SetStateAction<any>>;
+    user:{},
+    setUser:React.Dispatch<React.SetStateAction<any>>;
   }
   
   // Set default values for the context
@@ -18,15 +26,31 @@ interface HeaderContextType {
     setiscartOpen: () => {},
     isAuthenticated: false,
     setisAuthenticated: () => {},
+    cart:[],
+    setcart:() => {},
+    isFavouriteOpen:false,
+    setisFavouriteOpen:()=>{},
+    favourites:[],
+    setFavourites:()=>{},
+    user:{},
+    setUser:()=>{},
   };
 export const HeaderContext = createContext<HeaderContextType>(defaultContext);
 
 const HeaderProvider = ({ children }:{children:ReactNode}) =>{ 
-    const [isUserOpen,setisUserOpen] = useState(false);
-    const [iscartOpen,setiscartOpen] = useState(false);
-    const [isAuthenticated,setisAuthenticated] = useState(false);
+    const [isUserOpen,setisUserOpen] = useState<any>(false);
+    const [iscartOpen,setiscartOpen] = useState<any>(false);
+    const [isAuthenticated,setisAuthenticated] = useState<any>(false);
+    const [isFavouriteOpen,setisFavouriteOpen] = useState<any>(false);
+    const [favourites,setFavourites] = useState<any>([]);
+    const [cart,setcart] = useState<any>([]);
+    const [user,setUser] = useState<any>({});
     return(
-    <HeaderContext.Provider value={{isUserOpen,setisUserOpen,iscartOpen,setiscartOpen,isAuthenticated,setisAuthenticated}}>{children}</HeaderContext.Provider>
+    <HeaderContext.Provider
+     value={{isUserOpen,setisUserOpen,iscartOpen,setiscartOpen,isAuthenticated,
+      setisAuthenticated,cart,setcart,isFavouriteOpen
+      ,setisFavouriteOpen,favourites,setFavourites,user,setUser
+    }}>{children}</HeaderContext.Provider>
     )
 }
 export default HeaderProvider;

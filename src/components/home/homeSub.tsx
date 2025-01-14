@@ -47,7 +47,7 @@ const HomeSub = () => {
               <div className="mt-5 w-full px-3 md:px-6" key={subcategory._id}>
                 <h1 className="font-semibold pb-10">{subcategory.name}</h1>
                 <div className="flex flex-wrap gap-4">
-                  {uniqueProducts.map((product, index) => (
+                  {uniqueProducts.map((product:any, index:number) => (
                     <div key={index}>
                       <ProductCard product={product} />
                     </div>

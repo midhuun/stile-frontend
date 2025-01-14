@@ -1,4 +1,5 @@
-import { FaFacebookF, FaInstagram, FaTwitter, FaLinkedinIn } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
+import { MdLocationPin } from "react-icons/md";
 
 export default function Footer() {
   return (
@@ -14,16 +15,7 @@ export default function Footer() {
           100% Original Guarantee
         </span>
       </div>
-      <div className="flex items-center">
-        <img 
-          src="/return.png" 
-          alt="Return within 7 days" 
-          className="h-8 w-auto mr-2" 
-        />
-        <span className="text-[13px] md:text-md text-white font-semibold">
-          Return within 7 days
-        </span>
-      </div>
+     
     </div>
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Brand Section */}
@@ -63,17 +55,17 @@ export default function Footer() {
           <p className="text-xs md:text-sm">Email: support@stilesagio.com</p>
           <p className="text-xs md:text-sm">Phone: +91 96779 66333</p>
           <div className="flex space-x-4 mt-4">
-            <a href="#" className="p-2 bg-blue-500 rounded-full hover:bg-gray-500">
+            <a href="https://www.facebook.com/share/18bLtJETLq" className="p-2 bg-blue-500 rounded-full hover:bg-gray-500">
               <FaFacebookF />
             </a>
             <a href="https://www.instagram.com/stilesagio" className="p-2 bg-red-500 rounded-full hover:bg-gray-500">
               <FaInstagram />
             </a>
-            <a href="#" className="p-2 bg-black rounded-full hover:bg-gray-500">
-              <FaTwitter />
+            <a href="https://www.youtube.com/@Stilesagio" className="p-2 bg-white text-red-500 rounded-full hover:bg-gray-500">
+              <FaYoutube />
             </a>
-            <a href="#" className="p-2 bg-blue-700 rounded-full hover:bg-gray-500">
-              <FaLinkedinIn />
+            <a href="https://maps.app.goo.gl/gsi1unahDiVUFr6z9" className="p-2 bg-white text-blue-600 rounded-full hover:bg-gray-500">
+              <MdLocationPin />
             </a>
           </div>
         </div>

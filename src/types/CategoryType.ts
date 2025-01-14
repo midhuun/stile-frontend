@@ -12,6 +12,7 @@ export type Product = {
     category:any,
     subcategory:any,
     discountedPrice?:number
+    sizes:[]
 }
 export type SubCategory ={
     _id:number,

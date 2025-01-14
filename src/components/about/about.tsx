@@ -29,6 +29,7 @@ const About = () => {
             <section className="mt-8 flex flex-col md:flex-row items-center">
                 <div className="md:w-1/2 fade-in">
                 <iframe
+                
                 src="https://www.youtube.com/embed/W1s35CWimk8?autoplay=1&mute=1&loop=1&playlist=W1s35CWimk8"
                 className="rounded-lg"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

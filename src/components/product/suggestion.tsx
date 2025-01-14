@@ -3,18 +3,20 @@ import { Product } from "../../types/CategoryType";
 import ProductCard from "./productCard";
 
 const Suggestion = ({subid,id}:{id:any,subid:string}) => {
+   console.log(subid)
     const [suggestions, setSuggestions] = useState<any>([]);
     async function fetchSuggestions() {
         const result = await fetch(`https://stile-backend.vercel.app/products`);
         const data = await result.json();
-        setSuggestions(data.products);
+        console.log("suggestion",data);
+        setSuggestions(data?.products);
     }
-    const suggestion = suggestions?.filter((product:Product)=>product.subcategory===subid && product._id!== id);
-    console.dir(suggestion);
+    const suggestion:Product[] = suggestions?.slice(0,5).filter((product:Product)=>product.subcategory===subid && product._id!== id);
    useEffect(()=>
     { 
         fetchSuggestions();
     },[]);
+   
   return (
     <div className=" w-full px-3 mt-5 md:px-6">
     <h2 className="md:text-lg py-4 font-bold uppercase text-md">You May Also Like</h2>
