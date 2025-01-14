@@ -27,7 +27,7 @@ const ProductPage = () => {
    const isProduct = productdata && cart?.find((cartItem:any)=>cartItem.product._id === productdata._id && cartItem.selectedSize === activeSize);
    console.dir(isProduct);
   const addToFavorite = async() => {
-    const res= await fetch(`http://localhost:3000/user/addtoFavourites`,{
+    const res= await fetch(`https://admin-stile-12333.vercel.app0/user/addtoFavourites`,{
       method: 'POST',
       credentials:'include',
       headers: {
@@ -43,7 +43,7 @@ const ProductPage = () => {
   }
  console.log("cart",cart);
   const handleCart = async(value:any) => {
-    const res= await fetch(`http://localhost:3000/user/${value}`,{
+    const res= await fetch(`https://admin-stile-12333.vercel.app0/user/${value}`,{
       method: 'POST',
       credentials:'include',
       headers: {

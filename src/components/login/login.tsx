@@ -89,7 +89,7 @@ const OtpLoginPopup = () => {
     }
   };
   async function otpVerified(){
-    const res = await fetch("http://localhost:3000/user/login",
+    const res = await fetch("https://admin-stile-12333.vercel.app0/user/login",
     {method:"POST",
       headers:{"Content-Type":"application/json"},
       credentials:'include',
