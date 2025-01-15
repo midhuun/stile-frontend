@@ -69,7 +69,7 @@ function handleTouchMove(event: React.TouchEvent) {
       setisUserOpen(true)
       return
    }
-    const res= await fetch(`http://localhost:3000/user/${value}`,{
+    const res= await fetch(`https://stile-backend-gnqp.vercel.app/user/${value}`,{
       method: 'POST',
       credentials:'include',
       headers: {
