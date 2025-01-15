@@ -14,7 +14,7 @@ const ProductPage = () => {
   const params: any = useParams();
   const { product } = params;
   const [productdata, setproductdata] = useState<Product | null>(null);
-  const {setiscartOpen,setisFavouriteOpen,setFavourites,cart,setcart} = useContext<any>(HeaderContext);
+  const {setiscartOpen,setisFavouriteOpen,setFavourites,cart,setcart,isAuthenticated,setisUserOpen} = useContext<any>(HeaderContext);
   const [activeSize, setActiveSize] = useState<string>("M");
   const [active, setActive] = useState<number>(0);
   const [chartOpen, setchartOpen] = useState<Boolean>(false);
@@ -27,6 +27,10 @@ const ProductPage = () => {
    const isProduct = productdata && cart?.find((cartItem:any)=>cartItem.product._id === productdata._id && cartItem.selectedSize === activeSize);
    console.dir(isProduct);
   const addToFavorite = async() => {
+    if(!isAuthenticated){
+       setisUserOpen(true)
+       return
+    }
     const res= await fetch(`https://stile-backend-gnqp.vercel.app/user/addtoFavourites`,{
       method: 'POST',
       credentials:'include',
@@ -43,11 +47,15 @@ const ProductPage = () => {
   }
  console.log("cart",cart);
   const handleCart = async(value:any) => {
-    const res= await fetch(`https://stile-backend-gnqp.vercel.app/user/${value}`,{
+    if(!isAuthenticated){
+      setisUserOpen(true)
+      return
+   }
+    const res= await fetch(`http://localhost:3000/user/${value}`,{
       method: 'POST',
       credentials:'include',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json' 
       },
       body: JSON.stringify({productdata,selectedSize:activeSize})
     })
@@ -74,7 +82,7 @@ const ProductPage = () => {
      setisLoading(true);
      setTimeout(() => {
       setisLoading(false)
-     }, 1500);
+     }, 1000);
      getProduct();
      getCart().then((data)=>setcart(data));
   }, []);
@@ -335,7 +343,9 @@ const ProductPage = () => {
 
 
     {/* You May Also Like */}
+    <Link onClick={()=>window.location.reload()} to={`/product/${productdata?.slug}`}>
     <Suggestion subid={productdata?.subcategory._id} id={productdata?._id} />
+    </Link>
     </>
   );
 };

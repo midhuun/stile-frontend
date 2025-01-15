@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { TfiClose } from "react-icons/tfi";
 import { HeaderContext } from "../../context/appContext";
 const Favorites = () => {
-  const { isFavouriteOpen, setisFavouriteOpen, favourites, setFavourites } = useContext<any>(HeaderContext);
+  const { isFavouriteOpen, setisFavouriteOpen, favourites, setFavourites ,isAuthenticated} = useContext(HeaderContext);
   async function getFavorites(){
     const res = await fetch('https://stile-backend-gnqp.vercel.app/user/favourites',{credentials:'include'});
     const data = await res.json();
@@ -12,7 +12,9 @@ const Favorites = () => {
   }
   useEffect(() => {
     window.scrollTo(0, 0);
-    getFavorites();
+    if(isAuthenticated){
+      getFavorites();
+    }
   }, []);
   const handleRemoveFavorite = async (item:any) => {
     try {

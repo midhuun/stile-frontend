@@ -84,12 +84,12 @@ const OtpLoginPopup = () => {
     const newOtp = [...otp];
     newOtp[index] = e.target.value;
     setOtp(newOtp);
-    if (e.target.value && index < 3) {
+    if (e.target.value && index < 5) {
       document.getElementById(`otp-input-${index + 1}`)?.focus();
     }
   };
   async function otpVerified(){
-    const res = await fetch("https://stile-backend-gnqp.vercel.app/user/login",
+    const res = await fetch("http://localhost:3000/user/login",
     {method:"POST",
       headers:{"Content-Type":"application/json"},
       credentials:'include',
@@ -207,9 +207,9 @@ const OtpLoginPopup = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
-                className="p-6 flex flex-col space-y-4"
+                className="p-6 flex flex-col space-y-3 md:space-y-4"
               >
-                <h2 className="text-md md:text-lg font-semibold text-gray-800 text-center mb-4">
+                <h2 className="text-md md:text-lg font-semibold text-gray-800 text-center mb-2 md:mb-4">
                   Enter OTP
                 </h2>
                 <div className="flex justify-center gap-4 mb-4">
@@ -221,7 +221,7 @@ const OtpLoginPopup = () => {
                       maxLength={1}
                       value={digit}
                       onChange={(e) => handleOtpChange(e, index)}
-                      className="w-12 h-12 text-center border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      className="md:w-12 md:h-12 h-7 w-7 text-center border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     />
                   ))}
                 </div>

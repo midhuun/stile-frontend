@@ -25,7 +25,6 @@ export default function Header() {
   async function isUser() {
     const response = await fetch("https://stile-backend-gnqp.vercel.app/user", { credentials: 'include' });
     const data = await response.json();
-    console.log(data?.user);
     if (data) {
       setMobile(data?.user?.phone);
     }
@@ -51,7 +50,6 @@ export default function Header() {
     const data: any = await response.json();
     setsubCategories(data.subCategories);
   }
-  console.log(mobile);
   useEffect(() => {
     getcategories();
   }, []);
@@ -155,7 +153,7 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="absolute top-0 left-0 right-0 w-[300px] h-screen bg-white shadow-lg z-[300]  md:hidden">
+          <div className="absolute top-[-45px]  left-0 right-0 w-[300px] h-screen bg-white shadow-lg z-[999]  md:hidden">
             <div className="flex  justify-between">
               <h1 className="pb-4 p-4 font-semibold">Menu</h1>
               <IoCloseOutline onClick={toggleMenu} className="text-2xl m-4 cursor-pointer" />
@@ -202,7 +200,7 @@ export default function Header() {
               
             </ul>
             <div className="flex gap-5 justify-center items-center">
-              <a href="" className=" flex items-center justify-center ">
+              <a href="https://www.instagram.com/stilesagio" className=" flex items-center justify-center ">
               <AiOutlineInstagram className="text-2xl" />
               </a>
               <a href="https://www.youtube.com/@Stilesagio" className="cursor-pointer  flex items-center justify-center ">

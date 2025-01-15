@@ -11,11 +11,13 @@ const CartPage = () => {
     );
   };
 
-  const { cart, setcart } = useContext<any>(HeaderContext);
+  const { cart, setcart,isAuthenticated } = useContext(HeaderContext);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+   if(isAuthenticated){
     getCart().then((data) => setcart(data));
+   }
   }, []);
 
   return (

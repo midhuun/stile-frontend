@@ -6,12 +6,17 @@ import { HeaderContext } from "../../context/appContext";
 import { getCart } from "../../utils/getItems";
 
 const Bag = () => {
-  const { iscartOpen, setiscartOpen,cart,setcart } = useContext<any>(HeaderContext);
+  const { iscartOpen, setiscartOpen,cart,setcart,isAuthenticated } = useContext(HeaderContext);
   useEffect(() => {
     window.scrollTo(0, 0);
-    getCart().then((data:any) => setcart(data)).catch((err)=>console.log(err));
+    if(isAuthenticated){
+      getCart().then((data:any) => setcart(data)).catch((err)=>console.log(err));
+    }
   }, []);
   const handleCart = async(value:any) => {
+    if(!isAuthenticated){
+      alert('Please login to proceed');
+    }
     console.log(value);
     const res= await fetch(`https://stile-backend-gnqp.vercel.app/user/${value.value}`,{
       method: 'POST',
