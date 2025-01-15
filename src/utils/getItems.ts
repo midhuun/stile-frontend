@@ -15,7 +15,7 @@ export async function getProducts(){
   }
  export const handleCart = async(item:any) => {
     console.log(item);
-    const res= await fetch(`http://localhost:3000/user/${item.value}`,{
+    const res= await fetch(`https://stile-backend-gnqp.vercel.app/user/${item.value}`,{
       method: 'POST',
       credentials:'include',
       headers: {
