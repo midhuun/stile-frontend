@@ -21,7 +21,7 @@ export default function Header() {
   const [subcategories, setsubCategories] = useState([]);
   const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
   const [mobile, setMobile] = useState(null);
- 
+  console.log(mobile);
   async function isUser() {
     const response = await fetch("https://stile-backend-gnqp.vercel.app/user", { credentials: 'include' });
     const data = await response.json();
