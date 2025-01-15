@@ -25,7 +25,7 @@ const VideoGallery = () => {
               loop={true}
               width="150%"
               height="100%"
-              className="rounded-full translate-y-[300px]"
+              className="rounded-full "
               style={{objectFit:'contain'}}
               config={{
                 youtube: {

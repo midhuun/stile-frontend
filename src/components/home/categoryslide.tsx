@@ -10,9 +10,7 @@ const Categories = () => {
         setloading(true);
         const result = await fetch("https://stile-backend.vercel.app/products");
         const data = await result.json();
-        setTimeout(() => {
          setloading(false);
-        }, 1000);
         setcategories(data?.subCategories);
     }
     useEffect(()=>{

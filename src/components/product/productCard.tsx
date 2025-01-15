@@ -33,7 +33,7 @@ const ProductCard = ({product}:any) => {
       };
   return (
     <Link to={`/product/${product.slug}`}>
-    <div className="h-[350px] flex flex-col  w-[140px] md:h-[560px] md:w-[350px]" key={product?._id}>
+    <div className="h-[350px] flex flex-col w-[140px] md:h-[560px] md:w-[350px]" key={product?._id}>
       <div className='overflow-hidden relative h-[200px] md:h-[450px]'>
         <PiHeartStraightFill onClick={()=>addToFavorite()} title='Add To Favourites' className='text-red-500 z-[40] text-xl md:text-3xl absolute top-4 right-4' />
         <img onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="w-full border object-top tranition-all duration-[1s]  h-[200px] md:h-[450px] object-cover hover:scale-110 " src={currentImage} alt="" />

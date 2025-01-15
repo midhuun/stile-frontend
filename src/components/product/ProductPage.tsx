@@ -275,21 +275,21 @@ function handleTouchMove(event: React.TouchEvent) {
           <div className="flex w-full border border-gray-300 divide-x divide-gray-300 bg-white shadow-lg rounded-lg">
   {/** First Section */}
   <div className="flex flex-col gap-2 items-center text-center p-4 w-1/3 transform transition-transform hover:scale-105 duration-300">
-    <BsFillCartCheckFill className="text-blue-500 text-2xl md:text-3xl animate-bounce" />
-    <p className="text-gray-600 text-sm md:text-base font-medium">Day of Order</p>
+    <BsFillCartCheckFill className="text-blue-500 text-lg md:text-3xl " />
+    <p className="text-gray-600 text-xs md:text-base font-medium">Day of Order</p>
   </div>
 
   {/** Second Section */}
   <div className="flex flex-col gap-2 items-center text-center p-4 w-1/3 transform transition-transform hover:scale-105 duration-300">
-    <FaTruck className="text-green-500 text-2xl md:text-3xl animate-pulse" />
-    <p className="text-gray-600 text-sm md:text-base font-medium">Order Ready</p>
+    <FaTruck className="text-green-500 text-lg md:text-3xl animate-pulse" />
+    <p className="text-gray-600 text-xs md:text-base font-medium">Order Ready</p>
   </div>
 
   {/** Third Section */}
   <div className="flex flex-col gap-2 items-center text-center p-4 w-1/3 transform transition-transform hover:scale-105 duration-300">
-    <FaLocationDot className="text-red-500 text-2xl md:text-3xl animate-pulse" />
-    <p className="text-gray-600 text-sm md:text-base font-medium">
-      Delivered in 7-10 days
+    <FaLocationDot className="text-red-500 text-lg md:text-3xl animate-pulse" />
+    <p className="text-gray-600 text-xs md:text-base font-medium">
+      Delivered soon
     </p>
   </div>
 </div>
