@@ -1,5 +1,5 @@
 export async function getCart(){
-    const response = await fetch('https://stile-backend-gnqp.vercel.app/user/cart',{credentials:'include'});
+    const response = await fetch('https://stile-backend-gnqp.vercel.app/user/cart',{credentials:'include',mode:'no-cors'});
     const data = await response.json(); 
     return data.cart;
   }
