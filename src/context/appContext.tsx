@@ -1,5 +1,5 @@
 'use client';
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import { createContext } from "react"
 interface HeaderContextType {
     isUserOpen: boolean;
