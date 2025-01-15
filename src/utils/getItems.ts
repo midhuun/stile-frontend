@@ -1,5 +1,5 @@
 export async function getCart(){
-    const response = await fetch('https://stile-backend-gnqp.vercel.app/user/cart',{credentials:'include',mode:'no-cors'});
+    const response = await fetch('http://localhost:3000/user/cart',{credentials:'include',mode:'no-cors'});
     const data = await response.json(); 
     return data.cart;
   }
@@ -15,7 +15,7 @@ export async function getProducts(){
   }
  export const handleCart = async(item:any) => {
     console.log(item);
-    const res= await fetch(`https://stile-backend-gnqp.vercel.app/user/${item.value}`,{
+    const res= await fetch(`http://localhost:3000/user/${item.value}`,{
       method: 'POST',
       credentials:'include',
       headers: {

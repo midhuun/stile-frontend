@@ -37,7 +37,7 @@ interface HeaderContextType {
   };
 export const HeaderContext = createContext<HeaderContextType>(defaultContext);
 
-const HeaderProvider = ({ children }:{children:ReactNode}) =>{ 
+const HeaderProvider = ({ children }:any) =>{ 
     const [isUserOpen,setisUserOpen] = useState<any>(false);
     const [iscartOpen,setiscartOpen] = useState<any>(false);
     const [isAuthenticated,setisAuthenticated] = useState<any>(false);

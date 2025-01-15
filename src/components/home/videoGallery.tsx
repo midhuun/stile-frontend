@@ -2,20 +2,20 @@ import ReactPlayer from "react-player";
 
 const VideoGallery = () => {
   const videoUrls = [
-    "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    "https://www.youtube.com/watch?v=3JZ_D3ELwOQ",
-    "https://www.youtube.com/watch?v=2Vv-BfVoq4g",
-    "https://www.youtube.com/watch?v=kJQP7kiw5Fk",
-    "https://www.youtube.com/watch?v=L_jWHffIx5E",
+    "https://youtube.com/shorts/W1s35CWimk8?si=ft9q6V-qofpOxpAs",
+    "https://youtube.com/shorts/Yz0sva-D5gU?si=5RIrd5wSp3q3JutR",
+    "https://youtube.com/shorts/nC3NONnjA8U?si=DzN2QORSUrUkaTBv",
+    "https://youtube.com/shorts/FIMBIe4K8JU?si=92pTgEZ5PyfdQE24",
+    "https://youtube.com/shorts/CbO8JpD_Q8M?si=ZwKugTKgkwT8DcH0",
   ];
-
+  
   return (
     <div className="flex items-center justify-center py-7">
       <div className="flex flex-wrap gap-2 md:gap-4 justify-center">
         {videoUrls.map((url:string, index:any) => (
           <div
             key={index}
-            className="w-12 h-12 sm:h-20 sm:w-20 md:w-28 md:h-28 lg:w-36 lg:h-36 rounded-full bg-black overflow-hidden shadow-lg flex items-center justify-center"
+            className="w-12 h-12 sm:h-20 sm:w-20 md:w-28 md:h-28 lg:w-36 lg:h-36 rounded-full object-top bg-black overflow-hidden shadow-lg flex items-center justify-center"
           >
         
             <ReactPlayer
@@ -24,8 +24,9 @@ const VideoGallery = () => {
               muted={true}
               loop={true}
               width="150%"
-              height="150%"
-              className="rounded-full"
+              height="100%"
+              className="rounded-full translate-y-[300px]"
+              style={{objectFit:'contain'}}
               config={{
                 youtube: {
                   playerVars: {

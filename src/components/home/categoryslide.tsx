@@ -21,12 +21,12 @@ const Categories = () => {
   return (
     <>
     {loading && <Loading />}
-    <div className='mt-5 px-3 md:px-6 uppercase text-xl font-bold'>Shop by Subcategories</div>
-    <div className='flex  px-3 md:justify-start justify-between items-center gap-3 md:gap-10 p-5 md:p-10 flex-wrap '>
+    <div className='mt-5 px-2 md:px-6 uppercase md:text-xl text-sm font-bold'>Shop by Subcategories</div>
+    <div className='flex px-2 md:px-3 md:justify-start justify-between items-center gap-3 md:gap-10 p-3 md:p-10 flex-wrap '>
     {categories.length>0 ? categories.map((category:any)=>
-    <div className=' flex flex-col justify-center items-center gap-4' key={category._id}>
+    <div className=' flex flex-col justify-center  gap-4' key={category._id}>
         <Link to={`/subcategory/${category.slug}`}><img className='h-[200px] w-[140px] md:h-[460px] md:w-[350px] object-top object-cover ' src={category.image} alt="" /></Link>
-        <p className='text-[12px] tracking-widest font-medium h-10 md:text-[16px] uppercase'>{category.name}</p>
+        <p className='text-[12px] overflow-hidden tracking-wide break-words font-medium h-10 md:text-[16px] uppercase'>{category.name}</p>
     </div>
     ):null}
     </div>

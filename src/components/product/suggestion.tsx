@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Product } from "../../types/CategoryType";
 import ProductCard from "./productCard";
 
-const Suggestion = ({subid,id}:{id:any,subid:string}) => {
+const Suggestion = ({subid,id}:any) => {
    console.log(subid)
     const [suggestions, setSuggestions] = useState<any>([]);
     async function fetchSuggestions() {
