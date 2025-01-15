@@ -24,6 +24,24 @@ const ProductPage = () => {
     shipping: false,
     manufacturer: false,
   });
+  const [startX, setStartX] = useState(0);
+
+function handleTouchStart(event: React.TouchEvent) {
+  setStartX(event.touches[0].clientX);
+}
+
+function handleTouchMove(event: React.TouchEvent) {
+  const endX = event.touches[0].clientX;
+  const difference = startX - endX;
+
+  if (difference > 50) {
+    handleChangeImage("next");
+    setStartX(0); 
+  } else if (difference < -50) {
+    handleChangeImage("prev");
+    setStartX(0); 
+  }
+}
    const isProduct = productdata && cart?.find((cartItem:any)=>cartItem.product._id === productdata._id && cartItem.selectedSize === activeSize);
    console.dir(isProduct);
   const addToFavorite = async() => {
@@ -141,25 +159,30 @@ const ProductPage = () => {
           </div>
 
           {/* Mobile Carousel */}
-          <div className="md:hidden h-[70vh] flex overflow-hidden relative">
-            <img
-              className="w-full h-full object-cover object-top transition-transform duration-500"
-              src={productdata?.images?.[active]}
-              alt="Mobile Product View"
-            />
-            <button
-              onClick={() => handleChangeImage("prev")}
-              className="absolute left-0 top-1/2 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-lg"
-            >
-              <GrFormPrevious />
-            </button>
-            <button
-              onClick={() => handleChangeImage("next")}
-              className="absolute right-0 top-1/2 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-lg"
-            >
-              <GrFormNext />
-            </button>
-          </div>
+          <div
+  className="md:hidden h-[70vh] flex overflow-hidden relative"
+  onTouchStart={handleTouchStart}
+  onTouchMove={handleTouchMove}
+>
+  <img
+    className="w-full h-full object-cover object-top transition-transform duration-500"
+    src={productdata?.images?.[active]}
+    alt="Mobile Product View"
+  />
+  <button
+    onClick={() => handleChangeImage("prev")}
+    className="absolute left-0 top-1/2 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-lg"
+  >
+    <GrFormPrevious />
+  </button>
+  <button
+    onClick={() => handleChangeImage("next")}
+    className="absolute right-0 top-1/2 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-lg"
+  >
+    <GrFormNext />
+  </button>
+</div>
+
         </div>
 
         {/* Right Side - Product Info */}
