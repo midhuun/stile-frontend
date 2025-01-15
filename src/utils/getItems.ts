@@ -1,10 +1,11 @@
 export async function getCart(){
-    const response = await fetch('https://stile-backend-gnqp.vercel.app/user/cart',{credentials:'include',mode:'no-cors'});
+    const response = await fetch('https://stile-backend-gnqp.vercel.app/user/cart',{credentials:'include'});
     const data = await response.json(); 
+    console.log("cartss",data);
     return data.cart;
   }
 export async function getFavourites(){
-    const response = await fetch('https://stile-backend-gnqp.vercel.app/user/favourites',{credentials:'include',mode:'no-cors'});
+    const response = await fetch('https://stile-backend-gnqp.vercel.app/user/favourites',{credentials:'include'});
     const data = await response.json(); 
     return data.favourites;
   }
