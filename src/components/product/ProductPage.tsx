@@ -140,7 +140,7 @@ function handleTouchMove(event: React.TouchEvent) {
   console.log("cart",cart);
   return (
     <>
-    {isLoading && <Loading />}
+    {isimageLoading && <Loading />}
     <div className="w-full p-3 flex justify-center">
       <div className="flex flex-col md:flex-row justify-center md:justify-start md:gap-10  md:pt-10">
         {/* Left Side - Thumbnails and Main Image */}
@@ -178,6 +178,7 @@ function handleTouchMove(event: React.TouchEvent) {
   onTouchStart={handleTouchStart}
   onTouchMove={handleTouchMove}
 >
+<IoHeartSharp onClick={()=>addToFavorite()} className="absolute cursor-pointer top-4 right-4 text-red-500" size={26} />
 {isLoading && (
         <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-md"></div>
       )}

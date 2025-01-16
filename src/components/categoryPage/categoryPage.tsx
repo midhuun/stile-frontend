@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { Category, Product } from "../../types/CategoryType";
 import ProductCard from "../product/productCard";
-import { HeaderContext } from "../../context/appContext";
 import Loading from "../loading/loading";
 
 const CategoryPage = () => {
