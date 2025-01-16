@@ -42,6 +42,7 @@ const Carousel = () => {
               className="w-full flex-shrink-0 flex items-center justify-center"
             >
               <img
+                 loading="lazy"
                 src={item.image}
                 alt={item.title}
                 className="h-full w-full object-cover rounded-lg"

@@ -50,8 +50,10 @@ useEffect(()=>{
     navigate('/', { replace: true });
   }
 }),[]
- function handleLogout(){
-  Cookies.remove('token');
+async function handleLogout(){
+  const response =await  fetch("https://stile-backend-gnqp.vercel.app/user/logout",{method:'POST',credentials:'include'})
+  const data = await response.json();
+  console.log(data);
   setisUserOpen(false);
   window.location.reload();
  }

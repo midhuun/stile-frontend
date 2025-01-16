@@ -106,7 +106,7 @@ export default function Header() {
         <nav className="uppercase hidden md:block w-full">
           <div className="flex text-[12px] md:text-xs items-center py-4">
             <ul className="flex w-full justify-center items-center space-x-4">
-              <li>New Arrivals</li>
+              {/* <li>New Arrivals</li> */}
               <li
                 onMouseEnter={handleDropdownOpen}
                 onMouseLeave={handleDropdownClose}

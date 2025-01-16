@@ -26,6 +26,7 @@ const VideoGallery = () => {
               playing={true}
               muted={true}
               loop={true}
+
               width="150%"
               height="100%"
               className="rounded-full "

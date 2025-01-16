@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { Category, Product } from "../../types/CategoryType";
 import ProductCard from "../product/productCard";
+import { HeaderContext } from "../../context/appContext";
+import Loading from "../loading/loading";
 
 const CategoryPage = () => {
     const {subcategoryName} = useParams<any>();
     const [category,setCategory] = useState<Category | null>(null);
     const [products,setProducts] = useState<Product[]>([]);
+    const [isLoading,setisLoading] = useState(false);
     console.log(subcategoryName);
     async function getcategories(){
         const response = await fetch(`https://stile-backend-gnqp.vercel.app/category/${subcategoryName}`);
@@ -16,10 +19,17 @@ const CategoryPage = () => {
     }
   useEffect(()=>{
     window.scrollTo(0,0);
+    setisLoading(true);
     getcategories();
+    setTimeout(() => {
+      setisLoading(false)
+    }, 700);
   },[])
-  console.log(category)
+  if(isLoading){
+    return <Loading />
+  }
   return (
+   
     <div className="min-h-screen bg-gray-100 py-8 px-4">
       <h1 className="text-lg md:text-3xl  font-bold  text-gray-800 mb-6">
         {category?.name}

@@ -45,7 +45,7 @@ export default function Footer() {
             <li><a href="/returns" className="hover:text-gray-400">Returns & Exchanges</a></li>
             <li><a href="/shipping" className="hover:text-gray-400">Shipping Policy</a></li>
             <li><a href="/terms" className="hover:text-gray-400">Terms & Conditions</a></li>
-            <li><a href="/privacy" className="hover:text-gray-400">Privacy Policy</a></li>
+           
           </ul>
         </div>
 

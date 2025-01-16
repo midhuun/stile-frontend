@@ -112,10 +112,8 @@ function handleTouchMove(event: React.TouchEvent) {
   useEffect(() => {
     window.scrollTo(0, 0);
      setisLoading(true);
-     setTimeout(() => {
-      setisLoading(false)
-     }, 1000);
      getProduct();
+     setisLoading(false);
     getCart().then((data) => dispatch(setcart(data))).catch((err) => console.log(err));
      console.log("Redux cart state:", store.getState().Cart);
   }, [dispatch]);
