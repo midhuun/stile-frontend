@@ -4,11 +4,14 @@ import { getCart } from "../../utils/getItems";
 import { useDispatch, useSelector } from "react-redux";
 import { setcart } from "../../store/reducers/cartReducer";
 import { RootState } from "../../store/store";
+import { SiRazorpay } from "react-icons/si";
+import {  BsCashCoin } from "react-icons/bs";
 
 const CartPage = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state:RootState)=>state.Cart);
   const [paymentMethod, setPaymentMethod] = useState('razorpay');
+  const [verifyOrder,setVerifyOrder] = useState(false);
   const shippingCharge = paymentMethod === 'cod' ? 100 : 0;
   console.log("Reducer",cart);
   const calculateTotal = () => {
@@ -30,8 +33,39 @@ const CartPage = () => {
   const handlePaymentChange = (e:any) => {
     setPaymentMethod(e.target.value);
   };
+  function handlePayment(e:any){
+    e.preventDefault();
+    if(paymentMethod === 'cod'){
+     setVerifyOrder(true);
+     console.log("cooo")
+    }
+  }
   return (
     <div className=" min-h-screen p-4">
+      
+      {verifyOrder && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-80">
+            <h2 className="text-lg font-semibold mb-4">Confirm Order</h2>
+            <p className="text-gray-700">You will receive a call shortly to confirm your order. </p>
+            <p className=" pt-5 font-semibold">Confirm Order?</p>
+            <div className="flex justify-between mt-4">
+            <button
+                onClick={()=>setVerifyOrder(false)}
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
+              >
+                Yes
+              </button>
+              <button
+                onClick={()=>setVerifyOrder(false)}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-200"
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <h1 className="text-lg text-center font-bold pb-4 md:text-2xl uppercase">Checkout</h1>
       <div className="max-w-screen-xl mx-auto flex flex-col md:flex-row gap-6">
         {/* Address Form Section */}
@@ -85,9 +119,6 @@ const CartPage = () => {
               placeholder="Mobile Number"
               className="w-full my-3 p-3 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
             />
-            <p className="text-sm text-gray-500 mt-2">
-              <strong>Note:</strong> Cash on Delivery orders may incur additional charges.
-            </p>
           </form>
         </div>
 
@@ -147,7 +178,7 @@ const CartPage = () => {
       </div>
 
       <div className="mb-6">
-        <p className="text-sm font-medium text-gray-700">Select Payment Method</p>
+        <p className="text-sm font-medium text-gray-700 uppercase">Payment Options</p>
         
         <div className="space-y-4 mt-3 ">
           <label className={`block p-4 border rounded-lg shadow-sm cursor-pointer hover:bg-gray-50 transition duration-150 ease-in-out 
@@ -162,7 +193,7 @@ const CartPage = () => {
             />
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-blue-600 text-white flex items-center justify-center rounded-full">
-                <span className="font-semibold text-[12px] md:text-sm">RP</span>
+              <SiRazorpay />
               </div>
               <span className="text-sm md:text-lg  font-medium">Razorpay</span>
             </div>
@@ -180,7 +211,7 @@ const CartPage = () => {
             />
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-green-600 text-white flex items-center justify-center rounded-full">
-                <span className="font-semibold text-[12px] md:text-sm">COD</span>
+              <BsCashCoin />
               </div>
               <span className="text-sm md:text-lg font-medium">Cash on Delivery</span>
             </div>
@@ -198,9 +229,12 @@ const CartPage = () => {
                 <span>🔒</span>
                 <p>Your payment is secure and encrypted.</p>
               </div>
-      <button className="mt-6 w-full py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition duration-200">
-        Proceed to Checkout
+      <button onClick={handlePayment} className={`mt-6 w-full py-2  bg-black text-white rounded-lg hover:bg-gray-800 transition duration-200`}>
+      {paymentMethod === 'cod' ? ' Place Order' : 'Pay Now'}
       </button>
+      <p className="text-sm text-gray-500 mt-2">
+              <strong>Note:</strong> Cash on Delivery orders may incur additional charges.
+            </p>
     </div>
             </>
           )}
