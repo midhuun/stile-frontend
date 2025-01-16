@@ -1,7 +1,6 @@
 //@ts-nocheck
 import { createSlice } from "@reduxjs/toolkit";
-import { CartType } from "../../types/CartType";
-const inititalState:CartType[] | [] = []
+const inititalState:any = []
 const CartSlice = createSlice({
   name: "cart",
   initialState: inititalState,
@@ -16,7 +15,7 @@ const CartSlice = createSlice({
             state.push({...action.payload,quantity:1})
         }
     },
-    removeFromCart:(state:CartType[],action:any)=>{
+    removeFromCart:(state:any,action)=>{
       return state.map((item:CartType)=>{
         if(item.product._id===action.payload._id && item.selectedSize===action.payload.selectedSize){
           return {...item,quantity:Math.max(1,item.quantity-1)}
@@ -26,10 +25,10 @@ const CartSlice = createSlice({
         }
        })
   },
-  deleteFromCart:(state:CartType[],action:any)=>{
+  deleteFromCart:(state:any,action)=>{
     return state.filter((item:CartType)=>item.product._id!==action.payload._id && item.selectedSize!==action.payload.selectedSize)
   },
-  setcart:(state:CartType[],action:any)=>{
+  setcart:(state:any,action:any)=>{
     return action.payload;
   }
   },
