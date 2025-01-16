@@ -1,7 +1,6 @@
 export async function getCart(){
     const response = await fetch('https://stile-backend-gnqp.vercel.app/user/cart',{credentials:'include'});
     const data = await response.json(); 
-    console.log("cartss",data);
     return data.cart;
   }
 export async function getFavourites(){

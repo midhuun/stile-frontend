@@ -10,11 +10,16 @@ import { HeaderContext } from "../../context/appContext";
 import Suggestion from "./suggestion";
 import { getCart, getFavourites } from "../../utils/getItems";
 import Loading from "../loading/loading";
+import { useDispatch, useSelector } from "react-redux";
+import store, { RootState } from "../../store/store";
+import { addtoCart, deleteFromCart, removeFromCart, setcart } from "../../store/reducers/cartReducer";
 const ProductPage = () => {
   const params: any = useParams();
   const { product } = params;
   const [productdata, setproductdata] = useState<Product | null>(null);
-  const {setiscartOpen,setisFavouriteOpen,setFavourites,cart,setcart,isAuthenticated,setisUserOpen} = useContext<any>(HeaderContext);
+  const cart = useSelector((state:RootState)=>state.Cart);
+  const {setiscartOpen,setisFavouriteOpen,setFavourites,isAuthenticated,setisUserOpen} = useContext<any>(HeaderContext);
+  const dispatch = useDispatch<any>();
   const [activeSize, setActiveSize] = useState<string>("M");
   const [active, setActive] = useState<number>(0);
   const [chartOpen, setchartOpen] = useState<Boolean>(false);
@@ -34,16 +39,15 @@ function handleTouchMove(event: React.TouchEvent) {
   const endX = event.touches[0].clientX;
   const difference = startX - endX;
 
-  if (difference > 50) {
+  if (difference > 100) {
     handleChangeImage("next");
     setStartX(0); 
-  } else if (difference < -50) {
+  } else if (difference < -100) {
     handleChangeImage("prev");
     setStartX(0); 
   }
-}
-   const isProduct = productdata && cart?.find((cartItem:any)=>cartItem.product._id === productdata._id && cartItem.selectedSize === activeSize);
-   console.dir(isProduct);
+} console.log("product",productdata)
+   const isProduct = productdata && cart.length>0  && cart?.find((cartItem:any)=>cartItem.product._id === productdata._id && cartItem.selectedSize === activeSize);
   const addToFavorite = async() => {
     if(!isAuthenticated){
        setisUserOpen(true)
@@ -63,12 +67,22 @@ function handleTouchMove(event: React.TouchEvent) {
     console.log(data);
     setisFavouriteOpen(true);
   }
- console.log("cart",cart);
   const handleCart = async(value:any) => {
     if(!isAuthenticated){
       setisUserOpen(true)
       return
    }
+   if(value === 'addToCart'){
+           dispatch(addtoCart({...productdata,selectedSize:activeSize}))
+      }
+      if(value === 'removeFromCart'){
+        console.log("cartvalue",value.item);
+         dispatch(removeFromCart({...productdata,selectedSize:activeSize}))
+      }
+      if(value === 'deleteFromCart'){
+        console.log("cartvalue",value.item);
+        dispatch(deleteFromCart({...productdata,selectedSize:activeSize}))
+      }
     const res= await fetch(`https://stile-backend-gnqp.vercel.app/user/${value}`,{
       method: 'POST',
       credentials:'include',
@@ -79,7 +93,6 @@ function handleTouchMove(event: React.TouchEvent) {
     })
     const data = await res.json();
     console.log(data);
-      await getCart().then((data)=>setcart(data)).catch((err)=>console.log(err));
       setiscartOpen(true);
   }
   
@@ -90,6 +103,7 @@ function handleTouchMove(event: React.TouchEvent) {
     try {
       const response = await fetch(`https://stile-backend.vercel.app/product/${product}`);
       const data = await response.json();
+      console.log(data);
       setproductdata(data[0]);
     } catch (err) {
       console.log(err);
@@ -102,9 +116,9 @@ function handleTouchMove(event: React.TouchEvent) {
       setisLoading(false)
      }, 1000);
      getProduct();
-     getCart().then((data)=>setcart(data));
-  }, []);
-
+    getCart().then((data) => dispatch(setcart(data))).catch((err) => console.log(err));
+     console.log("Redux cart state:", store.getState().Cart);
+  }, [dispatch]);
   function handleChangeImage(data: string) {
     if (data === "prev") {
       if (active === 0) return;
@@ -124,7 +138,7 @@ function handleTouchMove(event: React.TouchEvent) {
   function handleThumbnailClick(index: number) {
     setActive(index);
   }
-
+  console.log("cart",cart);
   return (
     <>
     {isLoading && <Loading />}

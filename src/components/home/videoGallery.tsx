@@ -1,4 +1,6 @@
 import ReactPlayer from "react-player";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const VideoGallery = () => {
   const videoUrls = [
@@ -8,7 +10,8 @@ const VideoGallery = () => {
     "https://youtube.com/shorts/FIMBIe4K8JU?si=92pTgEZ5PyfdQE24",
     "https://youtube.com/shorts/CbO8JpD_Q8M?si=ZwKugTKgkwT8DcH0",
   ];
-  
+  const cart = useSelector((state:RootState)=>state.Cart);
+  console.log("Redu",cart);
   return (
     <div className="flex items-center justify-center py-7">
       <div className="flex flex-wrap gap-2 md:gap-4 justify-center">

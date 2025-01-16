@@ -4,20 +4,38 @@ import { Link } from "react-router-dom";
 import { TfiClose } from "react-icons/tfi";
 import { HeaderContext } from "../../context/appContext";
 import { getCart } from "../../utils/getItems";
+import { RootState } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { addtoCart, deleteFromCart, removeFromCart, setcart } from "../../store/reducers/cartReducer";
 
 const Bag = () => {
-  const { iscartOpen, setiscartOpen,cart,setcart,isAuthenticated } = useContext(HeaderContext);
+  const { iscartOpen, setiscartOpen,isAuthenticated } = useContext(HeaderContext);
+  const cart = useSelector((state:RootState)=>state.Cart);
+  const dispatch = useDispatch();
   useEffect(() => {
     window.scrollTo(0, 0);
+    console.log(isAuthenticated);
     if(isAuthenticated){
-      getCart().then((data:any) => setcart(data)).catch((err)=>console.log(err));
+      getCart().then((data:any) => dispatch(setcart(data))).catch((err:any)=>console.log(err))
     }
   }, []);
   const handleCart = async(value:any) => {
     if(!isAuthenticated){
       alert('Please login to proceed');
     }
-    console.log(value);
+    console.log(value.item)
+    if(value.value === 'addToCart'){
+         console.log("cartvalue",{...value.item,selectedSize:value.size});
+         dispatch(addtoCart({...value.item,selectedSize:value.size}))
+    }
+    if(value.value === 'removeFromCart'){
+      console.log("cartvalue",value.item);
+       dispatch(removeFromCart({...value.item,selectedSize:value.size}))
+    }
+    if(value.value === 'deleteFromCart'){
+      console.log("cartvalue",value.item);
+      dispatch(deleteFromCart({...value.item,selectedSize:value.size}))
+    }
     const res= await fetch(`https://stile-backend-gnqp.vercel.app/user/${value.value}`,{
       method: 'POST',
       credentials:'include',
@@ -28,7 +46,6 @@ const Bag = () => {
     })
     const data:any = await res.json();
     console.log(data);
-       getCart().then((data)=>setcart(data));
   }
   return (
     <div
