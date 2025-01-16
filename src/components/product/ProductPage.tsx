@@ -17,6 +17,7 @@ const ProductPage = () => {
   const params: any = useParams();
   const { product } = params;
   const [productdata, setproductdata] = useState<Product | null>(null);
+  const [isimageLoading, setisImageLoading] = useState(true);
   const cart = useSelector((state:RootState)=>state.Cart);
   const {setiscartOpen,setisFavouriteOpen,setFavourites,isAuthenticated,setisUserOpen} = useContext<any>(HeaderContext);
   const dispatch = useDispatch<any>();
@@ -149,6 +150,7 @@ function handleTouchMove(event: React.TouchEvent) {
             <div className="flex flex-col gap-2 w-1/5">
               {productdata?.images?.map((image:any, index:any) => (
                 <img
+                  loading="lazy"
                   key={index}
                   src={image}
                   alt={`Thumbnail ${index + 1}`}
@@ -176,9 +178,14 @@ function handleTouchMove(event: React.TouchEvent) {
   onTouchStart={handleTouchStart}
   onTouchMove={handleTouchMove}
 >
+{isLoading && (
+        <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-md"></div>
+      )}
   <img
     className="w-full h-full object-cover object-top transition-transform duration-500"
     src={productdata?.images?.[active]}
+    loading="lazy"
+    onLoad={()=>setisImageLoading(false)}
     alt="Mobile Product View"
   />
   <button

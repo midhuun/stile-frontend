@@ -1,7 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { HeaderContext } from '../context/appContext';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
 const orders:any = [
   {
     id: '677bd761cfeb67c064f770af',
@@ -55,7 +54,7 @@ async function handleLogout(){
   const data = await response.json();
   console.log(data);
   setisUserOpen(false);
-  window.location.reload();
+  
  }
   return (
     <div className="max-w-3xl mx-auto p-4">
