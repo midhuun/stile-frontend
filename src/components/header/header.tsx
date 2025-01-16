@@ -45,6 +45,7 @@ export default function Header() {
     Cookies.remove('token');
     setisAuthenticated(false);
     setisUserOpen(false);
+    window.location.reload();
   }
   async function getcategories() {
     const response = await fetch("https://stile-backend.vercel.app/products");
