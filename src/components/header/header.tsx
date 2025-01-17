@@ -4,7 +4,7 @@ import { CiHeart, CiSearch } from "react-icons/ci";
 import { PiShoppingBagLight } from "react-icons/pi";
 import { LiaUser } from "react-icons/lia";
 import { HeaderContext } from "../../context/appContext";
-import Logo from '../../assets/logo.png';
+// import Logo from '../../assets/logo.png';
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaFacebookSquare, FaMapMarkerAlt, FaWhatsapp, FaYoutube } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -101,9 +101,9 @@ export default function Header() {
         <Link to="/" className="flex-1 text-center md:hidden">
           <h1 className="flex justify-center items-center">
             <img
-              className="h-[25px] w-[40px] object-cover"
+              className="h-[25px] w-[40px] object-contain"
               alt="stile sagio"
-              src={Logo}
+              src='/logo.png'
             />
             <p className="text-xs pl-2">STILE SAGIO</p>
           </h1>
@@ -138,14 +138,14 @@ export default function Header() {
 
               <a href="/">
                 <h1 className="flex justify-center font-bold items-center">
-                  <div className="border-r">
+                  <div className="">
                     <img
-                      className="h-[25px] w-[40px] object-cover"
+                      className="h-[35px]  object-contain"
                       alt="stile sagio"
-                      src={Logo}
+                      src='/logo.png'
                     />
                   </div>
-                  <p className="pl-2">STILE SAGIO</p>
+                  {/* <p className="pl-2">STILE SAGIO</p> */}
                 </h1>
               </a>
               <li>Track Order</li>
@@ -161,14 +161,13 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="absolute top-[-45px]  left-0 right-0 w-[300px] h-screen bg-white shadow-lg z-[999]  md:hidden">
+          <div className="absolute top-0  left-0 right-0 w-[300px] h-screen bg-white shadow-lg z-[999]  md:hidden">
             <div className="flex  justify-between">
               <h1 className="pb-4 p-4 font-semibold">Menu</h1>
               <IoCloseOutline onClick={toggleMenu} className="text-2xl m-4 cursor-pointer" />
               </div>
               <hr />
             <ul className="flex text-sm uppercase flex-col p-4 ">
-              <li className="border-b py-3">New Arrivals</li>
               <li
                 onMouseEnter={handleDropdownOpen}
                 onMouseLeave={handleDropdownClose}
@@ -205,7 +204,9 @@ export default function Header() {
               <li className="border-b py-3">Account</li>
              </Link>
              }
-              
+            <Link to='/customize'>
+             <li className="border-b py-3">Customize Now</li> 
+             </Link>
             </ul>
             <div className="flex gap-5 justify-center items-center">
               <a href="https://www.instagram.com/stilesagio" className=" flex items-center justify-center ">

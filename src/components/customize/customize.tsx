@@ -200,7 +200,7 @@ const CustomizeOrder = () => {
       
       </motion.div>
       <div className=" py-8 overflow-hidden">
-      <h2 className=" text-lg md:text-3xl font-bold mb-6 text-center">Our Clients</h2>
+      <h2 className=" text-lg md:text-3xl font-bold mb-6 text-center">Our Trusted Partners</h2>
       <div className="relative p-2 overflow-hidden">
         <div className="flex gap-5 md:gap-6 animate-scroll">
           {[clients,...clients,...clients].map((client:any, index:number) => (
