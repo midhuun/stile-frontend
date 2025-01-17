@@ -15,14 +15,21 @@ import { IoMdLogOut } from "react-icons/io";
 import Cookies from "js-cookie";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firestore/store";
+import Auto from "../home/autoComplete";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchOpen,setsearchOpen] = useState(false);
   const { setisUserOpen,isUserOpen, setiscartOpen, isAuthenticated, setisAuthenticated,isFavouriteOpen,setisFavouriteOpen } = useContext(HeaderContext);
   const [isdropDown, setisdropDown] = useState(false);
   const [subcategories, setsubCategories] = useState([]);
   const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
   const [mobile, setMobile] = useState(null);
+  const products = useSelector((state:RootState)=>state.Products);
+  console.log("prod",products);
   console.log(mobile);
   async function isUser() {
     const response = await fetch("https://stile-backend-gnqp.vercel.app/user", { credentials: 'include' });
@@ -97,7 +104,7 @@ export default function Header() {
           onClick={toggleMenu}
           className="md:hidden text-2xl cursor-pointer"
         />
-
+       
         <Link to="/" className="flex-1 text-center md:hidden">
           <h1 className="flex justify-center items-center">
             <img
@@ -224,11 +231,20 @@ export default function Header() {
             </div>
           </div>
         )}
-
+          <div className={` left-1/2 transform -translate-x-1/2 ${searchOpen ? "absolute" : "hidden"} right-0 z-[999]`}>
+           <div className="relative">
+           
+            <button onClick={()=>setsearchOpen(false)} className="absolute right-3 z-[1000] top-3 text-3xl">
+           <IoCloseOutline className="" />
+           </button>
+            <Auto items={products} />
+            </div>
+          </div>
         {/* Right Side Icons */}
-        <div className="flex items-center justify-end space-x-1 md:space-x-2">
+        <div className="flex  items-center justify-end space-x-1 md:space-x-2">
+       
           <div>
-          <button>
+          <button onClick={()=>setsearchOpen(true)}>
             <CiSearch className="text-xl md:text-2xl" />
           </button>
           </div>

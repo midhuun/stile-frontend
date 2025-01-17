@@ -5,19 +5,6 @@ import { Link } from "react-router-dom";
 export default function Footer() {
   return (
     <footer className="bg-[#070b2a] text-white py-8 px-4">
-       <div className=" p-4 md:p-6 flex flex-col md:flex-row justify-between items-center">
-      <div className="flex items-center  mb-4 md:mb-0">
-        <img 
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSudproXHcbk7MbCOfHi7sGiv1-uE73Cb4diA&s" 
-          alt="100% Original Guarantee" 
-          className="h-8 w-auto mr-2" 
-        />
-        <span className="text-[13px] md:text-md text-white font-semibold">
-          100% Original Guarantee
-        </span>
-      </div>
-     
-    </div>
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Brand Section */}
         <div>

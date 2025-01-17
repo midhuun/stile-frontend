@@ -2,14 +2,18 @@ import { useEffect, useState } from "react";
 import { Category } from "../../types/CategoryType";
 import { Link } from "react-router-dom";
 import Loading from "../loading/loading";
+import { useDispatch } from "react-redux";
+import { setProduct } from "../../store/reducers/productReducer";
 
 const Categories = () => {
     const [categories,setcategories] = useState<Category[]>([]);
+    const dispatch = useDispatch();
     const [loading, setloading] = useState<any>(false);
    async function fetchCategories(){
         setloading(true);
         const result = await fetch("https://stile-backend.vercel.app/products");
         const data = await result.json();
+         dispatch(setProduct(data.products));
          setloading(false);
         setcategories(data?.subCategories);
     }

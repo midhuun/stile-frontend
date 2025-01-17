@@ -2,15 +2,11 @@ import './App.css';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Header from './components/header/header';
 import Footer from './components/footer/footer';
-import Bag from './components/header/bag';
 import HeaderProvider from './context/appContext';
-import Favorites from './components/header/favourite';
 import OtpLoginPopup from './components/login/login';
 import Offer from './components/offer';
 import { Suspense, lazy } from 'react';
 import Loading from './components/loading/loading';
-
-// Lazy-loaded components
 const Home = lazy(() => import('./components/home/home'));
 const About = lazy(() => import('./components/about/about'));
 const CategoryPage = lazy(() => import('./components/categoryPage/categoryPage'));
@@ -22,6 +18,8 @@ const ShippingPolicy = lazy(() => import('./components/FooterDetails/shippingPol
 const ReturnAndExchanges = lazy(() => import('./components/FooterDetails/returnExchange'));
 const TermsAndConditions = lazy(() => import('./components/FooterDetails/terms'));
 const Account = lazy(() => import('./account/account'));
+const Bag = lazy(()=>import('./components/header/bag'));
+const Favorites = lazy(() => import('./components/header/favourite'));
 
 function App() {
   return (
