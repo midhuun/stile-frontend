@@ -241,7 +241,7 @@ export default function Header() {
             </div>
           </div>
         {/* Right Side Icons */}
-        <div className="flex  items-center justify-end space-x-1 md:space-x-2">
+        <div className="flex  items-center justify-end space-x-1 md:space-x-2 px-3">
        
           <div>
           <button onClick={()=>setsearchOpen(true)}>
