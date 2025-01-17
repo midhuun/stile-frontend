@@ -21,7 +21,7 @@ const About = () => {
     return (
         <div className="max-w-7xl  mx-auto px-4 py-2 md:py-8 overflow-x-hidden">
             <h1 className="md:text-4xl text-xl font-bold mb-6 fade-in">About Us</h1>
-            <p className="mb-4 text-[13px] md:text-md fade-in">
+            <p className="mb-4 text-[13px] md:text-lg fade-in">
                 Welcome to <strong>STILE SAGIO</strong>, our premium brand dedicated to providing high-quality fashion that combines style, comfort, and sustainability. Located in the heart of Tirupur, a city renowned for its exceptional cotton production, we are proud to offer a diverse range of garments tailored to meet the needs of our clients. Our collection includes over 20 unique styles, from cotton vests to French terry joggers and hoodies.
             </p>
 
@@ -41,7 +41,7 @@ const About = () => {
                 </div>
                 <div className="md:w-1/2 md:pl-8 fade-in">
                     <h2 className="text-lg md:text-2xl font-semibold my-4">Our Commitment</h2>
-                    <p className="mb-4 text-[13px] md:text-md">
+                    <p className="mb-4 text-[13px] md:text-lg">
                         At STILE SAGIO, we understand that every client has unique requirements. Our commitment is to customize products based on market standards while maintaining competitive pricing. We can produce garments in various compositions, including both cotton and polyester, ensuring that we meet your specific needs.
                     </p>
                 </div>
@@ -62,7 +62,7 @@ const About = () => {
                 </div>
                 <div className="md:w-1/2 md:pl-8 fade-in">
                     <h2 className="text-lg md:text-2xl font-semibold my-4">Quality Fabrics</h2>
-                    <ul className="list-disc pl-5 mb-4 text-[13px] md:text-md">
+                    <ul className="list-disc pl-5 mb-4 text-[13px] md:text-lg">
                         <li><strong>Cotton Loop Knit and Interlock:</strong> Available from 220 GSM to 350 GSM in 15+ shades, ideal for joggers, shorts, cord sets, hoodies, sweatshirts, and oversized t-shirts.</li>
                         <li><strong>Knitted Polyester Fabrics:</strong> Produced with wicking technology for breathability and comfort.</li>
                     </ul>
@@ -76,7 +76,7 @@ const About = () => {
                 </div>
                 <div className="md:w-1/2 md:pl-8 fade-in">
                     <h2 className="text-lg md:text-2xl font-semibold my-4">Versatile Activewear</h2>
-                    <p className="mb-4 text-[13px] md:text-md">
+                    <p className="mb-4 text-[13px] md:text-lg">
                         Are you an active individual who enjoys working out or traveling? Our <strong>4-way stretch track pants</strong> are designed for ultimate flexibility—perfect for yoga, casual office wear, or lounging at home.
                     </p>
                 </div>
@@ -89,8 +89,8 @@ const About = () => {
                 </div>
                 <div className="md:w-1/2 md:pl-8 fade-in">
                     <h2 className="text-lg md:text-2xl font-semibold my-4">Custom Printing Options</h2>
-                    <p className="mb-4 text-[13px] md:text-md">Our printing team specializes in various techniques tailored to your needs:</p>
-                    <ul className="list-disc text-[13px] md:text-md pl-5 mb-4">
+                    <p className="mb-4 text-[13px] md:text-lg">Our printing team specializes in various techniques tailored to your needs:</p>
+                    <ul className="list-disc text-[13px] md:text-lg pl-5 mb-4">
                         <li>HD Printing</li>
                         <li>Foam Printing</li>
                         <li>Flock Printing</li>
@@ -106,7 +106,7 @@ const About = () => {
                 </div>
                 <div className="md:w-1/2 md:pl-8 fade-in">
                     <h2 className="text-lg md:text-2xl font-semibold my-4">Contact Us</h2>
-                    <p className='text-[13px] md:text-md'>
+                    <p className='text-[13px] md:text-lg'>
                         We invite you to reach out with your requirements. At STILE SAGIO, we are excited about the opportunity to collaborate with you and deliver exceptional products that exceed your expectations. Together, we can achieve great business success.
                     </p>
                 </div>

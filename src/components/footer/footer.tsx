@@ -1,5 +1,6 @@
 import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -30,11 +31,8 @@ export default function Footer() {
         <div>
           <h3 className="text-sm md:text-lg font-semibold mb-4">Quick Links</h3>
           <ul className="space-y-2 text-xs md:text-sm">
-            <li><a href="/" className="hover:text-gray-400">Home</a></li>
-            <li><a href="/shop" className="hover:text-gray-400">Shop</a></li>
-            <li><a href="/about-us" className="hover:text-gray-400">About Us</a></li>
-            <li><a href="/contact" className="hover:text-gray-400">Contact</a></li>
-            <li><a href="/faq" className="hover:text-gray-400">FAQs</a></li>
+            <li><Link to="/" className="hover:text-gray-400">Home</Link></li>
+            <li><Link to="/contact" className="hover:text-gray-400">About Us</Link></li>
           </ul>
         </div>
 
@@ -42,9 +40,9 @@ export default function Footer() {
         <div>
           <h3 className="text-sm md:text-lg font-semibold mb-4">Customer Service</h3>
           <ul className="space-y-2 text-xs md:text-sm">
-            <li><a href="/returns" className="hover:text-gray-400">Returns & Exchanges</a></li>
-            <li><a href="/shipping" className="hover:text-gray-400">Shipping Policy</a></li>
-            <li><a href="/terms" className="hover:text-gray-400">Terms & Conditions</a></li>
+            <li><Link to="/returns" className="hover:text-gray-400">Returns & Exchanges</Link></li>
+            <li><Link to="/shipping" className="hover:text-gray-400">Shipping Policy</Link></li>
+            <li><Link to="/terms" className="hover:text-gray-400">Terms & Conditions</Link></li>
            
           </ul>
         </div>

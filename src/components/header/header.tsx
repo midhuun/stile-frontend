@@ -80,7 +80,7 @@ export default function Header() {
   const handleDropdownClose = () => {
     const timeout = setTimeout(() => {
       setisdropDown(false); 
-    }, 1000); 
+    }, 600); 
     setDropdownTimeout(timeout);
   };
 
@@ -145,7 +145,7 @@ export default function Header() {
                       src='/logo.png'
                     />
                   </div>
-                  {/* <p className="pl-2">STILE SAGIO</p> */}
+                  <p className="pl-2">STILE SAGIO</p>
                 </h1>
               </a>
               <li>Track Order</li>

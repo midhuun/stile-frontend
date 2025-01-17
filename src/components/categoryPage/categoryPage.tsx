@@ -29,11 +29,11 @@ const CategoryPage = () => {
   }
   return (
    
-    <div className="min-h-screen bg-gray-100 py-8 px-4">
+    <div className="min-h-screen bg-gray-100 py-8 px-2 md:px-4">
       <h1 className="text-lg md:text-3xl  font-bold  text-gray-800 mb-6">
         {category?.name}
       </h1>
-      <div className="flex justify-between sm:justify-start flex-wrap gap-2 md:gap-5 ">
+      <div className="flex justify-between sm:justify-start flex-wrap gap-[2px] md:gap-5 ">
         {products?.map((product:any) => (
            <ProductCard product={product} />
         )

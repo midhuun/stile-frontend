@@ -45,15 +45,15 @@ const HomeSub = () => {
             const uniqueProducts = removeDuplicateProducts(subcategory.products);
 
             return (
-              <div className="mt-5 w-full px-2 md:px-6 " key={subcategory._id}>
+              <div className="mt-5 w-full px-2 md:px-4 " key={subcategory._id}>
                 <div className="flex justify-between items-center mb-5 md:pb-10">
-                <h1 className="font-semibold">{subcategory.name}</h1>
-                <Link to={`/subcategory/${subcategory.slug}`}><h1 className="text-xs md:text-md underline px-2">View All</h1></Link>
+                <h1 className="font-semibold text-lg md:text-xl ">{subcategory.name}</h1>
+                <Link to={`/subcategory/${subcategory.slug}`}><h1 className="text-xs md:text-lg underline px-2">View All</h1></Link>
                 </div>
                 <div className="flex md:justify-start  overflow-x-scroll gap-2 md:gap-4">
                   {uniqueProducts.map((product:any, index:number) => (
                     <div  key={index}>
-                      <ProductCard product={product} />
+                      <ProductCard product={{...product,type:"home"}} />
                     </div>
                   ))}
                 </div>

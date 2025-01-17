@@ -4,7 +4,7 @@
 @tailwind utilities;
 body{
     font-family: "Josefin Sans", serif;
-     
+    padding-top: 20px;
 }
 
 .custom-btn{
