@@ -45,7 +45,7 @@ const Carousel = () => {
                  loading="lazy"
                 src={item.image}
                 alt={item.title}
-                className="h-full w-full object-cover rounded-lg"
+                className="h-full w-full object-top object-cover rounded-lg"
               />
             </div>
           ))}

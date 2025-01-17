@@ -13,6 +13,8 @@ import { AiOutlineInstagram } from "react-icons/ai";
 import { FiShoppingBag } from "react-icons/fi";
 import { IoMdLogOut } from "react-icons/io";
 import Cookies from "js-cookie";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firestore/store";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -41,11 +43,15 @@ export default function Header() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-  function handlelogout(){
+  async function handlelogout(){
+    console.log("hello");
+    await signOut(auth);
+    const token = Cookies.get('token');
+    console.log(token)
     Cookies.remove('token');
     setisAuthenticated(false);
     setisUserOpen(false);
-    window.location.reload();
+    // window.location.reload();
   }
   async function getcategories() {
     const response = await fetch("https://stile-backend.vercel.app/products");
@@ -79,7 +85,7 @@ export default function Header() {
   };
 
   return (
-    <div className="fixed bg-white top-[40px] w-full z-[200]">
+    <div className="fixed select-none bg-white top-[40px] w-full z-[200]">
       <button
         className="fixed bg-green-500 p-2 rounded-full bottom-8 z-[999] right-3"
         onClick={sendMessage}

@@ -1,18 +1,22 @@
-import Carousel from './carousel'
-import Categories from './categoryslide'
+import { Suspense, lazy } from 'react';
 import './home.css';
-import HomeSub from './homeSub';
-import VideoGallery from './videoGallery';
+import Loading from '../loading/loading';
+
+// Lazy load the components
+const Carousel = lazy(() => import('./carousel'));
+const Categories = lazy(() => import('./categoryslide'));
+const HomeSub = lazy(() => import('./homeSub'));
+const VideoGallery = lazy(() => import('./videoGallery'));
+
 const Home = () => {
   return (
-    <>
-    
-     <VideoGallery/>
-    <Carousel/>
-    <Categories />
-    <HomeSub />
-    </>
-  )
-}
+    <Suspense fallback={<Loading/>}>
+      <VideoGallery />
+      <Carousel />
+      <Categories />
+      <HomeSub />
+    </Suspense>
+  );
+};
 
-export default Home
+export default Home;

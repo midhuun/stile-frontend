@@ -197,11 +197,7 @@ const CustomizeOrder = () => {
         transition={{ duration: 0.8 }}
         className="w-full flex justify-center"
       >
-        <img
-          src="https://via.placeholder.com/800x300?text=Start+Customizing"
-          alt="Customization Banner"
-          className="rounded-lg shadow-md"
-        />
+      
       </motion.div>
       <div className=" py-8 overflow-hidden">
       <h2 className=" text-lg md:text-3xl font-bold mb-6 text-center">Our Clients</h2>

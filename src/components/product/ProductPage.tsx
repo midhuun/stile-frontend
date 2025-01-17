@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Product } from "../../types/CategoryType";
-import { IoCloseSharp, IoHeartSharp } from "react-icons/io5";
+import { IoCloseSharp } from "react-icons/io5";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import { FaTruck } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
@@ -13,6 +13,8 @@ import Loading from "../loading/loading";
 import { useDispatch, useSelector } from "react-redux";
 import store, { RootState } from "../../store/store";
 import { addtoCart, deleteFromCart, removeFromCart, setcart } from "../../store/reducers/cartReducer";
+import { BiSolidHeart } from "react-icons/bi";
+
 const ProductPage = () => {
   const params: any = useParams();
   const { product } = params;
@@ -30,24 +32,29 @@ const ProductPage = () => {
     shipping: false,
     manufacturer: false,
   });
-  const [startX, setStartX] = useState(0);
+  // const [startX, setStartX] = useState(0);
 
-function handleTouchStart(event: React.TouchEvent) {
-  setStartX(event.touches[0].clientX);
-}
+// function handleTouchStart(event: React.TouchEvent) {
+//   setStartX(event.touches[0].clientX);
+// }
 
-function handleTouchMove(event: React.TouchEvent) {
-  const endX = event.touches[0].clientX;
-  const difference = startX - endX;
+// function handleTouchMove(event: React.TouchEvent) {
+//   const endX = event.touches[0].clientX;
+//   const difference = startX - endX;
 
-  if (difference > 100) {
-    handleChangeImage("next");
-    setStartX(0); 
-  } else if (difference < -100) {
-    handleChangeImage("prev");
-    setStartX(0); 
-  }
-} console.log("product",productdata)
+//   if (difference > 100) {
+//     handleChangeImage("next");
+//     setStartX(0); 
+//   } else if (difference < -100) {
+//     handleChangeImage("prev");
+//     setStartX(0); 
+//   }
+// } console.log("product",productdata)
+ 
+const handleDotClick = (index:any) => {
+  setActive(index);
+};
+
    const isProduct = productdata && cart.length>0  && cart?.find((cartItem:any)=>cartItem.product._id === productdata._id && cartItem.selectedSize === activeSize);
   const addToFavorite = async() => {
     if(!isAuthenticated){
@@ -142,7 +149,7 @@ function handleTouchMove(event: React.TouchEvent) {
     <>
     {isimageLoading && <Loading />}
     <div className="w-full p-3 flex justify-center">
-      <div className="flex flex-col md:flex-row justify-center md:justify-start md:gap-10  md:pt-10">
+      <div className="flex flex-col md:flex-row justify-center md:justify-start pt-10 md:gap-10  md:pt-10">
         {/* Left Side - Thumbnails and Main Image */}
         <div className="w-full md:w-[50%] flex flex-col">
           <div className="hidden md:flex md:gap-3">
@@ -163,7 +170,7 @@ function handleTouchMove(event: React.TouchEvent) {
             </div>
             {/* Main Image */}
             <div className="w-4/5 relative">
-            <IoHeartSharp onClick={()=>addToFavorite()} className="absolute cursor-pointer top-4 right-4 text-red-500" size={26} />
+            <BiSolidHeart onClick={()=>addToFavorite()} className="absolute cursor-pointer top-4 right-4 text-red-500" size={26} />
               <img
                 className="w-full h-[90vh] object-top object-cover border"
                 src={productdata?.images?.[active]}
@@ -174,37 +181,52 @@ function handleTouchMove(event: React.TouchEvent) {
 
           {/* Mobile Carousel */}
           <div
-  className="md:hidden h-[70vh] flex overflow-hidden relative"
-  onTouchStart={handleTouchStart}
-  onTouchMove={handleTouchMove}
->
-<IoHeartSharp onClick={()=>addToFavorite()} className="absolute cursor-pointer top-4 right-4 text-red-500" size={26} />
-{isLoading && (
+      className="md:hidden h-[70vh] flex overflow-hidden relative"
+    >
+      <BiSolidHeart
+        onClick={() => addToFavorite()}
+        className="absolute cursor-pointer top-4 right-4 text-red-500"
+        size={26}
+      />
+      {isLoading && (
         <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-md"></div>
       )}
-  <img
-    className="w-full h-full object-cover object-top transition-transform duration-500"
-    src={productdata?.images?.[active]}
-    loading="lazy"
-    onLoad={()=>setisImageLoading(false)}
-    alt="Mobile Product View"
-  />
-  <button
-    onClick={() => handleChangeImage("prev")}
-    className="absolute left-0 top-1/2 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-lg"
-  >
-    <GrFormPrevious />
-  </button>
-  <button
-    onClick={() => handleChangeImage("next")}
-    className="absolute right-0 top-1/2 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-lg"
-  >
-    <GrFormNext />
-  </button>
-</div>
+      <img
+        className="w-full h-full object-cover object-top transition-transform duration-500"
+        src={productdata?.images?.[active]}
+        loading="lazy"
+        onLoad={() => setisImageLoading(false)}
+        alt="Mobile Product View"
+      />
+      <button
+        onClick={() => handleChangeImage("prev")}
+        className="absolute left-0 top-1/2 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-lg"
+      >
+        <GrFormPrevious />
+      </button>
+      <button
+        onClick={() => handleChangeImage("next")}
+        className="absolute right-0 top-1/2 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-lg"
+      >
+        <GrFormNext />
+      </button>
 
-        </div>
-
+      {/* Dots Navigation */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+        {productdata?.images?.map((_, index:number) => (
+          <div
+            key={index}
+            onClick={() => handleDotClick(index)}
+            className={`w-3 h-3 text-[10px]  flex justify-center items-center rounded-full cursor-pointer transition-all ${
+              active === index ? "bg-gray-900 text-white" : "bg-white text-black"
+            }`}
+          >
+           
+            </div>
+        ))}
+      </div>
+    </div>
+   </div>
         {/* Right Side - Product Info */}
         <div className="space-y-4 p-2 md:w-[50%]">
           <h1 className="text-md md:text-4xl">{productdata?.name}</h1>
