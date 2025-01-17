@@ -13,7 +13,7 @@ const VideoGallery = () => {
   const cart = useSelector((state:RootState)=>state.Cart);
   console.log("Redu",cart);
   return (
-    <div className="flex items-center justify-center py-7">
+    <div className="flex items-center justify-center pt-12 pb-2">
       <div className="flex flex-wrap gap-2 md:gap-4 justify-center">
         {videoUrls.map((url:string, index:any) => (
           <div

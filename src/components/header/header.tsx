@@ -22,8 +22,7 @@ import { RootState } from "../../store/store";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [searchOpen,setsearchOpen] = useState(false);
-  const { setisUserOpen,isUserOpen, setiscartOpen, isAuthenticated, setisAuthenticated,isFavouriteOpen,setisFavouriteOpen } = useContext(HeaderContext);
+  const { setisUserOpen,isUserOpen, setiscartOpen, isAuthenticated, setisAuthenticated,isFavouriteOpen,setisFavouriteOpen,searchOpen,setsearchOpen } = useContext(HeaderContext);
   const [isdropDown, setisdropDown] = useState(false);
   const [subcategories, setsubCategories] = useState([]);
   const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
@@ -46,6 +45,7 @@ export default function Header() {
   }
   useEffect(() => {
     isUser();
+    
   }, []);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -92,14 +92,14 @@ export default function Header() {
   };
 
   return (
-    <div className="fixed select-none bg-white top-[40px] w-full z-[200]">
+    <div className="fixed select-none bg-white top-[45px] w-full z-[200]">
       <button
         className="fixed bg-green-500 p-2 rounded-full bottom-8 z-[999] right-3"
         onClick={sendMessage}
       >
         <FaWhatsapp className="text-xl md:text-3xl text-white bg-green-500" />
       </button>
-      <header className="border-b relative flex items-center justify-between shadow-sm p-2 md:px-3">
+      <header className="border-b relative flex items-center justify-between shadow-sm ml-1 py-2  md:h-auto md:px-3">
         <RxHamburgerMenu
           onClick={toggleMenu}
           className="md:hidden text-2xl cursor-pointer"
@@ -231,7 +231,7 @@ export default function Header() {
             </div>
           </div>
         )}
-          <div className={` left-1/2 transform -translate-x-1/2 ${searchOpen ? "absolute" : "hidden"} right-0 z-[999]`}>
+          <div className={`w-full md:w-auto left-1/2 transform -translate-x-1/2 ${searchOpen ? "absolute" : "hidden"} right-0 z-[999]`}>
            <div className="relative">
            
             <button onClick={()=>setsearchOpen(false)} className="absolute right-3 z-[1000] top-3 text-3xl">
@@ -245,12 +245,12 @@ export default function Header() {
        
           <div>
           <button onClick={()=>setsearchOpen(true)}>
-            <CiSearch className="text-xl md:text-2xl" />
+            <CiSearch className="text-2xl" />
           </button>
           </div>
           <div>
           <button onClick={() => setisFavouriteOpen(!isFavouriteOpen)}>
-            <CiHeart className="text-xl md:text-2xl" />
+            <CiHeart className="text-2xl" />
           </button>
           </div>
           {isAuthenticated ?
@@ -268,19 +268,19 @@ export default function Header() {
             </div>
           </div>
           <button onClick={() => setisUserOpen(!isUserOpen)}>
-            <LiaUser className="text-xl md:text-2xl" />
+            <LiaUser className=" text-2xl" />
           </button>
           </div>
           :
           <div>
           <button onClick={() => setisUserOpen(!isUserOpen)}>
-            <LiaUser className="text-xl md:text-2xl" />
+            <LiaUser className=" text-2xl" />
           </button>
           </div>
           }
           <div>
           <button onClick={() => setiscartOpen(true)}>
-            <PiShoppingBagLight className="text-xl md:text-2xl" />
+            <PiShoppingBagLight className=" text-2xl" />
           </button>
           </div>
         </div>

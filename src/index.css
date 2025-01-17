@@ -11,3 +11,14 @@ body{
     font-family: "Josefin Sans", serif;
 
 }
+@media (max-width: 640px) { /* Tailwind's sm breakpoint */
+    .search-autocomplete {
+      height: 35px !important; /* Mobile height */
+    }
+  }
+  
+  @media (min-width: 641px) { /* Above mobile view */
+    .search-autocomplete {
+      height: 50px !important; /* Desktop height */
+    }
+  }

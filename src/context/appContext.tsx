@@ -16,6 +16,8 @@ interface HeaderContextType {
     setFavourites:React.Dispatch<React.SetStateAction<any>>;
     user:{},
     setUser:React.Dispatch<React.SetStateAction<any>>;
+    searchOpen:boolean,
+    setsearchOpen:React.Dispatch<React.SetStateAction<boolean>>;
   }
   
   // Set default values for the context
@@ -34,11 +36,14 @@ interface HeaderContextType {
     setFavourites:()=>{},
     user:{},
     setUser:()=>{},
+    searchOpen:false,
+    setsearchOpen:()=>{},
   };
 export const HeaderContext = createContext<HeaderContextType>(defaultContext);
 
 const HeaderProvider = ({ children }:any) =>{ 
     const [isUserOpen,setisUserOpen] = useState<any>(false);
+    const [searchOpen,setsearchOpen] = useState(false);
     const [iscartOpen,setiscartOpen] = useState<any>(false);
     const [isAuthenticated,setisAuthenticated] = useState<any>(false);
     const [isFavouriteOpen,setisFavouriteOpen] = useState<any>(false);
@@ -49,7 +54,7 @@ const HeaderProvider = ({ children }:any) =>{
     <HeaderContext.Provider
      value={{isUserOpen,setisUserOpen,iscartOpen,setiscartOpen,isAuthenticated,
       setisAuthenticated,cart,setcart,isFavouriteOpen
-      ,setisFavouriteOpen,favourites,setFavourites,user,setUser
+      ,setisFavouriteOpen,favourites,setFavourites,user,setUser,searchOpen,setsearchOpen
     }}>{children}</HeaderContext.Provider>
     )
 }
