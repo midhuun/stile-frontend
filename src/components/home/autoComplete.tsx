@@ -1,7 +1,5 @@
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
-import { Product } from '../../types/CategoryType'
-import { GoSearch } from 'react-icons/go'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 function Auto({items}:any) {
   // note: the id field is mandatory
   const navigate = useNavigate();
@@ -18,7 +16,8 @@ function Auto({items}:any) {
 
   const handleOnSelect = (item:any) => {
     // the item selected
-    navigate(`/product/${item.slug}`)
+    navigate(`/product/${item.slug}`);
+
     console.log(item)
   }
 
