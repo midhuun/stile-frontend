@@ -82,7 +82,7 @@ const handleDotClick = (index:any) => {
    }
    setiscartOpen(true);
    if(value === 'addToCart'){
-           dispatch(addtoCart({...productdata,selectedSize:activeSize}))
+           dispatch(addtoCart({product:productdata,selectedSize:activeSize}))
       }
       if(value === 'removeFromCart'){
         
