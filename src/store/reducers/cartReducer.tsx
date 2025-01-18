@@ -1,37 +1,74 @@
-//@ts-nocheck
 import { createSlice } from "@reduxjs/toolkit";
-const inititalState:any = []
+
+// Define types
+type CartItem = {
+  product: {
+    _id: string;
+    name: string;
+    price: number;
+    description: string;
+    images: string[];
+    sizes: { size: string; stock: number }[];
+    category: string;
+    slug: string;
+    discount?: number;
+    discountedPrice?: number;
+  };
+  selectedSize: string;
+  quantity: number;
+};
+
+type CartState = CartItem[];
+
+// Initial state
+const initialState: CartState = [];
+
+// Create the slice
 const CartSlice = createSlice({
   name: "cart",
-  initialState: inititalState,
-  reducers:{
-    addtoCart:(state:any,action)=>{
-        const exist = state?.find((item:any)=>item.product._id===action.payload._id && item.selectedSize===action.payload.selectedSize);
-        if(exist){
-         const existingIndex = state.findIndex((item:any)=>item.product._id === action.payload._id && item.selectedSize === action.payload.selectedSize);
-         state[existingIndex].quantity += 1
-        }
-        else{
-            state.push({...action.payload,quantity:1})
-        }
+  initialState,
+  reducers: {
+    addtoCart: (state, action) => {
+      const existIndex = state.findIndex(
+        (item) =>
+          item.product._id === action.payload._id &&
+          item.selectedSize === action.payload.selectedSize
+      );
+
+      if (existIndex !== -1) {
+        state[existIndex].quantity += 1;
+      } else {
+        state.push({ ...action.payload, quantity: 1 });
+      }
     },
-    removeFromCart:(state:any,action)=>{
-      return state.map((item:CartType)=>{
-        if(item.product._id===action.payload._id && item.selectedSize===action.payload.selectedSize){
-          return {...item,quantity:Math.max(1,item.quantity-1)}
-        }
-        else{
+    removeFromCart: (state, action) => {
+      return state
+        .map((item) => {
+          if (
+            item.product._id === action.payload._id &&
+            item.selectedSize === action.payload.selectedSize
+          ) {
+            return { ...item, quantity: item.quantity - 1 };
+          }
           return item;
-        }
-       })
-  },
-  deleteFromCart:(state:any,action)=>{
-    return state.filter((item:CartType)=>item.product._id!==action.payload._id && item.selectedSize!==action.payload.selectedSize)
-  },
-  setcart:(state:any,action:any)=>{
-    return action.payload;
-  }
+        })
+        .filter((item) => item.quantity > 0); // Remove items with quantity 0
+    },
+    deleteFromCart: (state, action) => {
+      return state.filter(
+        (item) =>
+          item.product._id !== action.payload._id ||
+          item.selectedSize !== action.payload.selectedSize
+      );
+    },
+    setcart: (_, action) => {
+      return action.payload; // Replace the cart with the new payload
+    },
   },
 });
-export const {addtoCart,removeFromCart,deleteFromCart,setcart} = CartSlice.actions;
+
+// Export actions and reducer
+export const { addtoCart, removeFromCart, deleteFromCart, setcart } =
+  CartSlice.actions;
+
 export default CartSlice.reducer;

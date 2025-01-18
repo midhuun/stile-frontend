@@ -27,6 +27,7 @@ export default function Header() {
   const [subcategories, setsubCategories] = useState([]);
   const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
   const [mobile, setMobile] = useState(null);
+  
   const products = useSelector((state:RootState)=>state.Products);
   console.log("prod",products);
   console.log(mobile);
@@ -91,6 +92,12 @@ export default function Header() {
     setDropdownTimeout(timeout);
   };
   function handlesearch(){
+    const search:any = document.querySelector(".search-autocomplete");
+  if (search) {
+    search.focus();
+  } else {
+    console.error("Element with class 'search-autocomplete' not found.");
+  }
     setsearchOpen(true);
   }
   return (

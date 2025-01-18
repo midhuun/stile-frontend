@@ -32,6 +32,8 @@ const ProductPage = () => {
     shipping: false,
     manufacturer: false,
   });
+  const thisProduct = cart.find((item:any)=>item.product._id === productdata?._id && item.selectedSize === activeSize);
+  console.dir(thisProduct)
   // const [startX, setStartX] = useState(0);
 
 // function handleTouchStart(event: React.TouchEvent) {
@@ -54,8 +56,6 @@ const ProductPage = () => {
 const handleDotClick = (index:any) => {
   setActive(index);
 };
-
-   const isProduct = productdata && cart.length>0  && cart?.find((cartItem:any)=>cartItem.product._id === productdata._id && cartItem.selectedSize === activeSize);
   const addToFavorite = async() => {
     if(!isAuthenticated){
        setisUserOpen(true)
@@ -80,16 +80,18 @@ const handleDotClick = (index:any) => {
       setisUserOpen(true)
       return
    }
+   setiscartOpen(true);
    if(value === 'addToCart'){
-           dispatch(addtoCart({...productdata,selectedSize:activeSize}))
+    console.log("cartvalue",{product:productdata,selectedSize:activeSize});
+          //  dispatch(addtoCart({...productdata,selectedSize:activeSize}))
       }
       if(value === 'removeFromCart'){
-        console.log("cartvalue",value.item);
-         dispatch(removeFromCart({...productdata,selectedSize:activeSize}))
+        
+         dispatch(removeFromCart({product:productdata,selectedSize:activeSize}))
       }
       if(value === 'deleteFromCart'){
         console.log("cartvalue",value.item);
-        dispatch(deleteFromCart({...productdata,selectedSize:activeSize}))
+        dispatch(deleteFromCart({product:productdata,selectedSize:activeSize}))
       }
     const res= await fetch(`https://stile-backend-gnqp.vercel.app/user/${value}`,{
       method: 'POST',
@@ -101,7 +103,7 @@ const handleDotClick = (index:any) => {
     })
     const data = await res.json();
     console.log(data);
-      setiscartOpen(true);
+  
   }
   
   const toggleDropdown = (key: string) => {
@@ -118,13 +120,12 @@ const handleDotClick = (index:any) => {
     }
   };
   useEffect(() => {
-    window.scrollTo(0, 0);
      setisLoading(true);
      getProduct();
      setisLoading(false);
     getCart().then((data) => dispatch(setcart(data))).catch((err) => console.log(err));
      console.log("Redux cart state:", store.getState().Cart);
-  }, [dispatch]);
+  }, [dispatch,activeSize]);
   function handleChangeImage(data: string) {
     if (data === "prev") {
       if (active === 0) return;
@@ -267,7 +268,7 @@ const handleDotClick = (index:any) => {
               >
                 -
               </button>
-              <p className="flex-1 text-center">{isProduct && isProduct.quantity || 1}</p>
+              <p className="flex-1 text-center">{thisProduct && thisProduct.quantity || 1}</p>
               <button
                 onClick={() => handleCart('addToCart')}
                 className="md:px-3 px-2 py-1 md:py-2 hover:bg-gray-200"

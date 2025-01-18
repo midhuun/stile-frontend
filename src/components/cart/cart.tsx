@@ -41,92 +41,105 @@ const CartPage = () => {
     }
   }
   return (
-    <div className=" min-h-screen p-4">
+    <div className=" min-h-screen p-4 mt-7 ">
       
       {verifyOrder && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-80">
-            <h2 className="text-lg font-semibold mb-4">Confirm Order</h2>
-            <p className="text-gray-700">You will receive a call shortly to confirm your order. </p>
-            <p className=" pt-5 font-semibold">Confirm Order?</p>
-            <div className="flex justify-between mt-4">
-            <button
-                onClick={()=>setVerifyOrder(false)}
-                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
-              >
-                Yes
-              </button>
-              <button
-                onClick={()=>setVerifyOrder(false)}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-200"
-              >
-                No
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-      <h1 className="text-lg text-center font-bold pb-4 md:text-2xl uppercase">Checkout</h1>
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 w-[90%] max-w-md mx-auto">
+      {/* Modal Header */}
+      <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-4 text-center sm:text-left">
+        Order Confirmation
+      </h2>
+      
+      {/* Modal Message */}
+      <p className="text-gray-600 text-sm sm:text-base text-center sm:text-left">
+        Thank you for shopping with us! We’ll call you shortly to confirm your order. Please ensure your phone is reachable.
+      </p>
+      
+      {/* Action Prompt */}
+      <p className="mt-6 font-medium text-gray-700 text-base sm:text-lg text-center sm:text-left">
+        Would you like to proceed with this order?
+      </p>
+
+      {/* Action Buttons */}
+      <div className="flex flex-col sm:flex-row justify-between items-center mt-8 gap-4">
+        <button
+          onClick={() => setVerifyOrder(false)}
+          className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold text-sm sm:text-base hover:bg-blue-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+        >
+          Yes, Confirm Order
+        </button>
+        <button
+          onClick={() => setVerifyOrder(false)}
+          className="w-full sm:w-auto px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold text-sm sm:text-base hover:bg-gray-300 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2"
+        >
+          No, Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
       <div className="max-w-screen-xl mx-auto flex flex-col md:flex-row gap-6">
         {/* Address Form Section */}
-        <div className="flex-1 p-4 bg-white rounded-lg border-2 shadow-md">
+        <div className="flex-1  p-4 bg-white rounded-lg border-2 shadow-md">
           <h1 className="text-2xl font-semibold mb-4">Shipping Address</h1>
           <form className=" text-sm">
             <label className="px-2 font-semibold">Full Name <span className="text-red-500">*</span></label>
             <input
               type="text"
               placeholder="Enter your  Name"
-              className="w-full my-3 p-3 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
+              className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
               required
             />
             <label className="px-2 font-semibold">Address<span className="text-red-500">*</span></label>
             <input
               type="text"
               placeholder="Enter your Address"
-              className="w-full my-3 p-3 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
+              className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
               required
             />
             <label className="px-2 font-semibold">Apartment No<span className="text-red-500">*</span></label>
             <input
               type="text"
               placeholder="Apartment, Suite, etc."
-              className="w-full my-3 p-3 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
+              className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
             />
             <label className="px-2 font-semibold">City<span className="text-red-500">*</span></label>
             <input
               type="text"
               placeholder="Enter your City Name"
-              className="w-full my-3 p-3 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
+              className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
               required
             />
             <label className="px-2 font-semibold">State <span className="text-red-500">*</span></label>
             <input
               type="text"
               placeholder="Enter your State Name"
-              className="w-full my-3 p-3 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
+              className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
               required
             />
             <label className="px-2 font-semibold">Pincode<span className="text-red-500">*</span></label>
             <input
               type="text"
               placeholder="Pin Code"
-              className="w-full my-3 p-3 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
+              className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
               required
             />
              <label className="px-2 font-semibold">Alternate Mobile</label>
             <input
               type="text"
               placeholder="Mobile Number"
-              className="w-full my-3 p-3 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
+              className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
             />
           </form>
         </div>
 
         {/* Cart Summary Section */}
-        <div className="flex-1 p-4 bg-white rounded-lg border-2 shadow-md">
-          <h1 className="text-xl  font-semibold border-b pb-2 uppercase">Your Cart</h1>
+        <div className="flex-1 p-4 order-1 md:order-none bg-white rounded-lg border-2 shadow-md">
+          <h1 className="text-lg md:text-xl  font-semibold border-b pb-2 ">Order Summary</h1>
           {cart.length === 0 ? (
-            <p className="text-center text-gray-500">
+            <p className="text-center text-[12px] md:text-md text-gray-500">
               Your cart is empty. Add some products to proceed!
             </p>
           ) : (
@@ -145,7 +158,7 @@ const CartPage = () => {
                         className="w-[60px] h-[60px] object-cover"
                       />
                       <div>
-                        <h2 className="text-lg font-medium">
+                        <h2 className="md:text-lg text-md font-medium">
                           {item?.product?.name}
                         </h2>
                         <p className="text-sm text-gray-500">
@@ -163,8 +176,6 @@ const CartPage = () => {
 
               {/* Order Summary Section */}
               <div className="mt-6 p-6 border border-gray-300 rounded-lg bg-white shadow-xl w-full">
-      <h2 className="text-2xl font-semibold mb-4 text-gray-800">Order Summary</h2>
-      
       <div className="flex justify-between text-sm text-gray-600 mb-3">
         <p>Subtotal</p>
         <p className="font-medium text-gray-800">Rs. {calculateTotal()}</p>
