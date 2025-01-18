@@ -217,11 +217,11 @@ const OtpLoginPopup = () => {
                     <input
                       key={index}
                       id={`otp-input-${index}`}
-                      type="text"
+                      type="number"
                       maxLength={1}
                       value={digit}
                       onChange={(e) => handleOtpChange(e, index)}
-                      className="md:w-12 md:h-12 h-7 w-7 text-center border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      className="md:w-12 md:h-12 h-7 w-7 text-center border-b border-black no-arrows focus:border-black focus:outline-none"
                     />
                   ))}
                 </div>

@@ -90,7 +90,9 @@ export default function Header() {
     }, 600); 
     setDropdownTimeout(timeout);
   };
-
+  function handlesearch(){
+    setsearchOpen(true);
+  }
   return (
     <div className="fixed select-none bg-white top-[45px] w-full z-[200]">
       <button
@@ -231,12 +233,8 @@ export default function Header() {
             </div>
           </div>
         )}
-          <div className={`w-full md:w-auto left-1/2 transform -translate-x-1/2 ${searchOpen ? "absolute" : "hidden"} right-0 z-[999]`}>
+          <div className={`w-full md:w-auto -top-5 bg-white  md:top-1/2 md:-translate-y-[60%]  left-1/2 transform -translate-x-1/2 ${searchOpen ? "absolute" : "hidden"} right-0 z-[999]`}>
            <div className="relative">
-           
-            <button onClick={()=>setsearchOpen(false)} className="absolute right-3 z-[1000] top-3 text-3xl">
-           <IoCloseOutline className="" />
-           </button>
             <Auto items={products} />
             </div>
           </div>
@@ -244,7 +242,7 @@ export default function Header() {
         <div className="flex  items-center justify-end space-x-1 md:space-x-2 px-3">
        
           <div>
-          <button onClick={()=>setsearchOpen(true)}>
+          <button onClick={()=>handlesearch()}>
             <CiSearch className="text-2xl" />
           </button>
           </div>
