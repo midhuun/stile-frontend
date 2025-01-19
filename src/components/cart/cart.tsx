@@ -6,11 +6,13 @@ import { setcart } from "../../store/reducers/cartReducer";
 import { RootState } from "../../store/store";
 import { SiRazorpay } from "react-icons/si";
 import {  BsCashCoin } from "react-icons/bs";
-
+import { Slide, ToastContainer,toast } from "react-toastify";
 const CartPage = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state:RootState)=>state.Cart);
-  const [paymentMethod, setPaymentMethod] = useState('razorpay');
+  const [paymentMethod, setPaymentMethod] = useState('Razorpay');
+  const [address,setAddress] = useState({});
+  const [pincode,setpincode] = useState<any>(null);
   const [verifyOrder,setVerifyOrder] = useState(false);
   const shippingCharge = paymentMethod === 'cod' ? 100 : 0;
   console.log("Reducer",cart);
@@ -22,7 +24,7 @@ const CartPage = () => {
     );
   };
   const { isAuthenticated } = useContext(HeaderContext);
- 
+  const total = calculateTotal();
   useEffect(() => {
     window.scrollTo(0, 0);
     console.log("login page mounted")
@@ -40,9 +42,19 @@ const CartPage = () => {
      console.log("cooo")
     }
   }
+ async function handleOrder(){
+    setVerifyOrder(false);
+    const res = await fetch("https://stile-backend-gnqp.vercel.app/user/order",{credentials:'include',method:'POST',body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode})});
+    const data = await res.json();
+    console.log(data);
+  }
+ function handleAddress(e:any){
+   e.preventDefault();
+   toast.success("Address Updated 🎉");
+ }
   return (
     <div className=" min-h-screen p-4 mt-7 ">
-      
+    <ToastContainer position="top-left" autoClose={3000} theme="light" transition={Slide} />
       {verifyOrder && (
   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
     <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 w-[90%] max-w-md mx-auto">
@@ -64,7 +76,7 @@ const CartPage = () => {
       {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row justify-between items-center mt-8 gap-4">
         <button
-          onClick={() => setVerifyOrder(false)}
+          onClick={()=>handleOrder()}
           className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold text-sm sm:text-base hover:bg-blue-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
         >
           Yes, Confirm Order
@@ -84,10 +96,12 @@ const CartPage = () => {
         {/* Address Form Section */}
         <div className="flex-1  p-4 bg-white rounded-lg border-2 shadow-md">
           <h1 className="text-2xl font-semibold mb-4">Shipping Address</h1>
-          <form className=" text-sm">
+          <form onSubmit={handleAddress} className=" text-sm">
             <label className="px-2 font-semibold">Full Name <span className="text-red-500">*</span></label>
             <input
               type="text"
+              onChange={(e:any)=>setAddress((prev)=>({...prev,name:e.target.value}))
+              }
               placeholder="Enter your  Name"
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
               required
@@ -96,6 +110,7 @@ const CartPage = () => {
             <input
               type="text"
               placeholder="Enter your Address"
+              onChange={(e:any)=>setAddress((prev)=>({...prev,Location:e.target.value}))}
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
               required
             />
@@ -103,18 +118,21 @@ const CartPage = () => {
             <input
               type="text"
               placeholder="Apartment, Suite, etc."
+              onChange={(e:any)=>setAddress((prev)=>({...prev,Apartment:e.target.value}))}
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
             />
             <label className="px-2 font-semibold">City<span className="text-red-500">*</span></label>
             <input
               type="text"
               placeholder="Enter your City Name"
+              onChange={(e:any)=>setAddress((prev)=>({...prev,city:e.target.value}))}
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
               required
             />
             <label className="px-2 font-semibold">State <span className="text-red-500">*</span></label>
             <input
               type="text"
+              onChange={(e:any)=>setAddress((prev)=>({...prev,city:e.target.value}))}
               placeholder="Enter your State Name"
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
               required
@@ -123,6 +141,7 @@ const CartPage = () => {
             <input
               type="text"
               placeholder="Pin Code"
+              onChange={(e:any)=>setpincode(e.target.value)}
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
               required
             />
@@ -131,7 +150,12 @@ const CartPage = () => {
               type="text"
               placeholder="Mobile Number"
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
+              onChange={(e:any)=>setAddress((prev)=>({...prev,alternateMobile:e.target.value}))}
             />
+            <div className="flex w-full justify-center">
+            <button type="submit" className="px-3 w-full bg-[#070b2a] text-white border  py-2">Update</button>
+            </div>
+          
           </form>
         </div>
 
@@ -155,7 +179,7 @@ const CartPage = () => {
                       <img
                         src={item?.product?.images[0]}
                         alt={item?.product?.name}
-                        className="w-[60px] h-[60px] object-cover"
+                        className="w-[60px] h-[60px] object-top object-cover"
                       />
                       <div>
                         <h2 className="md:text-lg text-md font-medium">
@@ -197,8 +221,8 @@ const CartPage = () => {
             <input 
               type="radio" 
               name="paymentMethod" 
-              value="razorpay" 
-              checked={paymentMethod === 'razorpay'} 
+              value="Razorpay" 
+              checked={paymentMethod === 'Razorpay'} 
               onChange={handlePaymentChange} 
               className="hidden"
             />
@@ -240,7 +264,7 @@ const CartPage = () => {
                 <span>🔒</span>
                 <p>Your payment is secure and encrypted.</p>
               </div>
-      <button onClick={handlePayment} className={`mt-6 w-full py-2  bg-black text-white rounded-lg hover:bg-gray-800 transition duration-200`}>
+      <button onClick={handlePayment} className={`mt-6 w-full py-2  bg-[#070b2a] text-white rounded-lg hover:bg-gray-800 transition duration-200`}>
       {paymentMethod === 'cod' ? ' Place Order' : 'Pay Now'}
       </button>
       <p className="text-sm text-gray-500 mt-2">

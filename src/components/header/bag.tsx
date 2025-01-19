@@ -49,7 +49,7 @@ const Bag = () => {
   }
   return (
     <div
-      className={`!top-0 right-0 min-h-screen w-full fixed duration-200 sm:w-[350px] bg-white z-[999] overflow-y-auto shadow-lg rounded-lg ${
+      className={`!top-0 right-0 min-h-screen w-full fixed duration-200 sm:w-[380px] bg-white z-[999] overflow-y-auto shadow-lg rounded-lg ${
         iscartOpen ? "translate-x-0" : "translate-x-[100%]"
       }`}
     >
