@@ -11,7 +11,7 @@ import Suggestion from "./suggestion";
 import { getCart, getFavourites } from "../../utils/getItems";
 import Loading from "../loading/loading";
 import { useDispatch, useSelector } from "react-redux";
-import store, { RootState } from "../../store/store";
+import  { RootState } from "../../store/store";
 import { addtoCart, deleteFromCart, removeFromCart, setcart } from "../../store/reducers/cartReducer";
 import { BiSolidHeart } from "react-icons/bi";
 
@@ -19,7 +19,7 @@ const ProductPage = () => {
   const params: any = useParams();
   const { product } = params;
   const [productdata, setproductdata] = useState<Product | null>(null);
-  const [isimageLoading, setisImageLoading] = useState(true);
+  // const [isimageLoading, setisImageLoading] = useState(true);
   const cart = useSelector((state:RootState)=>state.Cart);
   const {setiscartOpen,setisFavouriteOpen,setFavourites,isAuthenticated,setisUserOpen} = useContext<any>(HeaderContext);
   const dispatch = useDispatch<any>();
@@ -32,8 +32,8 @@ const ProductPage = () => {
     shipping: false,
     manufacturer: false,
   });
-  const thisProduct = cart.find((item:any)=>item.product._id === productdata?._id && item.selectedSize === activeSize);
-  console.dir(thisProduct)
+  const thisProduct = cart?.find((item:any)=>item.product._id === productdata?._id && item.selectedSize === activeSize);
+  console.log(thisProduct);
   // const [startX, setStartX] = useState(0);
 
 // function handleTouchStart(event: React.TouchEvent) {
@@ -52,7 +52,7 @@ const ProductPage = () => {
 //     setStartX(0); 
 //   }
 // } console.log("product",productdata)
- 
+console.log(productdata)
 const handleDotClick = (index:any) => {
   setActive(index);
 };
@@ -61,7 +61,7 @@ const handleDotClick = (index:any) => {
        setisUserOpen(true)
        return
     }
-    const res= await fetch(`https://stile-backend-gnqp.vercel.app/user/addtoFavourites`,{
+    const res= await fetch(`http://localhost:3000/user/addtoFavourites`,{
       method: 'POST',
       credentials:'include',
       headers: {
@@ -92,7 +92,7 @@ const handleDotClick = (index:any) => {
         console.log("cartvalue",value.item);
         dispatch(deleteFromCart({product:productdata,selectedSize:activeSize}))
       }
-    const res= await fetch(`https://stile-backend-gnqp.vercel.app/user/${value}`,{
+    const res= await fetch(`http://localhost:3000/user/${value}`,{
       method: 'POST',
       credentials:'include',
       headers: {
@@ -101,7 +101,9 @@ const handleDotClick = (index:any) => {
       body: JSON.stringify({productdata,selectedSize:activeSize})
     })
     const data = await res.json();
-    console.log(data);
+    console.log(data)
+    getCart().then((item:any)=>dispatch(setcart(item)));
+
   
   }
   
@@ -112,18 +114,19 @@ const handleDotClick = (index:any) => {
     try {
       const response = await fetch(`https://stile-backend.vercel.app/product/${product}`);
       const data = await response.json();
-      console.log(data);
       setproductdata(data[0]);
     } catch (err) {
       console.log(err);
     }
   };
   useEffect(() => {
+    window.scrollTo(0,0);
      setisLoading(true);
      getProduct();
-     setisLoading(false);
+     setTimeout(() => {
+      setisLoading(false);
+     }, 700);
     getCart().then((data) => dispatch(setcart(data))).catch((err) => console.log(err));
-     console.log("Redux cart state:", store.getState().Cart);
   }, [dispatch,activeSize]);
   function handleChangeImage(data: string) {
     if (data === "prev") {
@@ -147,7 +150,7 @@ const handleDotClick = (index:any) => {
   console.log("cart",cart);
   return (
     <>
-    {isimageLoading && <Loading />}
+    {isLoading && <Loading />}
     <div className="w-full p-3 flex justify-center">
       <div className="flex flex-col md:flex-row justify-center md:justify-start pt-10 md:gap-10  md:pt-10">
         {/* Left Side - Thumbnails and Main Image */}
@@ -161,7 +164,7 @@ const handleDotClick = (index:any) => {
                   key={index}
                   src={image}
                   alt={`Thumbnail ${index + 1}`}
-                  className={`w-3/4 h-auto cursor-pointer border ${
+                  className={`w-3/4  h-auto cursor-pointer border ${
                     active === index ? "border-black" : "border-gray-200"
                   }`}
                   onClick={() => handleThumbnailClick(index)}
@@ -176,6 +179,7 @@ const handleDotClick = (index:any) => {
                 src={productdata?.images?.[active]}
                 alt="Main Product"
               />
+              <div className="absolute z-[-100] h-[90vh] w-full inset-0 overflow-hidden bg-gray-400 animate-pulse"></div>
             </div>
           </div>
 
@@ -282,7 +286,7 @@ const handleDotClick = (index:any) => {
             <Link to='/checkout' className="w-full text-sm md:text-md py-3 bg-black text-center text-white rounded-md hover:opacity-90">
               Buy Now
             </Link>
-            <button onClick={()=>handleCart('addToCart')} className="w-full text-sm md:text-md py-3 border border-gray-500 rounded-md hover:border-black">
+            <button onClick={()=>handleCart('addToCart')} className={` ${thisProduct?" cursor-not-allowed":"cursor-pointer"}w-full text-sm md:text-md py-3 border border-gray-500 rounded-md hover:border-black`}>
               Add to Cart
             </button>
           </div>

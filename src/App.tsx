@@ -7,7 +7,7 @@ import OtpLoginPopup from './components/login/login';
 import Offer from './components/offer';
 import { Suspense, lazy } from 'react';
 import Loading from './components/loading/loading';
-const Home = lazy(() => import('./components/home/home'));
+import Home from './components/home/home';
 const About = lazy(() => import('./components/about/about'));
 const CategoryPage = lazy(() => import('./components/categoryPage/categoryPage'));
 const ProductPage = lazy(() => import('./components/product/ProductPage'));
@@ -18,9 +18,6 @@ const ShippingPolicy = lazy(() => import('./components/FooterDetails/shippingPol
 const ReturnAndExchanges = lazy(() => import('./components/FooterDetails/returnExchange'));
 const TermsAndConditions = lazy(() => import('./components/FooterDetails/terms'));
 const Account = lazy(() => import('./account/account'));
-const Bag = lazy(()=>import('./components/header/bag'));
-const Favorites = lazy(() => import('./components/header/favourite'));
-
 function App() {
   return (
     <>
@@ -30,9 +27,7 @@ function App() {
           <Offer />
           <div className="md:pt-[90px] pt-[40px]">
             <Header />
-            <Bag />
-            <Favorites />
-            <Suspense fallback={<Loading />}>
+            <Suspense fallback={<Loading/>}>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/product/:product" element={<ProductPage />} />

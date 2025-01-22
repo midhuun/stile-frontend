@@ -13,6 +13,7 @@ const CartPage = () => {
   const [paymentMethod, setPaymentMethod] = useState('Razorpay');
   const [address,setAddress] = useState({});
   const [pincode,setpincode] = useState<any>(null);
+  const [isupdated,setisupdated] = useState(false);
   const [verifyOrder,setVerifyOrder] = useState(false);
   const shippingCharge = paymentMethod === 'cod' ? 100 : 0;
   console.log("Reducer",cart);
@@ -44,13 +45,20 @@ const CartPage = () => {
   }
  async function handleOrder(){
     setVerifyOrder(false);
-    const res = await fetch("https://stile-backend-gnqp.vercel.app/user/order",{credentials:'include',method:'POST',body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode})});
+  
+    if(!isupdated){
+      toast.warn("Please update Address !!!");
+      return
+    }
+    const res = await fetch("http://localhost:3000/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode})});
     const data = await res.json();
     console.log(data);
   }
  function handleAddress(e:any){
    e.preventDefault();
+   setisupdated(true);
    toast.success("Address Updated 🎉");
+  
  }
   return (
     <div className=" min-h-screen p-4 mt-7 ">

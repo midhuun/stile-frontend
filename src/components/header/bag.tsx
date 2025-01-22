@@ -12,13 +12,17 @@ const Bag = () => {
   const { iscartOpen, setiscartOpen,isAuthenticated } = useContext(HeaderContext);
   const cart = useSelector((state:RootState)=>state.Cart);
   const dispatch = useDispatch();
+  async function fetchCart() {
+    const cartItems = await getCart();
+    console.log("csrt",cartItems);
+    dispatch(setcart(cartItems));
+  }
   useEffect(() => {
-    window.scrollTo(0, 0);
     console.log(isAuthenticated);
-    if(isAuthenticated){
-      getCart().then((data:any) => dispatch(setcart(data))).catch((err:any)=>console.log(err))
-    }
-  }, []);
+    console.log("Bag mounted");
+     fetchCart();
+  }, [dispatch]);
+  console.log(cart);
   const handleCart = async(value:any) => {
     if(!isAuthenticated){
       alert('Please login to proceed');
@@ -36,7 +40,7 @@ const Bag = () => {
       console.log("cartvalue",value.item);
       dispatch(deleteFromCart({...value.item,selectedSize:value.size}))
     }
-    const res= await fetch(`https://stile-backend-gnqp.vercel.app/user/${value.value}`,{
+    const res= await fetch(`http://localhost:3000/user/${value.value}`,{
       method: 'POST',
       credentials:'include',
       headers: {
@@ -103,7 +107,7 @@ const Bag = () => {
           <h2 className="text-lg md:text-xl font-light text-gray-900">Your Bag</h2>
           <hr />
           <div className="space-y-10 flex flex-col items-center justify-center">
-            <p>Oops....Your Cart is Empty</p>
+            <p>Oops....Your Bag is Empty</p>
             <Link to='/'>
               <button className="p-3 w-full font-light text-xs border bg-black text-white rounded-lg transition duration-200 hover:bg-gray-800">Shop Now</button>
             </Link>

@@ -16,8 +16,12 @@ import Cookies from "js-cookie";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firestore/store";
 import Auto from "../home/autoComplete";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { getProducts } from "../../utils/getItems";
+import { setProduct } from "../../store/reducers/productReducer";
+import Bag from "./bag";
+import Favorites from "./favourite";
 
 
 export default function Header() {
@@ -27,12 +31,11 @@ export default function Header() {
   const [subcategories, setsubCategories] = useState([]);
   const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
   const [mobile, setMobile] = useState(null);
-  
   const products = useSelector((state:RootState)=>state.Products);
-  console.log("prod",products);
+  const dispatch = useDispatch();
   console.log(mobile);
   async function isUser() {
-    const response = await fetch("https://stile-backend-gnqp.vercel.app/user", { credentials: 'include' });
+    const response = await fetch("http://localhost:3000/user", { credentials: 'include' });
     const data = await response.json();
     if (data) {
       console.log(data);
@@ -44,9 +47,13 @@ export default function Header() {
       setisAuthenticated(false);
     }
   }
+  async function fetchProducts(){
+    const products = await getProducts();
+    dispatch(setProduct(products));
+  }
   useEffect(() => {
     isUser();
-    
+    fetchProducts();
   }, []);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -101,6 +108,9 @@ export default function Header() {
     setsearchOpen(true);
   }
   return (
+    <>
+    <Bag />
+    <Favorites />
     <div className="fixed select-none bg-white top-[45px] w-full z-[200]">
       <button
         className="fixed bg-green-500 p-2 rounded-full bottom-8 z-[999] right-3"
@@ -108,7 +118,7 @@ export default function Header() {
       >
         <FaWhatsapp className="text-xl md:text-3xl text-white bg-green-500" />
       </button>
-      <header className="border-b relative flex items-center justify-between shadow-sm ml-1 py-2  md:h-auto md:px-3">
+      <header className="border-b relative flex items-center justify-between shadow-sm ml-3 py-2  md:h-auto md:px-3">
         <RxHamburgerMenu
           onClick={toggleMenu}
           className="md:hidden text-2xl cursor-pointer"
@@ -291,5 +301,6 @@ export default function Header() {
         </div>
       </header>
     </div>
+    </>
   );
 }

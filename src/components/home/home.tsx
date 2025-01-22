@@ -1,21 +1,23 @@
 import { Suspense, lazy } from 'react';
 import './home.css';
 import Loading from '../loading/loading';
-
 // Lazy load the components
-const Carousel = lazy(() => import('./carousel'));
-const Categories = lazy(() => import('./categoryslide'));
+import Carousel from './carousel';
+import Categories from './categoryslide';
 const HomeSub = lazy(() => import('./homeSub'));
 const VideoGallery = lazy(() => import('./videoGallery'));
 
 const Home = () => {
   return (
+    <>
+     <VideoGallery />
+     <Carousel />
+    
     <Suspense fallback={<Loading/>}>
-      <VideoGallery />
-      <Carousel />
       <Categories />
       <HomeSub />
     </Suspense>
+    </>
   );
 };
 

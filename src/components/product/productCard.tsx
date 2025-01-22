@@ -9,7 +9,7 @@ const ProductCard = ({product}:any) => {
   const [currentImage, setCurrentImage] = useState<any>(product.images[0]);
   const {setFavourites,setisFavouriteOpen} = useContext<any>(HeaderContext);
     const addToFavorite = async() => {
-       const res= await fetch(`https://stile-backend-gnqp.vercel.app/user/addtoFavourites`,{
+       const res= await fetch(`http://localhost:3000/user/addtoFavourites`,{
          method: 'POST',
          credentials:'include',
          headers: {
@@ -33,11 +33,11 @@ const ProductCard = ({product}:any) => {
         setCurrentImage(product.images[0]); // Revert to the original image
       };
   return (
-    <div className={`h-[350px] flex flex-col ${product.type === 'home' ? 'w-[140px]' :"w-[49%] xs:w-[32%] sm:w-[30%]" }  h-[320px]  md:h-[560px] md:w-[350px]`} key={product?._id}>
+    <div className={`h-[350px] flex flex-col ${product.type === 'home' ? 'w-[140px]' :"w-[49%] xs:w-[32%] sm:w-[30%]" } h-[320px]  md:h-[560px] md:w-[350px]`} key={product?._id}>
        <Link to={`/product/${product.slug}`}>
       <div className='overflow-hidden relative h-[220px] md:h-[450px]'>
         <PiHeartStraightFill onClick={()=>addToFavorite()} title='Add To Favourites' className='text-red-500 z-[40] text-xl md:text-3xl absolute top-1 right-1' />
-        <img onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="w-full border object-top tranition-all duration-[1s]  h-[230px] md:h-[450px] object-cover hover:scale-110 " src={currentImage} alt="" />
+        <img onMouseEnter={handleMouseEnter} loading='lazy' onMouseLeave={handleMouseLeave} className="w-full border object-top tranition-all duration-[1s]  h-[230px] md:h-[450px] object-cover hover:scale-110 " src={`${currentImage}?w=380&h=450&q=75`} alt="" />
         </div>
         <div className="md:p-2 py-2 ">  
           <div className='h-5 overflow-hidden flex items-center'>
