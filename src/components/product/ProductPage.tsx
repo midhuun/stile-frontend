@@ -199,7 +199,7 @@ const handleDotClick = (index:any) => {
         className="w-full h-full object-cover object-top transition-transform duration-500"
         src={productdata?.images?.[active]}
         loading="lazy"
-        onLoad={() => setisImageLoading(false)}
+        onLoad={() => setisLoading(false)}
         alt="Mobile Product View"
       />
       <button
