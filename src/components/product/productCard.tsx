@@ -1,4 +1,4 @@
-import  {  useContext, useState } from 'react'
+import  {  useState } from 'react'
 import { Link } from 'react-router-dom'
 // import { HeaderContext } from '../../context/appContext';
 // import { getFavourites } from '../../utils/getItems';
