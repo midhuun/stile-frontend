@@ -111,7 +111,7 @@ const Carousel = () => {
         <img
           src="/custom.gif"
           alt="Customize GIF"
-          className="md:h-[600px] sm:h-[450px] h-[250px] min-w-full object-contain"
+          className="md:h-[600px] sm:h-[450px] h-[250px] min-w-full object-cover"
         />
 
         {/* Button */}
