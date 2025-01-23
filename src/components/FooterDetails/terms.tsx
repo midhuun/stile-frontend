@@ -230,6 +230,7 @@ We reserve the right, at our sole discretion, to update, change or replace any p
           <li>Email: <a href="mailto:support@stilesagio.com" className="text-blue-500">support@stilesagio.com</a></li>
           <li>Phone: +91 9677966333</li>
           <li>Address: TVT TEXTILES, 65, 6th Street, Padmini Gardens, Kangeyam Road, Tirupur - 641604, India</li>
+          <li>GSTIN NO : 33AVSPT6748B1Z5</li>
         </ul>
       </section>
       </div>
