@@ -44,7 +44,7 @@ const Carousel = () => {
             items.map((item: any) => (
               <div
                 key={item._id}
-                className="w-full h-[350px] md:h-[600px] flex-shrink-0 flex items-center justify-center"
+                className="w-full h-[300px] md:h-[600px] flex-shrink-0 flex items-center justify-center"
               >
                 {isLoading ? (
                   // Skeleton Loader
@@ -107,7 +107,7 @@ const Carousel = () => {
       </div>
 
       {/* Customize Section */}
-      <div className="relative flex-1 h-[300px] md:h-[600px] w-full md:w-[50%] overflow-hidden bg-gray-100 rounded-lg flex flex-col justify-between items-center">
+      <div className="relative flex-1 h-[250px] md:h-[600px] w-full md:w-[50%] overflow-hidden bg-gray-100 rounded-lg flex flex-col justify-between items-center">
         <img
           src="/custom.gif"
           alt="Customize GIF"
