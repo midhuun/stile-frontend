@@ -32,7 +32,7 @@ const Carousel = () => {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 items-center justify-center h-[120vh] md:h-[700px] min-w-full p-4">
+    <div className="flex flex-col md:flex-row gap-4 items-center justify-center h-[300px] md:h-[700px] min-w-full p-4">
       {/* Carousel Section */}
       <div className="relative flex-1 min-h-[300px] md:min-h-[600px] w-full md:w-[50%] overflow-hidden bg-gray-100 rounded-lg flex flex-col justify-between">
         {/* Carousel Wrapper */}
