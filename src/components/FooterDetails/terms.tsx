@@ -229,14 +229,25 @@ All legal Disputes are subject to Tirupur Jurisdiction
        </p>
         </section>
         <section>
-          <h2 className="text-lg md:text-xl font-semibold">"AS IS" and "AS AVAILABLE" Disclaimer</h2>
+          <h2 className="text-lg md:text-xl font-semibold">SECTION 19 - CHANGES TO TERMS OF SERVICE</h2>
           <p className="text-sm md:text-base">
-          The Service is provided to You "AS IS" and "AS AVAILABLE" and with all faults and defects without warranty of any kind. To the maximum extent permitted under applicable law, the Company, on its own behalf and on behalf of its Affiliates and its and their respective licensors and service providers, expressly disclaims all warranties, whether express, implied, statutory or otherwise, with respect to the Service, including all implied warranties of merchantability, fitness for a particular purpose, title and non-infringement, and warranties that may arise out of course of dealing, course of performance, usage or trade practice. Without limitation to the foregoing, the Company provides no warranty or undertaking, and makes no representation of any kind that the Service will meet Your requirements, achieve any intended results, be compatible or work with any other software, applications, systems or services, operate without interruption, meet any performance or reliability standards or be error free or that any errors or defects can or will be corrected.
-Without limiting the foregoing, neither the Company nor any of the company's provider makes any representation or warranty of any kind, express or implied: (i) as to the operation or availability of the Service, or the information, content, and materials or products included thereon; (ii) that the Service will be uninterrupted or error-free; (iii) as to the accuracy, reliability, or currency of any information or content provided through the Service; or (iv) that the Service, its servers, the content, or e-mails sent from or on behalf of the Company are free of viruses, scripts, trojan horses, worms, malware, timebombs or other harmful components.
-Some jurisdictions do not allow the exclusion of certain types of warranties or limitations on applicable statutory rights of a consumer, so some or all of the above exclusions and limitations may not apply to You. But in such a case the exclusions and limitations set forth in this section shall be applied to the greatest extent enforceable under applicable law.
+          You can review the most current version of the Terms of Service at any time at this page.
+We reserve the right, at our sole discretion, to update, change or replace any part of these Terms of Service by posting updates and changes to our website. It is your responsibility to check our website periodically for changes. Your continued use of or access to our website or the Service following the posting of any changes to these Terms of Service constitutes acceptance of those changes.
 
        </p>
         </section>
+        
+        <section className="mb-6">
+        <h2 className="md:text-2xl text-lg font-semibold text-gray-800 mb-4">Contact Us</h2>
+        <p className="text-gray-700 mb-4">
+        If you have any questions about these Terms and Conditions, You can contact us:
+        </p>
+        <ul className="list-inside md:text-lg text-sm list-disc text-gray-700">
+          <li>Email: <a href="mailto:support@stilesagio.com" className="text-blue-500">support@stilesagio.com</a></li>
+          <li>Phone: +91 9677966333</li>
+          <li>Address: TVT TEXTILES, 65, 6th Street, Padmini Gardens, Kangeyam Road, Tirupur - 641604, India</li>
+        </ul>
+      </section>
       </div>
     </div>
   );
