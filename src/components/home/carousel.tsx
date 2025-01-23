@@ -100,7 +100,7 @@ const Carousel = () => {
 
         {/* Button */}
         <div className="absolute bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2">
-          <button className="hover:bg-black hover:text-white text-[12px] text-black md:text-sm py-1 px-3 md:py-3 md:font-semibold md:px-6 rounded bg-white transition duration-300">
+          <button className="hover:bg-black border hover:text-white text-[12px] text-black md:text-sm py-1 px-3 md:py-3 md:font-semibold md:px-6 rounded bg-white transition duration-300">
             Shop Now
           </button>
         </div>
