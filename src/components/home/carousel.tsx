@@ -51,8 +51,14 @@ const Carousel = () => {
                   <div className="w-full h-[300px] md:h-[600px] bg-gray-200 animate-pulse rounded-lg"></div>
                 ) : (
                   <img
+                    
                     loading="lazy"
-                    src={`${item.image}?w=500&h=500&q=30`}
+                    srcSet={`
+                      ${item.image}?w=300&h=300&q=30&format=webp 300w,
+                      ${item.image}?w=500&h=500&q=30&format=webp 500w,
+                      ${item.image}?w=800&h=800&q=30&format=webp 800w
+                    `}
+                    src={`${item.image}?w=500&h=500&q=30&format=webp`}
                     alt={item.title}
                     className="md:h-[600px] sm:h-[450px] h-[350px] min-w-full object-top object-cover rounded-lg"
                   />

@@ -18,12 +18,12 @@ const Categories = () => {
   return (
     <>
     {loading && <Loading />}
-    <div className='mt-5 px-2 md:px-6 uppercase md:text-xl text-sm font-bold'>Shop by Subcategories</div>
-    <div className='flex px-2 md:px-3  gap-3  py-3 md:py-10 flex-wrap '>
+    <div className='mt-5 px-2 md:px-6  md:text-xl  text-sm font-bold'>Most Popular</div>
+    <div className='flex px-2 md:px-3 gap-2 md:gap-3 min-h-[320px] py-3 md:py-7 overflow-x-auto '>
     {categories.length>0 ? categories.map((category:any)=>
-    <div className=' flex flex-col w-[48%] md:w-[350px] sm:w-[32%] justify-center gap-1 md:gap-4' key={category._id}>
-        <Link to={`/subcategory/${category.slug}`}><img loading="lazy" className='h-[250px] xs:h-[300px]   border w-full md:h-[460px] md:w-[350px] object-top object-cover ' src={`${category.image}?w=400&h=500&q=75`} alt="" /></Link>
-        <p className='text-[12px] overflow-hidden tracking-wide break-words font-medium h-10 md:text-[16px] uppercase'>{category.name}</p>
+    <div className=' flex flex-col min-w-[140px] md:min-w-[350px] sm:w-[32%] justify-center gap-1 md:gap-4' key={category._id}>
+        <Link to={`/subcategory/${category.slug}`}><img loading="lazy" className='rounded-md h-[230px] xs:h-[300px]   border w-full md:h-[450px]  object-top object-cover ' src={`${category.image}?w=400&h=500&q=75`} alt="" /></Link>
+        <p className='text-[12px] overflow-hidden  break-words h-10 md:text-[18px] '>{category.name}</p>
     </div>
     ):null}
     </div>

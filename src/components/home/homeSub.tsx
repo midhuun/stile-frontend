@@ -50,7 +50,7 @@ const HomeSub = () => {
                 <h1 className="font-semibold text-lg md:text-xl ">{subcategory.name}</h1>
                 <Link to={`/subcategory/${subcategory.slug}`}><h1 className="text-xs md:text-lg underline px-2">View All</h1></Link>
                 </div>
-                <div className="flex md:justify-start  overflow-x-scroll gap-2 md:gap-4">
+                <div className="flex min-h-[350px] md:justify-start  overflow-x-scroll gap-2 md:gap-4">
                   {uniqueProducts.map((product:any, index:number) => (
                     <div  key={index}>
                       <ProductCard product={{...product,type:"home"}} />

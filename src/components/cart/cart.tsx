@@ -27,17 +27,17 @@ const CartPage = () => {
   const { isAuthenticated } = useContext(HeaderContext);
   const total = calculateTotal();
   useEffect(() => {
-    window.scrollTo(0, 0);
-    console.log("login page mounted")
-   if(isAuthenticated){
     getCart().then((data) => dispatch(setcart(data)));
-   }
   },[isAuthenticated]);
   const handlePaymentChange = (e:any) => {
     setPaymentMethod(e.target.value);
   };
   function handlePayment(e:any){
     e.preventDefault();
+    if(!isupdated){
+      toast.warning("Please Enter your address to proceed!!")
+      return
+    }
     if(paymentMethod === 'cod'){
      setVerifyOrder(true);
      console.log("cooo")
@@ -224,26 +224,26 @@ const CartPage = () => {
         <p className="text-sm font-medium text-gray-700 uppercase">Payment Options</p>
         
         <div className="space-y-4 mt-3 ">
-          <label className={`block p-4 border rounded-lg shadow-sm cursor-pointer hover:bg-gray-50 transition duration-150 ease-in-out 
-            ${paymentMethod === 'razorpay' ? ' border-blue-500' : 'bg-white border-gray-300'}`}>
+          <label className={`block p-4 border text-white bg-violet-500 rounded-lg shadow-sm cursor-pointer hover:bg-violet-600 transition duration-150 ease-in-out 
+            ${paymentMethod === 'cashfree' ? ' border-violet-700 bg-violet-700' : 'bg-violet-700 border-gray-300'}`}>
             <input 
               type="radio" 
               name="paymentMethod" 
-              value="Razorpay" 
+              value="cashfree" 
               checked={paymentMethod === 'Razorpay'} 
               onChange={handlePaymentChange} 
               className="hidden"
             />
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-blue-600 text-white flex items-center justify-center rounded-full">
-              <SiRazorpay />
+            <div className="flex items-center  space-x-3">
+              <div className="h-4 w-9 bg-violet-700 text-white flex items-center justify-center ">
+             <img src="/cashfree.png" className="h-6 w-full object-contain" alt="" />
               </div>
-              <span className="text-sm md:text-lg  font-medium">Razorpay</span>
+              <span className="text-sm md:text-lg  font-medium">Cashfree</span>
             </div>
           </label>
           
           <label className={`block p-4 border rounded-lg shadow-sm cursor-pointer hover:bg-gray-50 transition duration-150 ease-in-out 
-            ${paymentMethod === 'cod' ? ' border-blue-500' : ' border-gray-300'}`}>
+            ${paymentMethod === 'cod' ? ' border-violet-500' : ' border-gray-300'}`}>
             <input 
               type="radio" 
               name="paymentMethod" 

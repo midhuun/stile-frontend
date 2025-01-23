@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { SubCategory } from "../../types/CategoryType";
 import { AiOutlineInstagram } from "react-icons/ai";
 import { FiShoppingBag } from "react-icons/fi";
-import { IoMdLogOut } from "react-icons/io";
+import { IoIosArrowDown, IoIosArrowUp, IoMdLogOut } from "react-icons/io";
 import Cookies from "js-cookie";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firestore/store";
@@ -161,26 +161,27 @@ export default function Header() {
                   </div>
                 )}
               </li>
-
+              <Link to="/customize">
+                <li>Customize </li>
+              </Link>
               <a href="/">
                 <h1 className="flex justify-center font-bold items-center">
-                  <div className="">
+                  <div className=" justify-center items-center flex">
                     <img
-                      className="h-[35px]  object-contain"
+                      className="h-[35px] w-7 object-contain"
                       alt="stile sagio"
                       src='/logo.png'
                     />
+                      <p className="">STILE SAGIO</p>
                   </div>
-                  <p className="pl-2">STILE SAGIO</p>
+                
                 </h1>
               </a>
               <li>Track Order</li>
               <Link to="/contact">
                 <li>About Us</li>
               </Link>
-              <Link to="/customize">
-                <li>Customize </li>
-              </Link>
+             
             </ul>
           </div>
         </nav>
@@ -194,43 +195,35 @@ export default function Header() {
               </div>
               <hr />
             <ul className="flex text-sm uppercase flex-col p-4 ">
-              <li
-                onMouseEnter={handleDropdownOpen}
-                onMouseLeave={handleDropdownClose}
-                className="cursor-pointer relative border-b py-3"
-              >
+              <li className="cursor-pointer flex justify-between relative border-b py-3" onClick={()=>setisdropDown(!isdropDown)} >
                 Shop All
-                {isdropDown && (
-                  <div
-                    className="absolute border-b py-3 bg-white shadow-lg border rounded-lg p-2 w-full left-0 h-auto top-full mt-1"
-                    onMouseEnter={handleDropdownOpen}
-                    onMouseLeave={handleDropdownClose}
-                  >
-                    <div className="flex flex-col gap-2">
+                <IoIosArrowDown className={`${isdropDown?"hidden":"block"}`} />
+                <IoIosArrowUp className={`${isdropDown?"block":"hidden"}`}  />
+              </li>
+              {isdropDown && (
+                  <>
                       {subcategories.map((subcategory: SubCategory) =>
-                        <Link key={subcategory.slug} to={`/subcategory/${subcategory.slug}`} className="">
+                        <Link onClick={()=>setIsMenuOpen(false)} key={subcategory.slug} to={`/subcategory/${subcategory.slug}`} className="border-b font-light text-xs py-3">
                           {subcategory.name}
                         </Link>
                       )}
-                    </div>
-                  </div>
+                  </>
                 )}
-              </li>
-              <Link to="/">
+              <Link onClick={()=>setIsMenuOpen(false)} to="/">
                 <li className="border-b py-3">Home</li>
               </Link>
-              <Link to="/track-order">
+              <Link onClick={()=>setIsMenuOpen(false)} to="/track-order">
                 <li className="border-b py-3">Track Order</li>
               </Link>
-              <Link to="/contact">
+              <Link onClick={()=>setIsMenuOpen(false)} to="/contact">
                 <li className="border-b py-3">About Us</li>
               </Link>
              {isAuthenticated &&
-             <Link to='/user/account'>
+             <Link onClick={()=>setIsMenuOpen(false)} to='/user/account'>
               <li className="border-b py-3">Account</li>
              </Link>
              }
-            <Link to='/customize'>
+            <Link onClick={()=>setIsMenuOpen(false)} to='/customize'>
              <li className="border-b py-3">Customize Now</li> 
              </Link>
             </ul>

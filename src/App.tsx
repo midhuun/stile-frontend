@@ -8,6 +8,8 @@ import Offer from './components/offer';
 import { Suspense, lazy } from 'react';
 import Loading from './components/loading/loading';
 import Home from './components/home/home';
+import PrivacyPolicy from './components/FooterDetails/privacyPolicy';
+import ScrollToTop from './components/home/scrollTop';
 const About = lazy(() => import('./components/about/about'));
 const CategoryPage = lazy(() => import('./components/categoryPage/categoryPage'));
 const ProductPage = lazy(() => import('./components/product/ProductPage'));
@@ -24,6 +26,7 @@ function App() {
       <Router>
         <HeaderProvider>
           <OtpLoginPopup />
+          <ScrollToTop />
           <Offer />
           <div className="md:pt-[90px] pt-[40px]">
             <Header />
@@ -39,6 +42,7 @@ function App() {
                 <Route path="/returns" element={<ReturnAndExchanges />} />
                 <Route path="/terms" element={<TermsAndConditions />} />
                 <Route path="/checkout" element={<CartPage />} />
+                <Route path="/privacy" element={<PrivacyPolicy />} />
                 <Route path="/user/account" element={<Account />} />
               </Routes>
             </Suspense>

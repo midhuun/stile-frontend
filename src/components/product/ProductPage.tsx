@@ -120,7 +120,6 @@ const handleDotClick = (index:any) => {
     }
   };
   useEffect(() => {
-    window.scrollTo(0,0);
      setisLoading(true);
      getProduct();
      setTimeout(() => {

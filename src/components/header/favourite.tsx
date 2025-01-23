@@ -11,10 +11,7 @@ const Favorites = () => {
     setFavourites(data.favourites);
   }
   useEffect(() => {
-    window.scrollTo(0, 0);
-    if(isAuthenticated){
       getFavorites();
-    }
   }, []);
   const handleRemoveFavorite = async (item:any) => {
     try {

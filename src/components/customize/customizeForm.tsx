@@ -11,9 +11,6 @@ const CustomizeNowForm = () => {
     backDesign: null,
     message: "",
   });
-  useEffect(()=>{
-    window.scrollTo(0,0);
-  })
   const handleInputChange = (e:any) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
