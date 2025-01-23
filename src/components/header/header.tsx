@@ -209,6 +209,9 @@ export default function Header() {
                       )}
                   </>
                 )}
+                 <Link onClick={()=>setIsMenuOpen(false)} to='/customize'>
+             <li className="border-b py-3">Customize Now</li> 
+             </Link>
               <Link onClick={()=>setIsMenuOpen(false)} to="/">
                 <li className="border-b py-3">Home</li>
               </Link>
