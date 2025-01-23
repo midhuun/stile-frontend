@@ -12,7 +12,6 @@ const Home = () => {
     <>
      <VideoGallery />
      <Carousel />
-    
     <Suspense fallback={<Loading/>}>
       <Categories />
       <HomeSub />

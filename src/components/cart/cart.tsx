@@ -4,7 +4,6 @@ import { getCart } from "../../utils/getItems";
 import { useDispatch, useSelector } from "react-redux";
 import { setcart } from "../../store/reducers/cartReducer";
 import { RootState } from "../../store/store";
-import { SiRazorpay } from "react-icons/si";
 import {  BsCashCoin } from "react-icons/bs";
 import { Slide, ToastContainer,toast } from "react-toastify";
 const CartPage = () => {

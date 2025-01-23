@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { TfiClose } from "react-icons/tfi";
 import { HeaderContext } from "../../context/appContext";
 const Favorites = () => {
-  const { isFavouriteOpen, setisFavouriteOpen, favourites, setFavourites ,isAuthenticated} = useContext(HeaderContext);
+  const { isFavouriteOpen, setisFavouriteOpen, favourites, setFavourites } = useContext(HeaderContext);
   async function getFavorites(){
     const res = await fetch('http://localhost:3000/user/favourites',{credentials:'include'});
     const data = await res.json();

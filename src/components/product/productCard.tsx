@@ -1,28 +1,28 @@
 import  {  useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { HeaderContext } from '../../context/appContext';
-import { getFavourites } from '../../utils/getItems';
-import { PiHeartStraightFill } from "react-icons/pi";
+// import { HeaderContext } from '../../context/appContext';
+// import { getFavourites } from '../../utils/getItems';
+// import { PiHeartStraightFill } from "react-icons/pi";
 
 const ProductCard = ({product}:any) => {
 
   const [currentImage, setCurrentImage] = useState<any>(product.images[0]);
-  const {setFavourites,setisFavouriteOpen} = useContext<any>(HeaderContext);
-    const addToFavorite = async() => {
-       const res= await fetch(`http://localhost:3000/user/addtoFavourites`,{
-         method: 'POST',
-         credentials:'include',
-         headers: {
-           'Content-Type': 'application/json'
-         },
-         body: JSON.stringify({id:product?._id})
-         });
-       const data = await res.json();
-       const favouriteItems = await getFavourites();
-       setFavourites(favouriteItems);
-       console.log(data);
-       setisFavouriteOpen(true);
-     }
+  // const {setFavourites,setisFavouriteOpen} = useContext<any>(HeaderContext);
+    // const addToFavorite = async() => {
+    //    const res= await fetch(`http://localhost:3000/user/addtoFavourites`,{
+    //      method: 'POST',
+    //      credentials:'include',
+    //      headers: {
+    //        'Content-Type': 'application/json'
+    //      },
+    //      body: JSON.stringify({id:product?._id})
+    //      });
+    //    const data = await res.json();
+    //    const favouriteItems = await getFavourites();
+    //    setFavourites(favouriteItems);
+    //    console.log(data);
+    //    setisFavouriteOpen(true);
+    //  }
    
     const handleMouseEnter = () => {
         if (product.images.length > 1) {
