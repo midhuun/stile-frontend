@@ -32,9 +32,9 @@ const Carousel = () => {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 items-center justify-center h-[300px] md:h-[700px] min-w-full p-4">
+    <div className="flex flex-col md:flex-row gap-4 items-center justify-center min-h-screen md:h-[700px] min-w-full p-4">
       {/* Carousel Section */}
-      <div className="relative flex-1 min-h-[300px] md:min-h-[600px] w-full md:w-[50%] overflow-hidden bg-gray-100 rounded-lg flex flex-col justify-between">
+      <div className="relative flex-1 min-h-[300px] md:min-h-[600px] w-full md:w-[50%] overflow-hidden  rounded-lg flex flex-col justify-between">
         {/* Carousel Wrapper */}
         <div
           className="flex transition-transform ease-in-out duration-300 h-full"
@@ -48,7 +48,7 @@ const Carousel = () => {
               >
                 {isLoading ? (
                   // Skeleton Loader
-                  <div className="w-full h-[300px] md:h-[600px] bg-gray-200 animate-pulse rounded-lg"></div>
+                  <div className="w-full h-[300px] md:h-[600px]  animate-pulse rounded-lg"></div>
                 ) : (
                   <img
                     
@@ -111,7 +111,7 @@ const Carousel = () => {
         <img
           src="/custom.gif"
           alt="Customize GIF"
-          className="md:h-[600px] sm:h-[450px] h-[250px] min-w-full object-cover"
+          className="md:h-[600px] sm:h-[450px] h-[250px] min-w-full object-contain"
         />
 
         {/* Button */}
