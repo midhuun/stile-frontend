@@ -213,22 +213,6 @@ All legal Disputes are subject to Tirupur Jurisdiction
        </p>
         </section>
         <section>
-          <h2 className="text-lg md:text-xl font-semibold">SECTION 19 - TERMINATION</h2>
-          <p className="text-sm md:text-base">
-          You can review the most current version of the Terms of Service at any time at this page.
-We reserve the right, at our sole discretion, to update, change or replace any part of these Terms of Service by posting updates and changes to our website. It is your responsibility to check our website periodically for changes. Your continued use of or access to our website or the Service following the posting of any changes to these Terms of Service constitutes acceptance of those changes.
-
-       </p>
-        </section>
-        <section>
-          <h2 className="text-lg md:text-xl font-semibold">SECTION 18 - GOVERNING LAW</h2>
-          <p className="text-sm md:text-base">
-          These Terms of Service and any separate agreements whereby we provide you Services shall be governed by and construed in accordance with the laws of India.
-All legal Disputes are subject to Tirupur Jurisdiction
-
-       </p>
-        </section>
-        <section>
           <h2 className="text-lg md:text-xl font-semibold">SECTION 19 - CHANGES TO TERMS OF SERVICE</h2>
           <p className="text-sm md:text-base">
           You can review the most current version of the Terms of Service at any time at this page.

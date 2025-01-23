@@ -300,11 +300,11 @@ const handleDotClick = (index:any) => {
               <p className="text-sm">Size Chart</p>
             </button>
             {chartOpen && (
-              <div className="fixed inset-0 flex items-center  justify-center bg-black bg-opacity-50 z-50">
-                <div className="bg-white  rounded-lg p-6 relative">
+              <div className="fixed inset-0 top-10 flex items-center   justify-center bg-black bg-opacity-50 z-50">
+                <div className="bg-white rounded-lg p-6 relative">
                   <button
                     onClick={() => setchartOpen(false)}
-                    className="absolute top-3 right-3"
+                    className="absolute h-8 w-8 flex justify-center items-center bg-white z-[100] rounded-full top-1 right-1"
                   >
                     <IoCloseSharp className="text-2xl" />
                   </button>
