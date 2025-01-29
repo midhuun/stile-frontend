@@ -26,7 +26,7 @@ import Favorites from "./favourite";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { setisUserOpen,isUserOpen, setiscartOpen, isAuthenticated, setisAuthenticated,isFavouriteOpen,setisFavouriteOpen,searchOpen,setsearchOpen } = useContext(HeaderContext);
+  const { setisUserOpen,isUserOpen,setUser, setiscartOpen, isAuthenticated, setisAuthenticated,isFavouriteOpen,setisFavouriteOpen,searchOpen,setsearchOpen } = useContext(HeaderContext);
   const [isdropDown, setisdropDown] = useState(false);
   const [subcategories, setsubCategories] = useState([]);
   const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
@@ -40,6 +40,7 @@ export default function Header() {
     if (data) {
       console.log(data);
       setMobile(data?.user?.phone);
+      setUser(data?.user);
     }
     if (response.status === 200) {
       setisAuthenticated(true);

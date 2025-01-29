@@ -11,7 +11,7 @@
   }
 
 .animate-scroll {
-    animation: scroll 15s linear infinite;
+    animation: scroll 5s linear infinite;
     display: flex;
     width: calc(2 * 100%);
   }

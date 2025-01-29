@@ -21,9 +21,6 @@ function Auto({items}:any) {
     console.log(item)
   }
 
-  const handleOnFocus = () => {
-    console.log('Focused')
-  }
 
   const formatResult = (item:any) => {
     return (
@@ -57,7 +54,6 @@ function Auto({items}:any) {
             onSearch={handleOnSearch}
             onHover={handleOnHover}
             onSelect={handleOnSelect}
-            onFocus={handleOnFocus}
             placeholder='Search'
             fuseOptions={{ keys: ["name", "description"] }}
             autoFocus= {true}

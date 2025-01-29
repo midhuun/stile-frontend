@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useContext, useEffect, useState } from "react";
 import { HeaderContext } from "../../context/appContext";
 import { getCart } from "../../utils/getItems";
@@ -5,17 +6,37 @@ import { useDispatch, useSelector } from "react-redux";
 import { setcart } from "../../store/reducers/cartReducer";
 import { RootState } from "../../store/store";
 import {  BsCashCoin } from "react-icons/bs";
+import {load} from "@cashfreepayments/cashfree-js";
 import { Slide, ToastContainer,toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const CartPage = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state:RootState)=>state.Cart);
-  const [paymentMethod, setPaymentMethod] = useState('Razorpay');
-  const [address,setAddress] = useState({});
+  const [paymentMethod, setPaymentMethod] = useState('CashFree');
+  const [address,setAddress] = useState<any>({});
   const [pincode,setpincode] = useState<any>(null);
   const [isupdated,setisupdated] = useState(false);
   const [verifyOrder,setVerifyOrder] = useState(false);
+  const navigate = useNavigate();
+  const [sessionId,setsessionId] = useState("");
+  const [orderId,setOrderId] = useState("");
+  const {user,isAuthenticated} = useContext(HeaderContext);
   const shippingCharge = paymentMethod === 'cod' ? 100 : 0;
-  console.log("Reducer",cart);
+
+  useEffect(() => {
+    getCart().then((data) => dispatch(setcart(data)));
+  },[isAuthenticated]);
+   if(cart.length<1){
+    navigate("/")
+   }
+  let cashfree:any;
+  var initializeSDK = async function(){
+    cashfree = await load({
+      mode:'sandbox',
+    })
+  };
+  initializeSDK();
+
   const calculateTotal = () => {
     return cart?.reduce(
       (total: any, item: any) =>
@@ -23,15 +44,53 @@ const CartPage = () => {
       0
     );
   };
-  const { isAuthenticated } = useContext(HeaderContext);
   const total = calculateTotal();
-  useEffect(() => {
-    getCart().then((data) => dispatch(setcart(data)));
-  },[isAuthenticated]);
+ async function verifyPayment(orderid:string){
+      try{
+      const res = await fetch(`http://localhost:3000/verify/payment/${orderid}`,{credentials:'include'});
+      const data = await res.json();
+      console.log(data);
+      if(data.success){
+        console.log("payment verified");
+        const res = await fetch("http://localhost:3000/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode,orderId:orderId})});
+        navigate(`/payment/status/?&txStatus=SUCCESS`);
+        const data = await res.json();
+        console.log(data);
+        }
+      else{
+        console.log("payment failed")
+        navigate(`/payment/status/?&txStatus=FAILED`);
+      }
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
   const handlePaymentChange = (e:any) => {
     setPaymentMethod(e.target.value);
   };
-  function handlePayment(e:any){
+  const doPayment = async (token) => {
+    let checkoutOptions = {
+      paymentSessionId: token,
+      redirectTarget: "_modal",
+    };
+    cashfree.checkout(checkoutOptions).then((result:any)=>{
+      if (result.error) {
+        console.log("User has closed the popup or there is some payment error, Check for Payment Status");
+        console.log(result.error);
+      }
+      if (result.redirect) {
+        console.log("Payment will be redirected");
+      }
+      if (result.paymentDetails) {
+        console.log("Payment has been completed, Check for Payment Status");
+        console.log(result.paymentDetails.paymentMessage);
+      }
+      verifyPayment(orderId);
+  })
+   
+  };
+  async function handlePayment(e:any){
     e.preventDefault();
     if(!isupdated){
       toast.warning("Please Enter your address to proceed!!")
@@ -39,19 +98,31 @@ const CartPage = () => {
     }
     if(paymentMethod === 'cod'){
      setVerifyOrder(true);
-     console.log("cooo")
+     return
     }
+    const res = await fetch("http://localhost:3000/user/payment",{credentials:'include',method:'POST',headers:{
+      "Content-Type": "application/json"},
+      body:JSON.stringify({name:address.name,phone:user.phone,amount:total})
+    })
+    const data = await res.json();
+    console.log(data);
+    setOrderId(data.order_id)
+    setsessionId(data.token);
+    doPayment(data.token);
   }
  async function handleOrder(){
     setVerifyOrder(false);
-  
+   console.log(address);
     if(!isupdated){
       toast.warn("Please update Address !!!");
       return
     }
+    if(paymentMethod === 'cod'){
     const res = await fetch("http://localhost:3000/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode})});
     const data = await res.json();
     console.log(data);
+    }
+    
   }
  function handleAddress(e:any){
    e.preventDefault();
@@ -107,7 +178,7 @@ const CartPage = () => {
             <label className="px-2 font-semibold">Full Name <span className="text-red-500">*</span></label>
             <input
               type="text"
-              onChange={(e:any)=>setAddress((prev)=>({...prev,name:e.target.value}))
+              onChange={(e:any)=>setAddress((prev:any)=>({...prev,name:e.target.value}))
               }
               placeholder="Enter your  Name"
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
@@ -117,7 +188,7 @@ const CartPage = () => {
             <input
               type="text"
               placeholder="Enter your Address"
-              onChange={(e:any)=>setAddress((prev)=>({...prev,Location:e.target.value}))}
+              onChange={(e:any)=>setAddress((prev:any)=>({...prev,Location:e.target.value}))}
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
               required
             />
@@ -125,21 +196,21 @@ const CartPage = () => {
             <input
               type="text"
               placeholder="Apartment, Suite, etc."
-              onChange={(e:any)=>setAddress((prev)=>({...prev,Apartment:e.target.value}))}
+              onChange={(e:any)=>setAddress((prev:any)=>({...prev,Apartment:e.target.value}))}
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
             />
             <label className="px-2 font-semibold">City<span className="text-red-500">*</span></label>
             <input
               type="text"
               placeholder="Enter your City Name"
-              onChange={(e:any)=>setAddress((prev)=>({...prev,city:e.target.value}))}
+              onChange={(e:any)=>setAddress((prev:any)=>({...prev,city:e.target.value}))}
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
               required
             />
             <label className="px-2 font-semibold">State <span className="text-red-500">*</span></label>
             <input
               type="text"
-              onChange={(e:any)=>setAddress((prev)=>({...prev,city:e.target.value}))}
+              onChange={(e:any)=>setAddress((prev:any)=>({...prev,city:e.target.value}))}
               placeholder="Enter your State Name"
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
               required
@@ -157,10 +228,10 @@ const CartPage = () => {
               type="text"
               placeholder="Mobile Number"
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
-              onChange={(e:any)=>setAddress((prev)=>({...prev,alternateMobile:e.target.value}))}
+              onChange={(e:any)=>setAddress((prev:any)=>({...prev,alternateMobile:e.target.value}))}
             />
             <div className="flex w-full justify-center">
-            <button type="submit" className="px-3 w-full bg-[#070b2a] text-white border  py-2">Update</button>
+            <button type="submit" className={`px-3 ${isupdated?"hidden":"block"} w-full bg-[#070b2a] text-white border  py-2`}>Update</button>
             </div>
           
           </form>
@@ -229,7 +300,7 @@ const CartPage = () => {
               type="radio" 
               name="paymentMethod" 
               value="cashfree" 
-              checked={paymentMethod === 'Razorpay'} 
+              checked={paymentMethod === 'CashFree'} 
               onChange={handlePaymentChange} 
               className="hidden"
             />

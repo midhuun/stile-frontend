@@ -34,7 +34,7 @@ const CustomizeNowForm = () => {
       Please check the attached designs.
     `;
 
-    const whatsappURL:any = `https://wa.me/yourwhatsappnumber?text=${encodeURIComponent(
+    const whatsappURL:any = `https://wa.me/+918220856333?text=${encodeURIComponent(
       whatsappMessage
     )}`;
     window.open(whatsappURL, "_blank");

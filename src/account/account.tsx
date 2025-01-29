@@ -41,14 +41,23 @@ const orders:any = [
 ];
 
 const Account = () => {
-   const { isAuthenticated,setisUserOpen } = useContext(HeaderContext);
+   const { user,setisUserOpen } = useContext(HeaderContext);
    const navigate = useNavigate();
-   console.log(isAuthenticated,);
+async function getOrders() {
+  const res = await fetch(`http://localhost:3000/user/orders`,{credentials:'include'});
+  const data = await res.json();
+  console.log(data);
+}
 useEffect(()=>{
-  if(!isAuthenticated){
+  if(!user){
     navigate('/', { replace: true });
   }
-}),[]
+  else{
+    getOrders();
+  }
+
+},[])
+console.log(user);
 async function handleLogout(){
   const response =await  fetch("http://localhost:3000/user/logout",{method:'POST',credentials:'include'})
   const data = await response.json();
@@ -57,7 +66,7 @@ async function handleLogout(){
   
  }
   return (
-    <div className="max-w-3xl mx-auto p-4">
+    <div className="max-w-3xl mx-auto pt-10 p-4">
       <h1 className="text-lg md:text-xl font-semibold mb-4">My Account</h1>
       <button onClick={handleLogout} className="text-sm md:text-md  text-b lue-500 hover:text-blue-700 mb-4">Logout</button>
       <h2 className="text-md md:text-lg font-semibold mb-2">My Orders</h2>

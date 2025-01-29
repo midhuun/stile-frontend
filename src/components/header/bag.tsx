@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addtoCart, deleteFromCart, removeFromCart, setcart } from "../../store/reducers/cartReducer";
 
 const Bag = () => {
-  const { iscartOpen, setiscartOpen,isAuthenticated } = useContext(HeaderContext);
+  const { iscartOpen, setiscartOpen,user,setisUserOpen} = useContext(HeaderContext);
   const cart = useSelector((state:RootState)=>state.Cart);
   const dispatch = useDispatch();
   async function fetchCart() {
@@ -18,15 +18,15 @@ const Bag = () => {
     dispatch(setcart(cartItems));
   }
   useEffect(() => {
-    console.log(isAuthenticated);
     console.log("Bag mounted");
      fetchCart();
   }, [dispatch]);
   console.log(cart);
+  function handlelogin(){
+    setisUserOpen(true);
+    setiscartOpen(false);
+  }
   const handleCart = async(value:any) => {
-    if(!isAuthenticated){
-      alert('Please login to proceed');
-    }
     console.log(value.item)
     if(value.value === 'addToCart'){
          console.log("cartvalue",{...value.item,selectedSize:value.size});
@@ -107,10 +107,14 @@ const Bag = () => {
           <h2 className="text-lg md:text-xl font-light text-gray-900">Your Bag</h2>
           <hr />
           <div className="space-y-10 flex flex-col items-center justify-center">
-            <p>Oops....Your Bag is Empty</p>
-            <Link to='/'>
-              <button className="p-3 w-full font-light text-xs border bg-black text-white rounded-lg transition duration-200 hover:bg-gray-800">Shop Now</button>
-            </Link>
+            <p>{user ?"Oops....Your Bag is Empty":"Please Login to view your Bag"}</p>
+            {user?
+             <Link to='/'>
+             <button className="p-3 w-full font-light text-xs border bg-black text-white rounded-lg transition duration-200 hover:bg-gray-800">Shop Now</button>
+           </Link>:
+                         <button onClick={handlelogin} className="p-3 w-[50%] font-light text-xs border bg-blue-600 text-white rounded-sm transition duration-200 hover:bg-gray-800">Login</button>
+            }
+           
           </div>
         </div>
       )}

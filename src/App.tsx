@@ -10,6 +10,7 @@ import Loading from './components/loading/loading';
 import Home from './components/home/home';
 import PrivacyPolicy from './components/FooterDetails/privacyPolicy';
 import ScrollToTop from './components/home/scrollTop';
+import PaymentStatus from './components/cart/paymentStatus';
 const About = lazy(() => import('./components/about/about'));
 const CategoryPage = lazy(() => import('./components/categoryPage/categoryPage'));
 const ProductPage = lazy(() => import('./components/product/ProductPage'));
@@ -44,6 +45,7 @@ function App() {
                 <Route path="/checkout" element={<CartPage />} />
                 <Route path="/privacy" element={<PrivacyPolicy />} />
                 <Route path="/user/account" element={<Account />} />
+                <Route path="/payment/status" element={<PaymentStatus />} />
               </Routes>
             </Suspense>
 

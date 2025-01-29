@@ -14,7 +14,7 @@ interface HeaderContextType {
     setisFavouriteOpen:React.Dispatch<React.SetStateAction<boolean>>;
     favourites:any;
     setFavourites:React.Dispatch<React.SetStateAction<any>>;
-    user:{},
+    user:any,
     setUser:React.Dispatch<React.SetStateAction<any>>;
     searchOpen:boolean,
     setsearchOpen:React.Dispatch<React.SetStateAction<boolean>>;

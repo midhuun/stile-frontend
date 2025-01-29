@@ -7,7 +7,6 @@ const Carousel = () => {
   const [items, setItems] = useState<any>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-
   const goNext = () => {
     if (currentIndex < items.length - 1) {
       setCurrentIndex(currentIndex + 1);
@@ -32,9 +31,10 @@ const Carousel = () => {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 items-center justify-center min-h-screen md:h-[700px] min-w-full p-4">
+    <>
+    <div className="flex  flex-col md:flex-row gap-4 items-center justify-center min-h-screen md:h-[450px] min-w-full p-4">
       {/* Carousel Section */}
-      <div className="relative flex-1 min-h-[300px] md:min-h-[600px] w-full md:w-[50%] overflow-hidden  rounded-lg flex flex-col justify-between">
+      <div className="relative  h-[150px] md:h-[450px] w-full md:w-[50%] overflow-hidden  rounded-lg flex flex-col justify-between">
         {/* Carousel Wrapper */}
         <div
           className="flex transition-transform ease-in-out duration-300 h-full"
@@ -44,24 +44,44 @@ const Carousel = () => {
             items.map((item: any) => (
               <div
                 key={item._id}
-                className="w-full h-[300px] md:h-[600px] flex-shrink-0 flex items-center justify-center"
+                className="w-full h-[150px] md:h-[450px] flex-shrink-0 flex items-center justify-center"
               >
                 {isLoading ? (
                   // Skeleton Loader
-                  <div className="w-full h-[300px] md:h-[600px]  animate-pulse rounded-lg"></div>
+                  <div className="w-full h-[150px] md:h-[450px]  animate-pulse rounded-lg"></div>
                 ) : (
+                  <>
+                 <div className="relative md:h-[400px]  sm:h-[450px] h-[150px] min-w-full object-top ">
+                 <div className="absolute bottom-2 flex justify-center w-full">
+          {items.map((_: any, index: number) => (
+            <button
+              key={index}
+              className={`h-2 w-2 rounded-full mx-1 ${
+                currentIndex === index ? "bg-gray-800" : "bg-gray-400"
+              }`}
+              onClick={() => setCurrentIndex(index)}
+            />
+          ))}
+        </div>
                   <img
-                    
                     loading="lazy"
                     srcSet={`
-                      ${item.image}?w=300&h=300&q=30&format=webp 300w,
-                      ${item.image}?w=500&h=500&q=30&format=webp 500w,
-                      ${item.image}?w=800&h=800&q=30&format=webp 800w
+                      ${item.image}?format=webp,
+                      ${item.image}?format=webp,
+                      ${item.image}?format=webp
                     `}
-                    src={`${item.image}?w=500&h=500&q=30&format=webp`}
+                    src={`${item.image}?q=30&format=webp`}
                     alt={item.title}
-                    className="md:h-[600px] sm:h-[450px] h-[350px] min-w-full object-top object-cover rounded-lg"
+                    className="object-cover  rounded-lg w-full h-full"
                   />
+                  <div className="absolute bottom-5  left-1/2 transform -translate-x-1/2">
+                  <Link to={`/subcategory/${item.title}`}> <button className="hover:bg-black border hover:text-white text-[12px] text-black md:text-sm py-1 px-3 md:py-3 md:font-semibold md:px-6 rounded bg-white transition duration-300">
+                     Shop Now
+                   </button>
+                   </Link>
+                 </div>
+                 </div>
+                 </>
                 )}
               </div>
             ))}
@@ -86,32 +106,15 @@ const Carousel = () => {
         </button>
 
         {/* Dots Indicator */}
-        <div className="absolute bottom-12 flex justify-center w-full">
-          {items.map((_: any, index: number) => (
-            <button
-              key={index}
-              className={`h-2 w-2 rounded-full mx-1 ${
-                currentIndex === index ? "bg-gray-800" : "bg-gray-400"
-              }`}
-              onClick={() => setCurrentIndex(index)}
-            />
-          ))}
-        </div>
 
-        {/* Button */}
-        <div className="absolute bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2">
-          <button className="hover:bg-black border hover:text-white text-[12px] text-black md:text-sm py-1 px-3 md:py-3 md:font-semibold md:px-6 rounded bg-white transition duration-300">
-            Shop Now
-          </button>
-        </div>
       </div>
-
+    
       {/* Customize Section */}
-      <div className="relative flex-1 h-[250px] md:h-[600px] w-full md:w-[50%] overflow-hidden bg-gray-100 rounded-lg flex flex-col justify-between items-center">
+      <div className="relative flex-1 h-[250px] md:h-[400px] w-full md:w-[50%] overflow-hidden bg-gray-100 rounded-lg flex flex-col justify-between items-center">
         <img
           src="/custom.gif"
           alt="Customize GIF"
-          className="md:h-[600px] sm:h-[450px] h-[250px] min-w-full object-contain"
+          className="md:h-[450px] sm:h-[300px] h-[250px] min-w-full object-contain"
         />
 
         {/* Button */}
@@ -124,6 +127,10 @@ const Carousel = () => {
         </div>
       </div>
     </div>
+    <div className="w-full ">
+                  <img className="object-contain w-full h-full" src="/story.webp" alt="" />
+                </div>
+    </>
   );
 };
 

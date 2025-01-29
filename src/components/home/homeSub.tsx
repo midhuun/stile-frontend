@@ -40,10 +40,31 @@ const HomeSub = () => {
     <>
       <div className="w-full">
         {subcategories.length > 0 &&
-          subcategories.slice(0, 3).map((subcategory: SubCategory) => {
+          subcategories.map((subcategory: SubCategory,index) => {
             // Deduplicate products for each subcategory
             const uniqueProducts = removeDuplicateProducts(subcategory.products);
-
+            if(index ===2){
+              return (
+                <>
+                <div className="w-full object-contain">
+                  <img src="/story.webp" alt="" />
+                </div>
+                <div className="mt-5 w-full px-2 md:px-4 " key={subcategory._id}>
+                <div className="flex justify-between items-center mb-5 md:pb-10">
+                <h1 className="font-semibold text-lg md:text-xl ">{subcategory.name}</h1>
+                <Link to={`/subcategory/${subcategory.slug}`}><h1 className="text-xs md:text-lg underline px-2">View All</h1></Link>
+                </div>
+                <div className="flex min-h-[350px] md:justify-start  overflow-x-scroll gap-2 md:gap-4">
+                  {uniqueProducts.slice(0,5).map((product:any, index:number) => (
+                    <div  key={index}>
+                      <ProductCard product={{...product,type:"home"}} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+                </>
+              )
+            }
             return (
               <div className="mt-5 w-full px-2 md:px-4 " key={subcategory._id}>
                 <div className="flex justify-between items-center mb-5 md:pb-10">
@@ -51,7 +72,7 @@ const HomeSub = () => {
                 <Link to={`/subcategory/${subcategory.slug}`}><h1 className="text-xs md:text-lg underline px-2">View All</h1></Link>
                 </div>
                 <div className="flex min-h-[350px] md:justify-start  overflow-x-scroll gap-2 md:gap-4">
-                  {uniqueProducts.map((product:any, index:number) => (
+                  {uniqueProducts.slice(0,5).map((product:any, index:number) => (
                     <div  key={index}>
                       <ProductCard product={{...product,type:"home"}} />
                     </div>

@@ -36,50 +36,50 @@ const OtpLoginPopup = () => {
       );
     }
   }
-  function onSignup(e){
-    e.preventDefault();
-    setBtnmsg("Sending OTP");
-    setTimeout(() => {
-      setBtnmsg("Send OTP");
-    }, 2000);
-    setisverifying(true);
-    try{
-      if(!validator.isMobilePhone(mobileNumber,"en-IN")){
-        setiserror(true);
-        toast.error("Invalid Mobile Number");
-        seterror("Invalid Mobile Number")
-        setTimeout(() => {
-          setiserror(false)
-        }, 2500);
-        seterror("Enter valid Phone Number");
-        throw new Error("Enter Valid Phone Number")
-      }
-    auth.settings.appVerificationDisabledForTesting = true;
-    oncaptchaVerify();
-    const appVerifier = window.recaptchaVerifier;
-    const phoneNumber = "+91" + mobileNumber; // Phone number with country code
-    signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-      .then((result) => {
-        setConfirmationResult(result);
-        console.log("Sign-in success",confirmationResult);
-        toast.done("OTP Sent");
-        setOtpSent(true);
-      })
-      .catch((error) => {
-        console.error("Enter Valid details", error);
+  // function onSignup(e){
+  //   e.preventDefault();
+  //   setBtnmsg("Sending OTP");
+  //   setTimeout(() => {
+  //     setBtnmsg("Send OTP");
+  //   }, 2000);
+  //   setisverifying(true);
+  //   try{
+  //     if(!validator.isMobilePhone(mobileNumber,"en-IN")){
+  //       setiserror(true);
+  //       toast.error("Invalid Mobile Number");
+  //       seterror("Invalid Mobile Number")
+  //       setTimeout(() => {
+  //         setiserror(false)
+  //       }, 2500);
+  //       seterror("Enter valid Phone Number");
+  //       throw new Error("Enter Valid Phone Number")
+  //     }
+  //   auth.settings.appVerificationDisabledForTesting = true;
+  //   oncaptchaVerify();
+  //   const appVerifier = window.recaptchaVerifier;
+  //   const phoneNumber = "+91" + mobileNumber; // Phone number with country code
+  //   signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+  //     .then((result) => {
+  //       setConfirmationResult(result);
+  //       console.log("Sign-in success",confirmationResult);
+  //       toast.done("OTP Sent");
+  //       setOtpSent(true);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Enter Valid details", error);
 
-      });
-    }
-    catch(err){
-      console.log(err);
-      setiserror(true)
-      setTimeout(() => {
-        setiserror(false)
-      }, 2500);
-      seterror("Enter Valid details");
+  //     });
+  //   }
+  //   catch(err){
+  //     console.log(err);
+  //     setiserror(true)
+  //     setTimeout(() => {
+  //       setiserror(false)
+  //     }, 2500);
+  //     seterror("Enter Valid details");
 
-    }
-  }
+  //   }
+  // }
   const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newOtp = [...otp];
     newOtp[index] = e.target.value;
@@ -104,28 +104,28 @@ const OtpLoginPopup = () => {
     setMobileNumber("");
     setOtp(["", "", "", "","",""]);
   }
-  function onOTPVerify() {
-    console.log(otp.join(""));
-    console.log(confirmationResult)
-    if (!confirmationResult) {
-      console.log("No confirmation result available");
-      return;
-    }
-    confirmationResult
-      .confirm(otp.join(""))
-      .then(async (res) => {
-        console.log("OTP verified, user signed in:", res);
-        otpVerified()
-      })
-      .catch((err) => {
-        console.error("OTP verification failed:", err);
-        setiserror(true)
-        setTimeout(() => {
-          setiserror(false)
-        }, 2500);
-        seterror("Enter correct OTP");
-      });
-  }
+  // function onOTPVerify() {
+  //   console.log(otp.join(""));
+  //   console.log(confirmationResult)
+  //   if (!confirmationResult) {
+  //     console.log("No confirmation result available");
+  //     return;
+  //   }
+  //   confirmationResult
+  //     .confirm(otp.join(""))
+  //     .then(async (res) => {
+  //       console.log("OTP verified, user signed in:", res);
+  //       otpVerified()
+  //     })
+  //     .catch((err) => {
+  //       console.error("OTP verification failed:", err);
+  //       setiserror(true)
+  //       setTimeout(() => {
+  //         setiserror(false)
+  //       }, 2500);
+  //       seterror("Enter correct OTP");
+  //     });
+  // }
   return (
     <div>
       {isUserOpen && !isAuthenticated && (
@@ -202,7 +202,7 @@ const OtpLoginPopup = () => {
             )}
 
             {/* OTP Form Section (Visible after OTP is sent) */}
-            {otpSent && (
+            {/* {otpSent && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -238,7 +238,7 @@ const OtpLoginPopup = () => {
                  Verify
                 </button>
               </motion.div>
-            )}
+            )} */}
           </motion.div>
         </div>
       )}

@@ -237,7 +237,34 @@ const handleDotClick = (index:any) => {
           <p className="text-gray-600 text-xs md:text-sm">
             Tax included. Shipping calculated at checkout.
           </p>
-
+          
+          {/* Size Chart */}
+          <div>
+            <button
+              onClick={() => setchartOpen(true)}
+              className="flex items-center gap-2"
+            >
+              <img src='/size.png' className="w-8 h-8" alt="Size Chart Icon" />
+              <p className="text-sm">Size Chart</p>
+            </button>
+            {chartOpen && (
+              <div className="fixed inset-0 top-10 flex items-center   justify-center bg-black bg-opacity-50 z-50">
+                <div className="bg-white rounded-lg p-6 relative">
+                  <button
+                    onClick={() => setchartOpen(false)}
+                    className="absolute h-8 w-8 flex justify-center items-center bg-white z-[100] rounded-full top-1 right-1"
+                  >
+                    <IoCloseSharp className="text-2xl" />
+                  </button>
+                  <div className="flex w-full justify-center items-center">
+                  <img src={productdata?.subcategory.sizeurl} className="min-w-[300px]  h-[60vh]" alt="Size Chart Icon" />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          {/* Note */}
+          <p><span className="font-semibold text-sm">Note:</span> Please check size before buying</p>
           {/* Size Selection */}
           <div>
             <p className="text-sm md:text-md font-medium">Select Size:</p>
@@ -289,33 +316,6 @@ const handleDotClick = (index:any) => {
               Add to Cart
             </button>
           </div>
-
-          {/* Size Chart */}
-          <div>
-            <button
-              onClick={() => setchartOpen(true)}
-              className="flex items-center gap-2"
-            >
-              <img src='/size.png' className="w-8 h-8" alt="Size Chart Icon" />
-              <p className="text-sm">Size Chart</p>
-            </button>
-            {chartOpen && (
-              <div className="fixed inset-0 top-10 flex items-center   justify-center bg-black bg-opacity-50 z-50">
-                <div className="bg-white rounded-lg p-6 relative">
-                  <button
-                    onClick={() => setchartOpen(false)}
-                    className="absolute h-8 w-8 flex justify-center items-center bg-white z-[100] rounded-full top-1 right-1"
-                  >
-                    <IoCloseSharp className="text-2xl" />
-                  </button>
-                  <div className="flex w-full justify-center items-center">
-                  <img src={productdata?.subcategory.sizeurl} className="min-w-[300px]  h-[60vh]" alt="Size Chart Icon" />
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
           {/* Delivery Info */}
           <div className="flex w-full border border-gray-300 divide-x divide-gray-300 bg-white shadow-lg rounded-lg">
   {/** First Section */}
@@ -358,7 +358,16 @@ const handleDotClick = (index:any) => {
                   <div className="mt-2 text-sm text-gray-600">
                     {key === "description" &&
                       productdata?.description &&
-                     <p className="p-2 "> {productdata.description} </p>}
+                      <>
+                     <ul className="space-y-3 list-disc mx-3">
+                      {productdata.attributes && 
+                        Object.keys(productdata.attributes).map((key)=>
+                          <li className=""> <span className="font-semibold text-black">{key}</span> : {productdata.attributes[key]}</li>
+                        )
+                      }
+                     </ul>
+                     <p className="p-2 "> {productdata.description} </p>
+                     </>}
                     {key === "shipping" && (
                       <div className="p-4 bg-gray-100 rounded-lg shadow-md">
                       {/* Shipping Section */}

@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@cashfreepayments/cashfree-js": "^1.0.5",
     "@reduxjs/toolkit": "^2.5.0",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
     "firebase": "^11.1.0",
     "framer-motion": "^11.15.0",
     "js-cookie": "^3.0.5",

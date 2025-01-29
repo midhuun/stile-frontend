@@ -203,7 +203,7 @@ const CustomizeOrder = () => {
       <h2 className=" text-lg md:text-3xl font-bold mb-6 text-center">Our Trusted Partners</h2>
       <div className="relative p-2 overflow-hidden">
         <div className="flex gap-5 md:gap-6 animate-scroll">
-          {[clients,...clients,...clients].map((client:any, index:number) => (
+          {[clients,...clients,...clients,...clients,...clients].map((client:any, index:number) => (
             <div
               key={index}
               className="flex-shrink-0 h-20 w-20 md:w-40 md:h-40 bg-white shadow-md rounded-full flex items-center justify-center"
