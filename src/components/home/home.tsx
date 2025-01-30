@@ -10,9 +10,9 @@ const VideoGallery = lazy(() => import('./videoGallery'));
 const Home = () => {
   return (
     <>
-     <VideoGallery />
-     <Carousel />
     <Suspense fallback={<Loading/>}>
+     <VideoGallery />
+     <Carousel />    
       <Categories />
       <HomeSub />
     </Suspense>

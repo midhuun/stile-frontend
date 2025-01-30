@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const Carousel = () => {
   const [items, setItems] = useState<any>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const goNext = () => {
     if (currentIndex < items.length - 1) {
       setCurrentIndex(currentIndex + 1);
@@ -32,7 +32,7 @@ const Carousel = () => {
 
   return (
     <>
-    <div className="flex  flex-col md:flex-row gap-4 items-center justify-center min-h-screen md:h-[450px] min-w-full p-4">
+    <div className="flex  flex-col md:flex-row gap-4 items-center justify-center  md:h-[450px] min-w-full p-4">
       {/* Carousel Section */}
       <div className="relative  h-[150px] md:h-[450px] w-full md:w-[50%] overflow-hidden  rounded-lg flex flex-col justify-between">
         {/* Carousel Wrapper */}

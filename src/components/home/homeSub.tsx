@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const HomeSub = () => {
   const [subcategories, setSubcategories] = useState<SubCategory[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   // Fetch categories from the backend
   async function fetchCategories() {
