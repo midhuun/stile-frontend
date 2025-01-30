@@ -88,7 +88,8 @@ const OtpLoginPopup = () => {
       document.getElementById(`otp-input-${index + 1}`)?.focus();
     }
   };
-  async function otpVerified(){
+  async function otpVerified(e){
+    e.preventDefault();
     const res = await fetch("http://localhost:3000/user/login",
     {method:"POST",
       headers:{"Content-Type":"application/json"},
@@ -167,7 +168,7 @@ const OtpLoginPopup = () => {
                 <p className="text-gray-600 text-sm md:text-lg text-center mb-4">
                   Enter your mobile number to receive an OTP for verification.
                 </p>
-                <form onSubmit={onSignup} className="space-y-4">
+                <form onSubmit={otpVerified} className="space-y-4">
                   <div className="text-sm md:text-md">
                     <label
                       htmlFor="mobileNumber"

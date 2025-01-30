@@ -33,8 +33,10 @@ const CartPage = () => {
   var initializeSDK = async function(){
     cashfree = await load({
       mode:'sandbox',
+      
     })
   };
+
   initializeSDK();
 
   const calculateTotal = () => {
@@ -69,15 +71,21 @@ const CartPage = () => {
   const handlePaymentChange = (e:any) => {
     setPaymentMethod(e.target.value);
   };
-  const doPayment = async (token) => {
+  const doPayment = async (token,orderid) => {
     let checkoutOptions = {
       paymentSessionId: token,
-      redirectTarget: "_modal",
+      redirectTarget: "_blank",
+      
     };
-    cashfree.checkout(checkoutOptions).then((result:any)=>{
+    cashfree.checkout({...checkoutOptions , paymentFailureCallback :(data: any) => {
+      console.log("Payment failure callback", data);
+      window.location.href = "http://localhost:5173/payment/status";
+    }
+  }).then((result:any)=>{
       if (result.error) {
         console.log("User has closed the popup or there is some payment error, Check for Payment Status");
         console.log(result.error);
+        window.location.href = "http://localhost:5173/payment/status?status=FAILED";
       }
       if (result.redirect) {
         console.log("Payment will be redirected");
@@ -85,8 +93,9 @@ const CartPage = () => {
       if (result.paymentDetails) {
         console.log("Payment has been completed, Check for Payment Status");
         console.log(result.paymentDetails.paymentMessage);
+        window.location.href = "http://localhost:5173/payment/status?status=FAILED";
       }
-      verifyPayment(orderId);
+      verifyPayment(orderid);
   })
    
   };
@@ -108,7 +117,7 @@ const CartPage = () => {
     console.log(data);
     setOrderId(data.order_id)
     setsessionId(data.token);
-    doPayment(data.token);
+    doPayment(data.token,data.order_id);
   }
  async function handleOrder(){
     setVerifyOrder(false);
@@ -121,6 +130,8 @@ const CartPage = () => {
     const res = await fetch("http://localhost:3000/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode})});
     const data = await res.json();
     console.log(data);
+    navigate(`/payment/status/?&txStatus=SUCCESS`);
+
     }
     
   }
@@ -276,79 +287,85 @@ const CartPage = () => {
                 ))}
               </div>
 
-              {/* Order Summary Section */}
-              <div className="mt-6 p-6 border border-gray-300 rounded-lg bg-white shadow-xl w-full">
-      <div className="flex justify-between text-sm text-gray-600 mb-3">
-        <p>Subtotal</p>
-        <p className="font-medium text-gray-800">Rs. {calculateTotal()}</p>
-      </div>
+            {/* Order Summary Section */}
+<div className="mt-6 p-6 border border-gray-300 rounded-lg bg-white shadow-lg w-full">
+  <h2 className="text-xl font-bold text-gray-800 mb-4">Order Summary</h2>
+  
+  <div className="flex justify-between text-sm text-gray-600 mb-3">
+    <p>Subtotal</p>
+    <p className="font-medium text-gray-800">Rs. {calculateTotal()}</p>
+  </div>
 
-      <div className="flex justify-between text-sm text-gray-600 mb-3">
-        <p>Shipping</p>
-        <p className={`font-medium ${shippingCharge === 0 ? 'text-green-600' : 'text-red-600'}`}>
-          {shippingCharge === 0 ? 'Free' : `Rs. ${shippingCharge}`}
-        </p>
-      </div>
+  <div className="flex justify-between text-sm text-gray-600 mb-3">
+    <p>Shipping</p>
+    <p className={`font-medium ${shippingCharge === 0 ? 'text-green-600' : 'text-red-600'}`}>
+      {shippingCharge === 0 ? 'Free' : `Rs. ${shippingCharge}`}
+    </p>
+  </div>
 
-      <div className="mb-6">
-        <p className="text-sm font-medium text-gray-700 uppercase">Payment Options</p>
-        
-        <div className="space-y-4 mt-3 ">
-          <label className={`block p-4 border text-white bg-violet-500 rounded-lg shadow-sm cursor-pointer hover:bg-violet-600 transition duration-150 ease-in-out 
-            ${paymentMethod === 'cashfree' ? ' border-violet-700 bg-violet-700' : 'bg-violet-700 border-gray-300'}`}>
-            <input 
-              type="radio" 
-              name="paymentMethod" 
-              value="cashfree" 
-              checked={paymentMethod === 'CashFree'} 
-              onChange={handlePaymentChange} 
-              className="hidden"
-            />
-            <div className="flex items-center  space-x-3">
-              <div className="h-4 w-9 bg-violet-700 text-white flex items-center justify-center ">
-             <img src="/cashfree.png" className="h-6 w-full object-contain" alt="" />
-              </div>
-              <span className="text-sm md:text-lg  font-medium">Cashfree</span>
-            </div>
-          </label>
-          
-          <label className={`block p-4 border rounded-lg shadow-sm cursor-pointer hover:bg-gray-50 transition duration-150 ease-in-out 
-            ${paymentMethod === 'cod' ? ' border-violet-500' : ' border-gray-300'}`}>
-            <input 
-              type="radio" 
-              name="paymentMethod" 
-              value="cod" 
-              checked={paymentMethod === 'cod'} 
-              onChange={handlePaymentChange} 
-              className="hidden"
-            />
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-green-600 text-white flex items-center justify-center rounded-full">
-              <BsCashCoin />
-              </div>
-              <span className="text-sm md:text-lg font-medium">Cash on Delivery</span>
-            </div>
-          </label>
+  <div className="mb-6">
+    <p className="text-sm font-medium text-gray-700 uppercase">Payment Options</p>
+    
+    <div className="space-y-4 mt-3">
+      <label className={`block p-4 border rounded-lg shadow-sm cursor-pointer transition duration-150 ease-in-out 
+        ${paymentMethod === 'cashfree' ? 'border-violet-700 bg-violet-100' : 'border-gray-300 bg-white hover:bg-gray-50'}`}>
+        <input 
+          type="radio" 
+          name="paymentMethod" 
+          value="cashfree" 
+          checked={paymentMethod === 'cashfree'} 
+          onChange={handlePaymentChange} 
+          className="hidden"
+        />
+        <div className="flex items-center space-x-3">
+          <div className="h-8 w-8 bg-violet-500 text-white flex items-center justify-center rounded-full">
+            <span className="text-lg">💳</span>
+          </div>
+          <span className="text-sm md:text-lg font-medium">Cashfree</span>
         </div>
-      </div>
-
-      <hr className="my-4" />
+      </label>
       
-      <div className="flex justify-between text-lg font-bold text-gray-900">
-        <p>Total</p>
-        <p>Rs. {calculateTotal() + shippingCharge}</p>
-      </div>
-      <div className="mt-4 flex items-center space-x-2 text-green-600 text-sm">
-                <span>🔒</span>
-                <p>Your payment is secure and encrypted.</p>
-              </div>
-      <button onClick={handlePayment} className={`mt-6 w-full py-2  bg-[#070b2a] text-white rounded-lg hover:bg-gray-800 transition duration-200`}>
-      {paymentMethod === 'cod' ? ' Place Order' : 'Pay Now'}
-      </button>
-      <p className="text-sm text-gray-500 mt-2">
-              <strong>Note:</strong> Cash on Delivery orders may incur additional charges.
-            </p>
+      <label className={`block p-4 border rounded-lg shadow-sm cursor-pointer transition duration-150 ease-in-out 
+        ${paymentMethod === 'cod' ? 'border-violet-500 bg-violet-100' : 'border-gray-300 bg-white hover:bg-gray-50'}`}>
+        <input 
+          type="radio" 
+          name="paymentMethod" 
+          value="cod" 
+          checked={paymentMethod === 'cod'} 
+          onChange={handlePaymentChange} 
+          className="hidden"
+        />
+        <div className="flex items-center space-x-3">
+          <div className="w-8 h-8 bg-green-600 text-white flex items-center justify-center rounded-full">
+            <span className="text-lg">💵</span>
+          </div>
+          <span className="text-sm md:text-lg font-medium">Cash on Delivery</span>
+        </div>
+      </label>
     </div>
+  </div>
+
+  <hr className="my-4 border-gray-300" />
+  
+  <div className="flex justify-between text-lg font-bold text-gray-900">
+    <p>Total</p>
+    <p>Rs. {calculateTotal() + shippingCharge}</p>
+  </div>
+
+  <div className="mt-4 flex items-center space-x-2 text-green-600 text-sm">
+    <span role="img" aria-label="secure">🔒</span>
+    <p>Your payment is secure and encrypted.</p>
+  </div>
+
+  <button onClick={handlePayment} className={`mt-6 w-full py-2 bg-[#070b2a] text-white rounded-lg hover:bg-gray-800 transition duration-200`}>
+    {paymentMethod === 'cod' ? 'Place Order' : 'Pay Now'}
+  </button>
+
+  <p className="text-sm text-gray-500 mt-2">
+    <strong>Note:</strong> Cash on Delivery orders may incur additional charges.
+  </p>
+</div>
+
             </>
           )}
         </div>

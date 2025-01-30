@@ -5,12 +5,15 @@ import Footer from './components/footer/footer';
 import HeaderProvider from './context/appContext';
 import OtpLoginPopup from './components/login/login';
 import Offer from './components/offer';
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import Loading from './components/loading/loading';
 import Home from './components/home/home';
 import PrivacyPolicy from './components/FooterDetails/privacyPolicy';
 import ScrollToTop from './components/home/scrollTop';
 import PaymentStatus from './components/cart/paymentStatus';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts } from './store/reducers/productReducer';
+import { RootState } from './store/store';
 const About = lazy(() => import('./components/about/about'));
 const CategoryPage = lazy(() => import('./components/categoryPage/categoryPage'));
 const ProductPage = lazy(() => import('./components/product/ProductPage'));
@@ -22,6 +25,12 @@ const ReturnAndExchanges = lazy(() => import('./components/FooterDetails/returnE
 const TermsAndConditions = lazy(() => import('./components/FooterDetails/terms'));
 const Account = lazy(() => import('./account/account'));
 function App() {
+  const dispatch = useDispatch<any>();
+  useEffect(() => {
+    dispatch(fetchProducts());
+    console.log("Claee")
+     // Fetch products when page loads
+  }, [dispatch]);
   return (
     <>
       <Router>

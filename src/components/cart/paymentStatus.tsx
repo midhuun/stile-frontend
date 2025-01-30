@@ -7,9 +7,14 @@ const PaymentStatus = () => {
   const [statusMessage, setStatusMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+
   async function clearCart() {
-    await fetch("http://localhost:3000/user/clearCart",{credentials:'include',method:'delete'});  
+    await fetch("http://localhost:3000/user/clearCart", {
+      credentials: 'include',
+      method: 'DELETE'
+    });
   }
+
   useEffect(() => {
     const status = searchParams.get("txStatus") || "";
     if (status === "SUCCESS") {
@@ -19,6 +24,7 @@ const PaymentStatus = () => {
     } else {
       setStatusMessage("Payment is pending. Check back later. ⏳");
     }
+    
     clearCart();
     setIsLoading(false);
   }, [searchParams]);
@@ -35,13 +41,14 @@ const PaymentStatus = () => {
 
   return (
     <motion.div
-      className="flex items-center justify-center h-screen bg-white"
+      className="flex items-center justify-center h-screen bg-gray-100"
       variants={animationVariants}
       initial="initial"
       animate="animate"
       exit="exit"
     >
-      <div className="p-8 shadow-lg rounded-2xl text-center max-w-md w-full">
+      <div className="p-8 shadow-lg rounded-2xl text-center max-w-md w-full bg-white">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">Payment Status</h2>
         {isLoading ? (
           <>
             <p className="text-gray-600 mb-6">
@@ -53,11 +60,11 @@ const PaymentStatus = () => {
           </>
         ) : (
           <motion.div
-            className={`${
+            className={`mt-4 text-lg font-semibold ${
               statusMessage.includes("Successful") ? "text-green-500" : 
               statusMessage.includes("Failed") ? "text-red-500" : 
               "text-yellow-500"
-            } mt-4 text-lg font-semibold`}
+            }`}
             variants={animationVariants}
           >
             {statusMessage}

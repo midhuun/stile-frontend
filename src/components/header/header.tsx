@@ -16,10 +16,9 @@ import Cookies from "js-cookie";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firestore/store";
 import Auto from "../home/autoComplete";
-import { useDispatch, useSelector } from "react-redux";
+import {useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { getProducts } from "../../utils/getItems";
-import { setProduct } from "../../store/reducers/productReducer";
 import Bag from "./bag";
 import Favorites from "./favourite";
 
@@ -28,12 +27,9 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { setisUserOpen,isUserOpen,setUser, setiscartOpen, isAuthenticated, setisAuthenticated,isFavouriteOpen,setisFavouriteOpen,searchOpen,setsearchOpen } = useContext(HeaderContext);
   const [isdropDown, setisdropDown] = useState(false);
-  const [subcategories, setsubCategories] = useState([]);
   const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
   const [mobile, setMobile] = useState(null);
   const products = useSelector((state:RootState)=>state.Products);
-  const dispatch = useDispatch();
-  console.log(mobile);
   async function isUser() {
     const response = await fetch("http://localhost:3000/user", { credentials: 'include' });
     const data = await response.json();
@@ -48,13 +44,9 @@ export default function Header() {
       setisAuthenticated(false);
     }
   }
-  async function fetchProducts(){
-    const products = await getProducts();
-    dispatch(setProduct(products));
-  }
+  console.log("Items",products);
   useEffect(() => {
     isUser();
-    fetchProducts();
   }, []);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -69,14 +61,6 @@ export default function Header() {
     setisUserOpen(false);
     // window.location.reload();
   }
-  async function getcategories() {
-    const response = await fetch("https://stile-backend.vercel.app/products");
-    const data: any = await response.json();
-    setsubCategories(data.subCategories);
-  }
-  useEffect(() => {
-    getcategories();
-  }, []);
 
   const sendMessage = () => {
     const phoneNumber = "9677966333";
@@ -100,12 +84,7 @@ export default function Header() {
     setDropdownTimeout(timeout);
   };
   function handlesearch(){
-    const search:any = document.querySelector(".search-autocomplete");
-  if (search) {
-    search.focus();
-  } else {
-    console.error("Element with class 'search-autocomplete' not found.");
-  }
+    
     setsearchOpen(true);
   }
   return (
@@ -153,7 +132,7 @@ export default function Header() {
                     onMouseLeave={handleDropdownClose}
                   >
                     <div className="flex flex-col flex-wrap px-[10%] py-6 justify-center gap-4">
-                      {subcategories.map((subcategory: SubCategory) =>
+                      {products && products.subCategories.map((subcategory: SubCategory) =>
                         <Link key={subcategory.slug} to={`/subcategory/${subcategory.slug}`} className="">
                           {subcategory.name}
                         </Link>
@@ -203,7 +182,7 @@ export default function Header() {
               </li>
               {isdropDown && (
                   <>
-                      {subcategories.map((subcategory: SubCategory) =>
+                      {products && products.subCategories.map((subcategory: SubCategory) =>
                         <Link onClick={()=>setIsMenuOpen(false)} key={subcategory.slug} to={`/subcategory/${subcategory.slug}`} className="border-b font-light text-xs py-3">
                           {subcategory.name}
                         </Link>

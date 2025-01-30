@@ -309,7 +309,7 @@ const handleDotClick = (index:any) => {
 
           {/* Buttons */}
           <div className="flex flex-col gap-3">
-            <Link to='/checkout' className="w-full text-sm md:text-md py-3 bg-black text-center text-white rounded-md hover:opacity-90">
+            <Link onClick={()=>handleCart('addToCart')} to='/checkout' className="w-full text-sm md:text-md py-3 bg-black text-center text-white rounded-md hover:opacity-90">
               Buy Now
             </Link>
             <button onClick={()=>handleCart('addToCart')} className={` ${thisProduct?" cursor-not-allowed":"cursor-pointer"}w-full text-sm md:text-md py-3 border border-gray-500 rounded-md hover:border-black`}>
