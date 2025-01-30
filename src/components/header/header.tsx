@@ -18,7 +18,6 @@ import { auth } from "../../firestore/store";
 import Auto from "../home/autoComplete";
 import {useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { getProducts } from "../../utils/getItems";
 import Bag from "./bag";
 import Favorites from "./favourite";
 
@@ -29,7 +28,7 @@ export default function Header() {
   const [isdropDown, setisdropDown] = useState(false);
   const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
   const [mobile, setMobile] = useState(null);
-  const products = useSelector((state:RootState)=>state.Products);
+  const products = useSelector((state:any)=>state.Products);
   async function isUser() {
     const response = await fetch("http://localhost:3000/user", { credentials: 'include' });
     const data = await response.json();
@@ -45,6 +44,7 @@ export default function Header() {
     }
   }
   console.log("Items",products);
+  console.log(mobile)
   useEffect(() => {
     isUser();
   }, []);
