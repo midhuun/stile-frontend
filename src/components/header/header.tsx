@@ -17,7 +17,6 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../firestore/store";
 import Auto from "../home/autoComplete";
 import {useSelector } from "react-redux";
-import { RootState } from "../../store/store";
 import Bag from "./bag";
 import Favorites from "./favourite";
 
