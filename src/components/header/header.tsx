@@ -29,7 +29,7 @@ export default function Header() {
   const [mobile, setMobile] = useState(null);
   const products = useSelector((state:any)=>state.Products);
   async function isUser() {
-    const response = await fetch("http://localhost:3000/user", { credentials: 'include' });
+    const response = await fetch("https://stile-backend.vercel.app/user", { credentials: 'include' });
     const data = await response.json();
     if (data) {
       console.log(data);

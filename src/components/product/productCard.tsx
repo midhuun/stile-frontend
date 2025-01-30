@@ -5,11 +5,10 @@ import { Link } from 'react-router-dom'
 // import { PiHeartStraightFill } from "react-icons/pi";
 
 const ProductCard = ({product}:any) => {
-
   const [currentImage, setCurrentImage] = useState<any>(product.images[0]);
   // const {setFavourites,setisFavouriteOpen} = useContext<any>(HeaderContext);
     // const addToFavorite = async() => {
-    //    const res= await fetch(`http://localhost:3000/user/addtoFavourites`,{
+    //    const res= await fetch(`https://stile-backend.vercel.app/user/addtoFavourites`,{
     //      method: 'POST',
     //      credentials:'include',
     //      headers: {
@@ -42,7 +41,7 @@ const ProductCard = ({product}:any) => {
           <div className='h-5 overflow-hidden flex items-center'>
             <p className="text-[12px] tracking-wide font-light  md:text-[16px] uppercase break-words">{product?.name}</p>
             </div>
-            <p className="text-[11px] tracking-wide font-semibold text-gray-700 h-9 md:h-5 md:text-[13px] ">{product?.description.split(" ").slice(0,6).join(" ")}...</p>
+            <p className="text-[11px] tracking-wide font-semibold text-gray-700 h-9 md:h-5 md:text-[13px]">{product?.description.split(" ").slice(0,6).join(" ")}...</p>
             <p className="text-[12px] md:mt-1 md:text-sm text-black tracking-wide">Rs. {(product?.discountedPrice!==product.price)?product?.discountedPrice:product?.price} <span className="pl-1 md:pl-3 text-[10px] text-gray-400 line-through">{product?.discountedPrice && product?.discountedPrice!==product.price && `Rs. ${product.price}`}</span></p>  
             </div>
      </Link>

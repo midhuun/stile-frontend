@@ -44,7 +44,7 @@ const Account = () => {
    const { user,setisUserOpen } = useContext(HeaderContext);
    const navigate = useNavigate();
 async function getOrders() {
-  const res = await fetch(`http://localhost:3000/user/orders`,{credentials:'include'});
+  const res = await fetch(`https://stile-backend.vercel.app/user/orders`,{credentials:'include'});
   const data = await res.json();
   console.log(data);
 }
@@ -59,7 +59,7 @@ useEffect(()=>{
 },[])
 console.log(user);
 async function handleLogout(){
-  const response =await  fetch("http://localhost:3000/user/logout",{method:'POST',credentials:'include'})
+  const response =await  fetch("https://stile-backend.vercel.app/user/logout",{method:'POST',credentials:'include'})
   const data = await response.json();
   console.log(data);
   setisUserOpen(false);

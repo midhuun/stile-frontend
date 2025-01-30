@@ -61,7 +61,7 @@ const handleDotClick = (index:any) => {
        setisUserOpen(true)
        return
     }
-    const res= await fetch(`http://localhost:3000/user/addtoFavourites`,{
+    const res= await fetch(`https://stile-backend.vercel.app/user/addtoFavourites`,{
       method: 'POST',
       credentials:'include',
       headers: {
@@ -92,7 +92,7 @@ const handleDotClick = (index:any) => {
         console.log("cartvalue",value.item);
         dispatch(deleteFromCart({product:productdata,selectedSize:activeSize}))
       }
-    const res= await fetch(`http://localhost:3000/user/${value}`,{
+    const res= await fetch(`https://stile-backend.vercel.app/user/${value}`,{
       method: 'POST',
       credentials:'include',
       headers: {

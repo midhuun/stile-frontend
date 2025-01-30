@@ -9,7 +9,7 @@ const PaymentStatus = () => {
   const navigate = useNavigate();
 
   async function clearCart() {
-    await fetch("http://localhost:3000/user/clearCart", {
+    await fetch("https://stile-backend.vercel.app/user/clearCart", {
       credentials: 'include',
       method: 'DELETE'
     });
