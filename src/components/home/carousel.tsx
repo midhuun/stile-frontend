@@ -112,7 +112,7 @@ const Carousel = () => {
       {/* Customize Section */}
       <div className="relative flex-1 h-[250px] md:h-[400px] w-full md:w-[50%] overflow-hidden bg-gray-100 rounded-lg flex flex-col justify-between items-center">
         <img
-          src="/custom.gif"
+          src="/custom.webp"
           alt="Customize GIF"
           className="md:h-[450px] sm:h-[300px] h-[250px] min-w-full object-contain"
         />
