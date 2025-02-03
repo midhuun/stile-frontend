@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import { SubCategory, Product } from "../../types/CategoryType";
 import ProductCard from "../product/productCard";
 import { Link } from "react-router-dom";
+import Loading from "../loading/loading";
 
 const HomeSub = () => {
   const [subcategories, setSubcategories] = useState<SubCategory[]>([]);
-  const [loading, setLoading] = useState(false);
-
+  const [loading, setLoading] = useState(true);
   // Fetch categories from the backend
   async function fetchCategories() {
     try {
-      const result = await fetch("https://stile-backend.vercel.app/products");
+      const result = await fetch("https://stile-backend-gnqp.vercel.app/products");
       const data = await result.json();
 
       // Pre-process and remove duplicate products only once
@@ -44,7 +44,7 @@ const HomeSub = () => {
   }, []);
 
   if (loading) {
-    return <p className="text-center text-gray-500">Loading categories...</p>;
+    return <Loading />;
   }
 
   return (

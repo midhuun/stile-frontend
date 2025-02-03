@@ -7,7 +7,8 @@ import validator from "validator";
 import { auth } from "../../firestore/store";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import 'react-toastify/dist/ReactToastify.css';
-import { toast, ToastContainer } from "react-toastify";
+import { Slide, toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 const OtpLoginPopup = () => {
    
   const [mobileNumber, setMobileNumber] = useState<any>("");
@@ -16,26 +17,25 @@ const OtpLoginPopup = () => {
   const { isUserOpen, setisUserOpen,isAuthenticated,setisAuthenticated } = useContext<any>(HeaderContext);
   const [isverifying,setisverifying] = useState<any>(false);
   const [iserror, setiserror] = useState<any>(false);
-
   const [error, seterror] = useState<any>("");
   const [confirmationResult, setConfirmationResult] = useState<any>(null);
-  const [btnmsg,setBtnmsg] = useState<any>("Send OTP");
-  function oncaptchaVerify() {
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(
-       auth,"recaptcha",
-        {
-          size: "invisible",
-          callback: (response) => {
-            onSignup();
-          },
-          "expired-callback": () => {
-            console.log("Recaptcha expired");
-          },
-        }
-      );
-    }
-  }
+  const [btnmsg,setBtnmsg] = useState<any>("Login Instantly");
+  // function oncaptchaVerify() {
+  //   if (!window.recaptchaVerifier) {
+  //     window.recaptchaVerifier = new RecaptchaVerifier(
+  //      auth,"recaptcha",
+  //       {
+  //         size: "invisible",
+  //         callback: (response) => {
+  //           onSignup();
+  //         },
+  //         "expired-callback": () => {
+  //           console.log("Recaptcha expired");
+  //         },
+  //       }
+  //     );
+  //   }
+  // }
   // function onSignup(e){
   //   e.preventDefault();
   //   setBtnmsg("Sending OTP");
@@ -80,6 +80,15 @@ const OtpLoginPopup = () => {
 
   //   }
   // }
+  const validateNumber = () => {
+    const isValid = /^[6-9]\d{9}$/.test(mobileNumber); // Only 10-digit Indian numbers
+    if (!isValid) {
+      seterror("Invalid mobile number. Enter a valid 10-digit number.");
+      return false;
+    }
+    seterror("");
+    return true;
+  };
   const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newOtp = [...otp];
     newOtp[index] = e.target.value;
@@ -90,7 +99,11 @@ const OtpLoginPopup = () => {
   };
   async function otpVerified(e){
     e.preventDefault();
-    const res = await fetch("https://stile-backend.vercel.app/user/login",
+    if(!validateNumber()){
+     toast.error("Enter Valid Mobile Number");
+     alert("Enter Valid Mobile Number");
+    }
+    const res = await fetch("https://stile-backend-gnqp.vercel.app/user/login",
     {method:"POST",
       headers:{"Content-Type":"application/json"},
       credentials:'include',
@@ -98,6 +111,16 @@ const OtpLoginPopup = () => {
       });
     const data = await res.json();
     console.log(data);
+    toast.success("User Login Success ✅", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
     setisAuthenticated(true);
     setisUserOpen(false);
     setisverifying(false);
@@ -105,6 +128,7 @@ const OtpLoginPopup = () => {
     setMobileNumber("");
     setOtp(["", "", "", "","",""]);
   }
+  
   // function onOTPVerify() {
   //   console.log(otp.join(""));
   //   console.log(confirmationResult)
@@ -129,6 +153,10 @@ const OtpLoginPopup = () => {
   // }
   return (
     <div>
+      {/* <div className="absolute inset-0 z-1000  h-screen">
+      <ToastContainer position="top-right" autoClose={3000} theme="light" transition={Slide} />
+      </div> */}
+     
       {isUserOpen && !isAuthenticated && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black bg-opacity-50">
           <div id="recaptcha"></div>
@@ -163,7 +191,7 @@ const OtpLoginPopup = () => {
             {!otpSent && (
               <div className="p-6 flex flex-col">
                 <h2 className="text-md md:text-lg font-semibold text-gray-800 text-center mb-4">
-                  Login with OTP
+                  Login without OTP
                 </h2>
                 <p className="text-gray-600 text-sm md:text-lg text-center mb-4">
                   Enter your mobile number to receive an OTP for verification.

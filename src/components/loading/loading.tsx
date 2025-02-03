@@ -6,8 +6,7 @@ const Loading = () => {
   return (
     <div className="fixed min-h-screen w-full top-0 z-[1000] bg-white flex flex-col justify-center items-center">
     <div className='flex  flex-col items-center gap-3'>
-      <img className='h-20 bg-[#f1f1f1] animate-spin w-20 object-contain rounded-full border ' src="/logo.png" alt="" />
-     
+      <img className='h-20 skeleton-img bg-[#f1f1f1] animate-spin w-20 object-contain rounded-full border ' src="/logo.png" alt="" />
     </div>
 <div className="pt-10 text-lg text-gray-700 flex">
       {loadingWords.map((word:any, index:any) => (

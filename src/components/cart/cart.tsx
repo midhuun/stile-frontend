@@ -49,12 +49,12 @@ const CartPage = () => {
   const total = calculateTotal();
  async function verifyPayment(orderid:string){
       try{
-      const res = await fetch(`https://stile-backend.vercel.app/verify/payment/${orderid}`,{credentials:'include'});
+      const res = await fetch(`https://stile-backend-gnqp.vercel.app/verify/payment/${orderid}`,{credentials:'include'});
       const data = await res.json();
       console.log(data);
       if(data.success){
         console.log("payment verified");
-        const res = await fetch("https://stile-backend.vercel.app/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode,orderId:orderId})});
+        const res = await fetch("https://stile-backend-gnqp.vercel.app/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode,orderId:orderId})});
         navigate(`/payment/status/?&txStatus=SUCCESS`);
         const data = await res.json();
         console.log(data);
@@ -109,7 +109,7 @@ const CartPage = () => {
      setVerifyOrder(true);
      return
     }
-    const res = await fetch("https://stile-backend.vercel.app/user/payment",{credentials:'include',method:'POST',headers:{
+    const res = await fetch("https://stile-backend-gnqp.vercel.app/user/payment",{credentials:'include',method:'POST',headers:{
       "Content-Type": "application/json"},
       body:JSON.stringify({name:address.name,phone:user.phone,amount:total})
     })
@@ -127,7 +127,7 @@ const CartPage = () => {
       return
     }
     if(paymentMethod === 'cod'){
-    const res = await fetch("https://stile-backend.vercel.app/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode})});
+    const res = await fetch("https://stile-backend-gnqp.vercel.app/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode})});
     const data = await res.json();
     console.log(data);
     navigate(`/payment/status/?&txStatus=SUCCESS`);
@@ -288,8 +288,8 @@ const CartPage = () => {
               </div>
 
             {/* Order Summary Section */}
-<div className="mt-6 p-6 border border-gray-300 rounded-lg bg-white shadow-lg w-full">
-  <h2 className="text-xl font-bold text-gray-800 mb-4">Order Summary</h2>
+<div className="mt-6  bg-white  w-full">
+  <h2 className="text-xl font-bold text-gray-800 mb-4">Cost</h2>
   
   <div className="flex justify-between text-sm text-gray-600 mb-3">
     <p>Subtotal</p>

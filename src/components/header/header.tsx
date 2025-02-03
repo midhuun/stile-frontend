@@ -29,7 +29,7 @@ export default function Header() {
   const [mobile, setMobile] = useState(null);
   const products = useSelector((state:any)=>state.Products);
   async function isUser() {
-    const response = await fetch("https://stile-backend.vercel.app/user", { credentials: 'include' });
+    const response = await fetch("https://stile-backend-gnqp.vercel.app/user", { credentials: 'include' });
     const data = await response.json();
     if (data) {
       console.log(data);
@@ -83,7 +83,6 @@ export default function Header() {
     setDropdownTimeout(timeout);
   };
   function handlesearch(){
-    
     setsearchOpen(true);
   }
   return (
@@ -227,7 +226,7 @@ export default function Header() {
         )}
           <div className={`w-full md:w-auto -top-5 bg-white  md:top-1/2 md:-translate-y-[60%]  left-1/2 transform -translate-x-1/2 ${searchOpen ? "absolute" : "hidden"} right-0 z-[999]`}>
            <div className="relative">
-            <Auto items={products} />
+            <Auto items={products.products} />
             </div>
           </div>
         {/* Right Side Icons */}

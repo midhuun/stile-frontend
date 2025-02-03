@@ -5,7 +5,7 @@ import { HeaderContext } from '../../context/appContext';
 import { IoCloseOutline } from 'react-icons/io5';
 function Auto({items}:any) {
   const navigate = useNavigate();
-  const {setsearchOpen} = useContext(HeaderContext)
+  const {setsearchOpen,searchOpen} = useContext(HeaderContext)
   const handleOnSearch = (string:any, results:any) => {
     console.log(string, results)
   }
@@ -56,9 +56,9 @@ function Auto({items}:any) {
             onSelect={handleOnSelect}
             placeholder='Search'
             fuseOptions={{ keys: ["name", "description"] }}
-            autoFocus= {true}
             formatResult={formatResult}
             showIcon={false}
+            autoFocus={searchOpen}
             showClear={false}
             className='search-autocomplete '
             styling={{
