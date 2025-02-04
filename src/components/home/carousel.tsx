@@ -35,7 +35,7 @@ const Carousel = () => {
 
   return (
     <>
-    <div className="flex  flex-col md:flex-row gap-4 items-center justify-center  md:h-[450px] min-w-full p-4">
+    <div className="flex  flex-col md:flex-row  items-center justify-center  md:h-[450px] min-w-full p-4">
       {/* Carousel Section */}
       <div className="relative  h-[180px] md:h-[450px] w-full md:w-[50%] overflow-hidden  rounded-lg flex flex-col justify-between">
         {/* Carousel Wrapper */}
@@ -51,10 +51,10 @@ const Carousel = () => {
               >
                 {isLoading ? (
                   // Skeleton Loader
-                  <div className="w-full h-[150px] md:h-[450px]  animate-pulse rounded-lg"></div>
+                  <div className="w-full h-[230px] md:h-[450px]  animate-pulse rounded-lg"></div>
                 ) : (
                   <>
-                 <div className="relative md:h-[400px]  sm:h-[450px]  h-[230px] min-w-full">
+                 <div className="relative md:h-[400px] rounded-lg sm:h-[450px]  h-full min-w-full">
                  <div className="absolute bottom-2 flex justify-center w-full">
           {items.map((_: any, index: number) => (
             <button
@@ -91,8 +91,9 @@ const Carousel = () => {
         </div>
 
         {/* Previous Button */}
+        
         <button
-          className="absolute text-sm min-h-5 flex justify-center items-center w-5 md:min-h-10 md:w-10 bg-black text-white top-1/2 left-2 transform -translate-y-1/2 rounded-full"
+          className={`${currentIndex=== 0?"hidden":"absolute"}  text-sm min-h-5 flex justify-center items-center w-5 md:min-h-10 md:w-10 bg-black text-white top-1/2 left-2 transform -translate-y-1/2 rounded-full`}
           onClick={goPrev}
           disabled={currentIndex === 0}
         >
@@ -101,7 +102,7 @@ const Carousel = () => {
 
         {/* Next Button */}
         <button
-          className="absolute flex justify-center items-center min-h-5 min-w-5 md:min-h-10 md:min-w-10 bg-black text-white top-1/2 right-2 transform -translate-y-1/2 rounded-full"
+          className={`absolute ${currentIndex === items.length - 1?"hidden":"absolute "} flex justify-center items-center min-h-5 min-w-5 md:min-h-10 md:min-w-10 bg-black text-white top-1/2 right-2 transform -translate-y-1/2 rounded-full`}
           onClick={goNext}
           disabled={currentIndex === items.length - 1}
         >
@@ -113,11 +114,11 @@ const Carousel = () => {
       </div>
     
       {/* Customize Section */}
-      <div className="relative flex-1 h-[250px] md:h-[400px] w-full md:w-[50%] overflow-hidden bg-gray-100 rounded-lg flex flex-col justify-between items-center">
+      <div className="relative flex-1 h-[180px]  md:h-[400px] w-full md:w-[50%] overflow-hidden bg-gray-100  flex flex-col justify-between items-center">
         <img
           src="/custom.webp"
           alt="Customize GIF"
-          className="md:h-[450px] sm:h-[300px] h-[250px] min-w-full object-contain"
+          className="md:h-[450px] sm:h-[300px] h-[180px] min-w-full object-contain"
         />
 
         {/* Button */}

@@ -16,7 +16,7 @@ const VideoGallery = () => {
             className="w-12 h-12 sm:h-20 sm:w-20 md:w-28 relative md:h-28   rounded-full object-top bg-black overflow-hidden shadow-lg flex items-center justify-center"
           >
             {/* Skeleton Loader */}
-            <div className="absolute w-full h-full bg-gray-300 animate-pulse"></div>
+            <div className="absolute w-full h-full bg-black animate-pulse"></div>
             {/* Video Player */}
             <ReactPlayer
               url={url}
