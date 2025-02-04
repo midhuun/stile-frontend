@@ -59,7 +59,7 @@ const HomeSub = () => {
           )}
 
           <div className="flex justify-between items-center mb-5 md:pb-10">
-            <h1 className="font-semibold text-lg md:text-xl">{subcategory.name}</h1>
+            <h1 className="font-semibold text-md md:text-xl">{subcategory.name}</h1>
             <Link to={`/subcategory/${subcategory.slug}`}>
               <h1 className="text-xs md:text-lg underline px-2">View All</h1>
             </Link>

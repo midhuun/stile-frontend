@@ -29,7 +29,7 @@ export default function Header() {
   const [isdropDown, setisdropDown] = useState(false);
   const [query,setQuery] = useState<any>([]);
   const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
- 
+  const [searchVal,setsearchVal] =useState("");
   const products = useSelector((state:any)=>state.Products);
   const fuse = products&& new Fuse(products.products,{keys:["name"],threshold:0.5,minMatchCharLength:2});
   const searchProducts = (query:any) => {
@@ -49,19 +49,16 @@ export default function Header() {
   }
   useEffect(() => {
     isUser();
-  }, [searchProducts]);
+  }, []);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
   async function handlelogout(){
     console.log("hello");
-    await signOut(auth);
-    const token = Cookies.get('token');
-    console.log(token)
-    Cookies.remove('token');
+    await fetch("https://stile-backend.vercel.app/user/logout");
     setisAuthenticated(false);
     setisUserOpen(false);
-    // window.location.reload();
+    window.location.reload();
   }
 
   const sendMessage = () => {
@@ -78,7 +75,12 @@ export default function Header() {
     }
     setisdropDown(true);
   };
-
+  function handleClose(){
+    setsearchOpen(false);
+    setsearchVal("");
+    setQuery([]);
+    
+  }
   const handleDropdownClose = () => {
     const timeout = setTimeout(() => {
       setisdropDown(false); 
@@ -90,12 +92,12 @@ export default function Header() {
     setsearchOpen(true);
   }
   function searchvalue(e:any){
+    setsearchVal(e.target.value)
     let timeout;
     if(timeout) {
       clearTimeout(timeout);
     }
    timeout = setTimeout(() => {
-      setQuery(e.target.value);
       const results = searchProducts(e.target.value);
       setQuery(results);
       console.log(results)
@@ -248,39 +250,44 @@ export default function Header() {
         )}
           <div className={`w-full top-0 md:w-full  inset-0 bg-white  md:top-1/2 md:left-1/2 transform md:-translate-x-1/2 md:-translate-y-1/2 ${searchOpen ? "absolute" : "hidden"} right-0 z-[999]`}>
           <div className="flex relative justify-end md:justify-center mr-3 h-full items-center">
-           <div className="relative  flex items-center justify-center w-[85%] md:w-1/2 ">
-           {query.length>0 &&
-           <div className="absolute top-[100%]  w-full bg-white shadow-lg z-10 p-4 max-w-full sm:max-w-md lg:max-w-lg">
-            {query.map((product:any)=>
-             <div key={product._id} className="flex items-center space-x-4 w-full">
-             <img src={product.images[0]} alt="Product" className="w-16 h-20 object-cover rounded-md" />
-             <div className="flex-1">
-               <div className="text-sm sm:text-sm lg:text-lg font-semibold">{product.name}</div>
-               <div className="text-xs sm:text-sm md:text-md text-gray-500">{product.description.split(" ").slice(0,10).join(" ")}...</div>
-               <div className="text-xs sm:text-sm md:text-md font-bold text-green-600">₹{product.price}</div>
-             </div>
-           </div>
-            )}
+           <div className="relative flex items-center justify-center w-[85%] md:w-1/2 ">
           
-         </div> 
-           }
            <button  onClick={()=>setsearchOpen(false)} className="md:hidden absolute -left-8">
-           <IoMdArrowBack className="text-xl" />
+           <IoMdArrowBack className="text-2xl" />
            </button>
             <button className="absolute  md:pr-10 right-2 top-1/2 transform -translate-y-1/2">
             <BiSearchAlt  className="text-xl" />
             </button>
             <button className="absolute hidden md:block right-3 top-1/2 transform -translate-y-1/2">
-            <IoMdClose onClick={()=>setsearchOpen(false)}  className="text-xl text-red-600" />
+            <IoMdClose onClick={handleClose}  className="text-xl text-red-600" />
             </button>
-            <input onChange={(e:any)=>searchvalue(e)} placeholder="Try Searching Polos.." ref={inputref} className="w-full h-8 placeholder:text-xs placeholder:text-gray-500 md:h-10 p-3 border" type="text" name="" id="" />
+            <input value={searchVal} onChange={(e:any)=>searchvalue(e)} placeholder="Try Searching Polos.." ref={inputref} className="w-full h-8 placeholder:text-xs placeholder:text-gray-500 md:h-10 p-3 border" type="text" name="" id="" />
             {/* <Auto items={products.products} /> */}
             </div>
+            {query.length>0 &&
+           <div className="absolute top-[100%]  w-full bg-white shadow-lg z-10  max-w-full sm:max-w-md lg:max-w-lg">
+            {query.map((product:any)=>
+            <Link onClick={handleClose} to={`/product/${product.slug}`} className="" key={product._id}>
+             <div className="flex p-3 items-center space-x-4 w-full">
+             <img src={product.images[0]} alt="Product" className="w-16 h-20 object-cover rounded-md" />
+             <div className="flex-1">
+               <div className="text-sm text-gray-700 sm:text-sm lg:text-lg font-semibold">{product.name}</div>
+               <div className="text-xs sm:text-sm md:text-md text-gray-500">{product.description.split(" ").slice(0,10).join(" ")}{product.description.length>50 && "..."}</div>
+               <div className="text-xs sm:text-sm md:text-md font-bold text-gray-900">₹{product.price}</div>
+               </div>
+             </div>
+             <div className="w-full h-[1px] my-[2px] bg-black"></div>
+           </Link>
+            )}
+          
+         </div> 
+           }
             </div>
+            
           </div>
+          
         {/* Right Side Icons */}
         <div className="flex  items-center justify-end space-x-1 md:space-x-2 px-3">
-       
           <div className={`${searchOpen?"hidden":"block"}`}>
           <button onClick={()=>handlesearch()}>
             <CiSearch className="text-2xl" />

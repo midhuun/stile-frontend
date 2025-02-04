@@ -35,7 +35,7 @@ const Carousel = () => {
 
   return (
     <>
-    <div className="flex  flex-col md:flex-row  items-center justify-center  md:h-[450px] min-w-full p-4">
+    <div className="flex  flex-col md:flex-row gap-2 items-center justify-center  md:h-[450px] min-w-full p-4">
       {/* Carousel Section */}
       <div className="relative  h-[180px] md:h-[450px] w-full md:w-[50%] overflow-hidden  rounded-lg flex flex-col justify-between">
         {/* Carousel Wrapper */}
@@ -131,9 +131,9 @@ const Carousel = () => {
         </div>
       </div>
     </div>
-    <div className="w-full ">
+    {/* <div className="w-full ">
                   <img className="object-contain w-full h-full" src="/story.webp" alt="" />
-                </div>
+                </div> */}
     </>
   );
 };
