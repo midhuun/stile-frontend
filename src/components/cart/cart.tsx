@@ -60,8 +60,8 @@ const CartPage = () => {
         console.log(data);
         }
       else{
-        console.log("payment failed")
-        navigate(`/payment/status/?&txStatus=FAILED`);
+        console.log(data)
+        // navigate(`/payment/status/?&txStatus=FAILED`);
       }
     }
     catch(err){
