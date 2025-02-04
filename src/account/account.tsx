@@ -42,7 +42,7 @@ const Account = () => {
             {orders.length === 0 ? (
                 <p className="text-gray-500">You have no orders yet.</p>
             ) : (
-                orders.map((order) => (
+                orders.map((order:any) => (
                     <div key={order.orderId} className="border rounded-lg p-4 mb-4 bg-gray-50 shadow-sm hover:shadow-md transition duration-200">
                         <div className="flex flex-col md:flex-row justify-between">
                             <div className="flex-1">
