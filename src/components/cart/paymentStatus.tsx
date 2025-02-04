@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-
-const PaymentStatus = () => {
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import Confetti from "react-confetti";
+import { FaCheckCircle } from "react-icons/fa";
+const OrderSuccess = () => {
+  const [showConfetti, setShowConfetti] = useState(true);
   const [searchParams] = useSearchParams();
-  const [statusMessage, setStatusMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
-
+  const [statusMessage, setStatusMessage] = useState("Order Placed Successfully! 🎉");
   async function clearCart() {
     await fetch("https://stile-backend.vercel.app/user/clearCart", {
       credentials: 'include',
@@ -18,69 +17,101 @@ const PaymentStatus = () => {
   useEffect(() => {
     const status = searchParams.get("txStatus") || "";
     if (status === "SUCCESS") {
-      setStatusMessage("Payment Successful! 🎉");
+      setStatusMessage("Order Placed Successfully! 🎉");
+      setShowConfetti(true);
     } else if (status === "FAILED") {
+      setShowConfetti(false);
       setStatusMessage("Payment Failed. Please try again. ❌");
     } else {
+      setShowConfetti(false);
       setStatusMessage("Payment is pending. Check back later. ⏳");
     }
-    
     clearCart();
-    setIsLoading(false);
   }, [searchParams]);
-
-  const animationVariants = {
-    initial: { opacity: 0, scale: 0.9 },
-    animate: { opacity: 1, scale: 1 },
-    exit: { opacity: 0, scale: 0.9 },
-  };
-
-  const handleGoToOrders = () => {
-    navigate("/user/account");
-  };
+  // Stop confetti after 5 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => setShowConfetti(false), 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <motion.div
-      className="flex items-center justify-center h-screen bg-gray-100"
-      variants={animationVariants}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-    >
-      <div className="p-8 shadow-lg rounded-2xl text-center max-w-md w-full bg-white">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">Payment Status</h2>
-        {isLoading ? (
-          <>
-            <p className="text-gray-600 mb-6">
-              Please wait while we check the status of your payment.
-            </p>
-            <motion.div
-              className="w-16 h-16 border-t-4 border-b-4 border-blue-500 rounded-full mx-auto animate-spin"
-            ></motion.div>
-          </>
-        ) : (
-          <motion.div
-            className={`mt-4 text-lg font-semibold ${
-              statusMessage.includes("Successful") ? "text-green-500" : 
-              statusMessage.includes("Failed") ? "text-red-500" : 
-              "text-yellow-500"
-            }`}
-            variants={animationVariants}
-          >
-            {statusMessage}
-          </motion.div>
-        )}
-        <div className="mt-6">
-          <button
-            onClick={handleGoToOrders}
-            className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300"
-          >
-            Go to My Orders
-          </button>
+    <div className="min-h-screen flex flex-col justify-center items-center bg-gray-50 px-6">
+      {showConfetti &&  <Confetti />}
+
+      {/* ✅ Animated Check Icon */}
+      {showConfetti && 
+       <motion.div
+       initial={{ scale: 0 }}
+       animate={{ scale: 1 }}
+       transition={{ duration: 0.5, ease: "easeOut" }}
+       className="bg-green-100 p-4 rounded-full"
+     >
+       <FaCheckCircle  className="md:w-16 md:h-16 h-8 w-8 text-green-600" />
+     </motion.div>
+      }
+
+
+      {/* ✅ Animated Order Success Message */}
+      <motion.h1
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+        className="md:text-3xl text-md font-bold text-gray-800 mt-6"
+      >
+        {statusMessage}
+      </motion.h1>
+
+      {/* ✅ Subtext */}
+      <motion.p
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.5 }}
+        className="text-gray-600 text-xs md:text-lg text-center max-w-lg mt-2"
+      >
+        Thanks for shopping with Stile Sagio! We are processing your order and will send you a confirmation email shortly.
+      </motion.p>
+
+      {/* ✅ Order Details Section */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6, delay: 0.7 }}
+        className="bg-white shadow-md rounded-lg p-6 mt-6 w-full max-w-md"
+      >
+        <h2 className="md:text-xl text-md font-semibold text-gray-700">Order Summary</h2>
+        <div className="mt-4 text-sm md:text-md space-y-2">
+          <p className="text-gray-600">
+            <strong>Order ID:</strong> #123456789
+          </p>
+          <p className="text-gray-600">
+            <strong>Total Amount:</strong> ₹1,299.00
+          </p>
+          <p className="text-gray-600">
+            <strong>Estimated Delivery:</strong> 5-7 Business Days
+          </p>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+
+      {/* ✅ Call-to-Action Buttons */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 1 }}
+        className="flex space-x-4 mt-6"
+      >
+        <Link to="/orders">
+          <button className="md:px-6 md:py-3 p-3 bg-blue-600 text-white rounded-lg font-medium text-sm md:text-lg shadow-md hover:bg-blue-700 transition">
+            View Order
+          </button>
+        </Link>
+        <Link to="/">
+          <button className="md:px-6 md:py-3 p-3 bg-gray-800 text-white rounded-lg font-medium text-sm md:text-lg shadow-md hover:bg-gray-900 transition">
+            Continue Shopping
+          </button>
+        </Link>
+      </motion.div>
+    </div>
   );
 };
 
-export default PaymentStatus;
+export default OrderSuccess;
