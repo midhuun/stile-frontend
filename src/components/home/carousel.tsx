@@ -54,7 +54,7 @@ const Carousel = () => {
                   <div className="w-full h-[150px] md:h-[450px]  animate-pulse rounded-lg"></div>
                 ) : (
                   <>
-                 <div className="relative md:h-[400px]  sm:h-[450px] h-[180px] min-w-full object-top ">
+                 <div className="relative md:h-[400px]  sm:h-[450px]  h-[230px] min-w-full">
                  <div className="absolute bottom-2 flex justify-center w-full">
           {items.map((_: any, index: number) => (
             <button
@@ -75,9 +75,9 @@ const Carousel = () => {
                     `}
                     src={`${item.image}?q=30&format=webp`}
                     alt={item.title}
-                    className="object-cover object-top rounded-lg w-full h-full"
+                    className="object-contain rounded-lg w-full h-full"
                   />
-                  <div className="absolute bottom-5  left-1/2 transform -translate-x-1/2">
+                  <div className="absolute bottom-8  left-1/2 transform -translate-x-1/2">
                   <Link to={`/subcategory/${generateSlug(item.title)}`}> <button className="hover:bg-black border hover:text-white text-[12px] text-black md:text-sm py-1 px-3 md:py-3 md:font-semibold md:px-6 rounded bg-white transition duration-300">
                      Shop Now
                    </button>

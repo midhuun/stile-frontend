@@ -1,11 +1,11 @@
 import ReactPlayer from "react-player";
 const VideoGallery = () => {
   const videoUrls = [
-    "/vid1.mp4",
-    "/vid2.mp4",
-    "/vid3.mp4",
-    "/vid4.mp4",
-    "/vid1.mp4",
+    "/video1.mp4",
+    "/video2.mp4",
+    "/video3.mp4",
+    "/video4.mp4",
+    "/video5.mp4",
   ];
   return (
     <div className="flex items-center justify-center h-auto pt-12 pb-2">

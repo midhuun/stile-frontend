@@ -378,31 +378,25 @@ const handleDotClick = (index:any) => {
                       {/* Shipping Section */}
                       <h2 className="font-bold text-base md:text-lg mb-2">SHIPPING</h2>
                       <ul className="list-disc list-inside space-y-1 text-xs md:text-sm">
-                        <li>Free shipping on all prepaid orders.</li>
-                        <li>A handling fee of Rs. 100 is charged for COD orders.</li>
-                        <li>Products are shipped from our warehouse within few working days.</li>
-                        <li>You will receive a tracking number once your order has been shipped.</li>
+                      <li><strong>Shipping Methods:</strong> We usually ship with private couriers through Shiprocket, ST Couriers, Professional Courier, DTDC, etc. For other states, we use Blue Dart, Speed Post, Ekart, Ecomm Express, and Delhivery.</li>
+  <li><strong>Dispatch Time:</strong> Dispatch time is typically within 48-72 hours.</li>
+  <li><strong>Delivery Time:</strong> Delivery time within India is typically 4-7 business days, while international deliveries take around 7-12 business days.</li>
+  <li><strong>Note:</strong> At times, delivery may take longer due to changes in delivery routes or other unforeseen circumstances.</li>
+  <li><strong>Legal Disputes:</strong> All legal disputes are subject to the jurisdiction of Tirupur.</li>
                       </ul>
                     
                       {/* Returns & Exchange Section */}
-                      <h2 className="font-bold text-base md:text-lg mt-4 mb-2">RETURNS, CANCELLATION & EXCHANGE POLICY</h2>
-<p className="text-xs md:text-sm mb-4">
-  At The Stile Sagio, our focus is on complete customer satisfaction. If you are displeased with our services, we offer an exchange, provided the reasons are genuine and verified after investigation. Please carefully review the details of each product before making a purchase, as it contains all the necessary information about the items or services you are ordering.
-</p>
-
-<h3 className="font-semibold text-sm md:text-base mb-2">Cancellation / Refund Policy</h3>
+<h3 className="font-semibold text-base md:text-lg my-2">Cancellation / Refund Policy</h3>
 <ul className="list-disc list-inside space-y-1 text-xs md:text-sm">
-  <li>We do not accept cancellations or refunds, as we start manufacturing and dispatching orders immediately after they are placed.</li>
-</ul>
-
-<h3 className="font-semibold text-sm md:text-base mt-4 mb-2">Exchange Policy</h3>
-<ul className="list-disc list-inside space-y-1 text-xs md:text-sm">
-  <li>We strive to provide the best quality goods to our customers.</li>
-  <li>Ensure you select the correct size using the size guide before placing an order. Exchanges/returns for incorrect sizes ordered by customers will not be entertained.</li>
-  <li>If you receive an incorrect or damaged product, we offer an exchange.</li>
-  <li>Exchange requests must be initiated within 48 hours of product delivery. Requests submitted later will not be eligible for exchange.</li>
-  <li>Refunds for credit card payments will be issued to the original card used at purchase. Payments made through gateways will be refunded to the same account.</li>
-  <li>For support, please contact us via WhatsApp by clicking the icon visible on your screen.</li>
+<li><strong>Return Policy:</strong> We have a 7-day return policy, which means you have 7 days after receiving your item to request a return.</li>
+  <li><strong>Eligibility for Return:</strong> 
+    <ul>
+      <li>The item must be in the same condition that you received it.</li>
+      <li>It must be unworn or unused, with tags.</li>
+      <li>It should be in its original packaging.</li>
+      <li>You’ll also need the receipt or proof of purchase.</li>
+    </ul>
+  </li>
 </ul>
 
 
