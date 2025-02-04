@@ -75,7 +75,7 @@ const Carousel = () => {
                     `}
                     src={`${item.image}?q=30&format=webp`}
                     alt={item.title}
-                    className="object-cover rounded-lg w-full h-full"
+                    className="object-cover object-top rounded-lg w-full h-full"
                   />
                   <div className="absolute bottom-8  left-1/2 transform -translate-x-1/2">
                   <Link to={`/subcategory/${generateSlug(item.title)}`}> <button className="hover:bg-black border hover:text-white text-[12px] text-black md:text-sm py-1 px-3 md:py-3 md:font-semibold md:px-6 rounded bg-white transition duration-300">
