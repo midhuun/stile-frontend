@@ -32,7 +32,7 @@ const CartPage = () => {
   let cashfree:any;
   var initializeSDK = async function(){
     cashfree = await load({
-      mode:'sandbox',
+      mode:'production',
       
     })
   };
