@@ -267,13 +267,17 @@ const handleDotClick = (index:any) => {
           <p><span className="font-semibold text-sm">Note:</span> Please check size before buying</p>
           {/* Size Selection */}
           <div>
+            <div className="flex text-sm py-2 gap-1">
+            <p>Size:</p>
+            <p>{activeSize}</p>
+            </div>
             <p className="text-sm md:text-md font-medium">Select Size:</p>
             <div className="flex gap-3 mt-2">
               {productdata?.sizes?.map((size:any) => (
                 <div
                   key={size?._id}
                   onClick={() => setActiveSize(size.size)}
-                  className={`cursor-pointer uppercase text-semibold text-sm md:text-md p-3 md:px-4 md:py-2 border ${
+                  className={`cursor-pointer uppercase text-semibold text-xs md:text-md py-2 px-3 md:px-4 md:py-2 border ${
                     activeSize === size.size
                       ? "bg-black text-white"
                       : "bg-white text-black border-gray-500"
@@ -309,32 +313,36 @@ const handleDotClick = (index:any) => {
 
           {/* Buttons */}
           <div className="flex flex-col gap-3">
-            <Link onClick={()=>handleCart('addToCart')} to='/checkout' className="w-full text-sm md:text-md py-3 bg-black text-center text-white rounded-md hover:opacity-90">
+            {/* <Link onClick={()=>handleCart('addToCart')} to='/checkout' className="w-full text-sm md:text-md py-3 bg-black text-center text-white rounded-md hover:opacity-90">
               Buy Now
-            </Link>
-            <button onClick={()=>handleCart('addToCart')} className={` ${thisProduct?" cursor-not-allowed":"cursor-pointer"}w-full text-sm md:text-md py-3 border border-gray-500 rounded-md hover:border-black`}>
-              Add to Cart
+            </Link> */}
+            <button onClick={()=>handleCart('addToCart')} className={` ${thisProduct?"hidden":"block"} cursor-pointer uppercase bg-black text-white w-full text-sm md:text-md py-3 border border-gray-500 rounded-md hover:border-black`}>
+              Add to bag
+            </button>
+            
+            <button onClick={()=>setiscartOpen(true)} className={` ${thisProduct?"block ":"hidden"} cursor-pointer uppercase bg-black text-white w-full text-sm md:text-md py-3 border border-gray-500 rounded-md hover:border-black`}>
+            GO to BAg
             </button>
           </div>
           {/* Delivery Info */}
           <div className="flex w-full border border-gray-300 divide-x divide-gray-300 bg-white shadow-lg rounded-lg">
   {/** First Section */}
   <div className="flex flex-col gap-2 items-center text-center p-4 w-1/3 transform transition-transform hover:scale-105 duration-300">
-    <BsFillCartCheckFill className="text-blue-500 text-lg md:text-3xl " />
-    <p className="text-gray-600 text-xs md:text-base font-medium"></p>
+  <img className=" h-6 w-6 object-contain md:h-10 md:w-10" src="/quality.png" alt="" />
+    <p className="text-gray-600 text-xs md:text-base font-medium">Qulaity Checked</p>
   </div>
 
   {/** Second Section */}
   <div className="flex flex-col gap-2 items-center text-center p-4 w-1/3 transform transition-transform hover:scale-105 duration-300">
-    <FaTruck className="text-green-500 text-lg md:text-3xl animate-pulse" />
-    <p className="text-gray-600 text-xs md:text-base font-medium">Order Ready</p>
+   <img className=" h-6 w-6 object-contain md:h-10 md:w-10" src="/original.png" alt="" />
+    <p className="text-gray-600 text-xs md:text-base font-medium">Genuine Product</p>
   </div>
 
   {/** Third Section */}
   <div className="flex flex-col gap-2 items-center text-center p-4 w-1/3 transform transition-transform hover:scale-105 duration-300">
-    <FaLocationDot className="text-red-500 text-lg md:text-3xl animate-pulse" />
+  <img className="h-6 w-6 object-contain md:h-10 md:w-10" src="/return.png" alt="" />
     <p className="text-gray-600 text-xs md:text-base font-medium">
-      Delivered soon
+     7 Days Return Policy
     </p>
   </div>
 </div>

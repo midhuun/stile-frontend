@@ -21,7 +21,6 @@ const Bag = () => {
     console.log("Bag mounted");
      fetchCart();
   }, [dispatch]);
-  console.log(cart);
   function handlelogin(){
     setisUserOpen(true);
     setiscartOpen(false);

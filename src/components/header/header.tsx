@@ -1,9 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { CiHeart, CiSearch } from "react-icons/ci";
 import { PiShoppingBagLight } from "react-icons/pi";
 import { LiaUser } from "react-icons/lia";
 import { HeaderContext } from "../../context/appContext";
+import Fuse from 'fuse.js'
 // import Logo from '../../assets/logo.png';
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaFacebookSquare, FaMapMarkerAlt, FaWhatsapp, FaYoutube } from "react-icons/fa";
@@ -11,29 +12,33 @@ import { Link } from "react-router-dom";
 import { SubCategory } from "../../types/CategoryType";
 import { AiOutlineInstagram } from "react-icons/ai";
 import { FiShoppingBag } from "react-icons/fi";
-import { IoIosArrowDown, IoIosArrowUp, IoMdLogOut } from "react-icons/io";
+import { IoIosArrowDown, IoIosArrowUp, IoMdClose, IoMdLogOut } from "react-icons/io";
 import Cookies from "js-cookie";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firestore/store";
-import Auto from "../home/autoComplete";
 import {useSelector } from "react-redux";
 import Bag from "./bag";
 import Favorites from "./favourite";
+import { BiSearchAlt } from "react-icons/bi";
 
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const inputref = useRef<any>(null);
   const { setisUserOpen,isUserOpen,setUser, setiscartOpen, isAuthenticated, setisAuthenticated,isFavouriteOpen,setisFavouriteOpen,searchOpen,setsearchOpen } = useContext(HeaderContext);
   const [isdropDown, setisdropDown] = useState(false);
+  const [query,setQuery] = useState("");
   const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
-  const [mobile, setMobile] = useState(null);
+ 
   const products = useSelector((state:any)=>state.Products);
+  const fuse = products&& new Fuse(products.products,{keys:["name"],threshold:0.5,minMatchCharLength:2});
+  const searchProducts = (query:any) => {
+    return fuse.search(query).map((result:any) => result.item);
+  };
   async function isUser() {
     const response = await fetch("https://stile-backend.vercel.app/user", { credentials: 'include' });
     const data = await response.json();
     if (data) {
-      console.log(data);
-      setMobile(data?.user?.phone);
       setUser(data?.user);
     }
     if (response.status === 200) {
@@ -42,11 +47,9 @@ export default function Header() {
       setisAuthenticated(false);
     }
   }
-  console.log("Items",products);
-  console.log(mobile)
   useEffect(() => {
     isUser();
-  }, []);
+  }, [searchProducts]);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -83,8 +86,27 @@ export default function Header() {
     setDropdownTimeout(timeout);
   };
   function handlesearch(){
+    inputref.current.focus();
     setsearchOpen(true);
   }
+  function searchvalue(e:any){
+    let timeout;
+    if(timeout) {
+      clearTimeout(timeout);
+    }
+   timeout = setTimeout(() => {
+      setQuery(e.target.value);
+      const results = searchProducts(e.target.value);
+      setQuery(results);
+      console.log(results)
+    }, 800);
+    
+  }
+  useEffect(() => {
+    if (searchOpen && inputref.current) {
+      inputref.current.focus();
+    }
+  }, [searchOpen]);
   return (
     <>
     <Bag />
@@ -224,15 +246,35 @@ export default function Header() {
             </div>
           </div>
         )}
-          <div className={`w-full md:w-auto -top-5 bg-white  md:top-1/2 md:-translate-y-[60%]  left-1/2 transform -translate-x-1/2 ${searchOpen ? "absolute" : "hidden"} right-0 z-[999]`}>
-           <div className="relative">
-            <Auto items={products.products} />
+          <div className={`w-full top-0 md:w-auto inset-0 bg-white  md:top-1/2 md:left-1/2 transform md:-translate-x-1/2 md:-translate-y-1/2 ${searchOpen ? "absolute" : "hidden"} right-0 z-[999]`}>
+           <div className="relative w-[90%] ">
+           <div className="absolute top-full left-0 w-full bg-white shadow-lg z-10 p-4 max-w-full sm:max-w-md lg:max-w-lg">
+  <div className="flex items-center space-x-4 w-full">
+    <img src="path/to/product-image.jpg" alt="Product" className="w-16 h-16 object-cover rounded-md" />
+    <div className="flex-1">
+      <div className="text-base sm:text-lg lg:text-xl font-semibold">Product Name</div>
+      <div className="text-xs sm:text-sm md:text-base text-gray-500">Product Description</div>
+
+    
+      <div className="text-lg sm:text-xl md:text-2xl font-bold text-green-600">₹999</div>
+    </div>
+  </div>
+</div>
+
+            <button className="absolute  pr-10 right-2 top-1/2 transform -translate-y-1/2">
+            <BiSearchAlt  className="text-xl" />
+            </button>
+            <button className="absolute right-3 top-1/2 transform -translate-y-1/2">
+            <IoMdClose onClick={()=>setsearchOpen(false)}  className="text-xl text-red-600" />
+            </button>
+            <input onChange={(e:any)=>searchvalue(e)} ref={inputref} className="w-full  md:h-10 p-3 border" type="text" name="" id="" />
+            {/* <Auto items={products.products} /> */}
             </div>
           </div>
         {/* Right Side Icons */}
         <div className="flex  items-center justify-end space-x-1 md:space-x-2 px-3">
        
-          <div>
+          <div className={`${searchOpen?"hidden":"block"}`}>
           <button onClick={()=>handlesearch()}>
             <CiSearch className="text-2xl" />
           </button>
