@@ -55,7 +55,7 @@ const CartPage = () => {
       if(data.success){
         console.log("payment verified");
         const res = await fetch("https://stile-backend.vercel.app/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode,orderId:orderId})});
-        navigate(`/payment/status/?&txStatus=SUCCESS`);
+        // navigate(`/payment/status/?&txStatus=SUCCESS`);
         const data = await res.json();
         console.log(data);
         }
@@ -79,13 +79,13 @@ const CartPage = () => {
     };
     cashfree.checkout({...checkoutOptions , paymentFailureCallback :(data: any) => {
       console.log("Payment failure callback", data);
-      window.location.href = "http://localhost:5173/payment/status";
+      // window.location.href = "http://localhost:5173/payment/status";
     }
   }).then((result:any)=>{
       if (result.error) {
         console.log("User has closed the popup or there is some payment error, Check for Payment Status");
         console.log(result.error);
-        window.location.href = "http://localhost:5173/payment/status?status=FAILED";
+        // window.location.href = "http://localhost:5173/payment/status?status=FAILED";
       }
       if (result.redirect) {
         console.log("Payment will be redirected");
@@ -93,7 +93,7 @@ const CartPage = () => {
       if (result.paymentDetails) {
         console.log("Payment has been completed, Check for Payment Status");
         console.log(result.paymentDetails.paymentMessage);
-        window.location.href = "http://localhost:5173/payment/status?status=FAILED";
+        // window.location.href = "http://localhost:5173/payment/status?status=FAILED";
       }
       verifyPayment(orderid);
   })
