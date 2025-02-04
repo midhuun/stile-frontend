@@ -70,25 +70,7 @@ const OrderSuccess = () => {
       </motion.p>
 
       {/* ✅ Order Details Section */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, delay: 0.7 }}
-        className="bg-white shadow-md rounded-lg p-6 mt-6 w-full max-w-md"
-      >
-        <h2 className="md:text-xl text-md font-semibold text-gray-700">Order Summary</h2>
-        <div className="mt-4 text-sm md:text-md space-y-2">
-          <p className="text-gray-600">
-            <strong>Order ID:</strong> #123456789
-          </p>
-          <p className="text-gray-600">
-            <strong>Total Amount:</strong> ₹1,299.00
-          </p>
-          <p className="text-gray-600">
-            <strong>Estimated Delivery:</strong> 5-7 Business Days
-          </p>
-        </div>
-      </motion.div>
+
 
       {/* ✅ Call-to-Action Buttons */}
       <motion.div
