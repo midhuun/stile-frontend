@@ -326,7 +326,7 @@ const handleDotClick = (index:any) => {
   {/** First Section */}
   <div className="flex flex-col gap-2 items-center text-center p-4 w-1/3 transform transition-transform hover:scale-105 duration-300">
   <img className=" h-6 w-6 object-contain md:h-10 md:w-10" src="/quality.png" alt="" />
-    <p className="text-gray-600 text-xs md:text-base font-medium">Qulaity Checked</p>
+    <p className="text-gray-600 text-xs md:text-base font-medium">Quality Checked</p>
   </div>
 
   {/** Second Section */}
