@@ -103,7 +103,7 @@ const OtpLoginPopup = () => {
      toast.error("Enter Valid Mobile Number");
      alert("Enter Valid Mobile Number");
     }
-    const res = await fetch("https://stile-backend-gnqp.vercel.app/user/login",
+    const res = await fetch("https://stile-backend.vercel.app/user/login",
     {method:"POST",
       headers:{"Content-Type":"application/json"},
       credentials:'include',
