@@ -57,11 +57,7 @@ const Account = () => {
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-2">
                             {order.products.map((product:any) => (
                                 <div key={product._id} className="flex flex-col items-center bg-white p-2 rounded-lg shadow-sm border">
-                                    <img 
-                                        src={product.images?.[0] || '/placeholder.jpg'} 
-                                        alt="Product" 
-                                        className="w-24 h-24 object-cover rounded-lg"
-                                    />
+      
                                     <p className="text-sm text-center font-medium">{product.product}</p>
                                     <p className="text-xs text-gray-600">Qty: {product.quantity} | Size: {product.selectedSize}</p>
                                 </div>
@@ -69,7 +65,7 @@ const Account = () => {
                         </div>
                     </div>
                 ))
-            )}
+            )} 
         </div>
     );
 };
