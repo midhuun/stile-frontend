@@ -233,7 +233,7 @@ const handleDotClick = (index:any) => {
         {/* Right Side - Product Info */}
         <div className="space-y-4 p-2 md:w-[50%]">
           <h1 className="text-md md:text-4xl">{productdata?.name}</h1>
-          <h2 className="text-md md:text-xl font-light">Rs. {productdata?.price}.00</h2>
+          <h2 className="text-md md:text-xl font-bold">Rs. {productdata?.price}.00</h2>
           <p className="text-gray-600 text-xs md:text-sm">
             Tax included. Shipping calculated at checkout.
           </p>
