@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Confetti from "react-confetti";
 import { FaCheckCircle } from "react-icons/fa";
 const OrderSuccess = () => {
