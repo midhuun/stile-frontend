@@ -34,12 +34,12 @@ const ProductCard = ({product}:any) => {
   return (
     <div className={`h-[350px] flex flex-col ${product.type === 'home' ? 'w-[140px]' :"w-[49%] xs:w-[32%] sm:w-[30%]" } h-[350px]  md:h-[560px] md:w-[300px]`} key={product?._id}>
        <Link to={`/product/${product.slug}`}>
-      <div className='overflow-hidden relative h-[220px] md:h-[450px]'>       
+      <div className='overflow-hidden relative h-[280px] md:h-[450px]'>       
         <img onMouseEnter={handleMouseEnter} loading='lazy' onMouseLeave={handleMouseLeave} className="w-full rounded-md object-top tranition-all duration-[1.5s]  h-[230px] md:h-[450px] object-cover hover:scale-[1.01] " src={`${currentImage}?w=380&h=450&q=75`} alt="" />
         </div>
         <div className="md:p-2 py-2 ">  
           <div className='h-10 overflow-hidden flex items-center'>
-            <p className="text-[12px]  font-light  md:text-[16px] uppercase break-words">{product?.name}</p>
+            <p className="text-[12px]  font-semibold  md:text-[16px] uppercase break-words">{product?.name}</p>
             </div>
             {/* <p className="text-[11px] h-10 tracking-wide font-semibold text-gray-700  md:h-5 md:text-[13px]">{product?.description.split(" ").slice(0,6).join(" ")}...</p> */}
             <p className="text-[12px] md:mt-1 md:text-sm text-black tracking-wide">Rs. {(product?.discountedPrice!==product.price)?product?.discountedPrice:product?.price} <span className="pl-1 md:pl-3 text-[10px] text-gray-400 line-through">{product?.discountedPrice && product?.discountedPrice!==product.price && `Rs. ${product.price}`}</span></p>  

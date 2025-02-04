@@ -188,6 +188,7 @@ const CartPage = () => {
           <form onSubmit={handleAddress} className=" text-sm">
             <label className="px-2 font-semibold">Full Name <span className="text-red-500">*</span></label>
             <input
+              disabled={isupdated}
               type="text"
               onChange={(e:any)=>setAddress((prev:any)=>({...prev,name:e.target.value}))
               }
@@ -197,6 +198,7 @@ const CartPage = () => {
             />
             <label className="px-2 font-semibold">Address<span className="text-red-500">*</span></label>
             <input
+             disabled={isupdated}
               type="text"
               placeholder="Enter your Address"
               onChange={(e:any)=>setAddress((prev:any)=>({...prev,Location:e.target.value}))}
@@ -205,6 +207,7 @@ const CartPage = () => {
             />
             <label className="px-2 font-semibold">Apartment No<span className="text-red-500">*</span></label>
             <input
+            disabled={isupdated}
               type="text"
               placeholder="Apartment, Suite, etc."
               onChange={(e:any)=>setAddress((prev:any)=>({...prev,Apartment:e.target.value}))}
@@ -212,6 +215,7 @@ const CartPage = () => {
             />
             <label className="px-2 font-semibold">City<span className="text-red-500">*</span></label>
             <input
+            disabled={isupdated}
               type="text"
               placeholder="Enter your City Name"
               onChange={(e:any)=>setAddress((prev:any)=>({...prev,city:e.target.value}))}
@@ -220,6 +224,7 @@ const CartPage = () => {
             />
             <label className="px-2 font-semibold">State <span className="text-red-500">*</span></label>
             <input
+            disabled={isupdated}
               type="text"
               onChange={(e:any)=>setAddress((prev:any)=>({...prev,city:e.target.value}))}
               placeholder="Enter your State Name"
@@ -228,6 +233,7 @@ const CartPage = () => {
             />
             <label className="px-2 font-semibold">Pincode<span className="text-red-500">*</span></label>
             <input
+            disabled={isupdated}
               type="text"
               placeholder="Pin Code"
               onChange={(e:any)=>setpincode(e.target.value)}
@@ -236,13 +242,17 @@ const CartPage = () => {
             />
              <label className="px-2 font-semibold">Alternate Mobile</label>
             <input
+            disabled={isupdated}
               type="text"
               placeholder="Mobile Number"
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
               onChange={(e:any)=>setAddress((prev:any)=>({...prev,alternateMobile:e.target.value}))}
             />
             <div className="flex w-full justify-center">
-            <button type="submit" className={`px-3 ${isupdated?"hidden":"block"} w-full bg-[#070b2a] text-white border  py-2`}>Update</button>
+            {
+               isupdated?<p onClick={()=>setisupdated(false)} className={`px-3 ${isupdated?"block":"hidden"} w-full bg-[#070b2a] text-white border text-center cursor-pointer  py-2`}>Edit Address</p>:<button type="submit" className={`px-3 ${isupdated?"hidden":"block"} w-full bg-[#070b2a] text-white border  py-2`}>Update</button>
+            }
+         
             </div>
           
           </form>
