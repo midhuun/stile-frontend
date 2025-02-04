@@ -39,7 +39,6 @@ const OrderSuccess = () => {
       {showConfetti &&  <Confetti />}
 
       {/* ✅ Animated Check Icon */}
-      {showConfetti && 
        <motion.div
        initial={{ scale: 0 }}
        animate={{ scale: 1 }}
@@ -48,7 +47,6 @@ const OrderSuccess = () => {
      >
        <FaCheckCircle  className="md:w-16 md:h-16 h-8 w-8 text-green-600" />
      </motion.div>
-      }
 
 
       {/* ✅ Animated Order Success Message */}
