@@ -2,9 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Product } from "../../types/CategoryType";
 import { IoCloseSharp } from "react-icons/io5";
-import { BsFillCartCheckFill } from "react-icons/bs";
-import { FaTruck } from "react-icons/fa";
-import { FaLocationDot } from "react-icons/fa6";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { HeaderContext } from "../../context/appContext";
 import Suggestion from "./suggestion";
@@ -414,7 +411,7 @@ const handleDotClick = (index:any) => {
                     
                     )}
                     {key === "manufacturer" && (
-                      <p className="py-2">Manufactured by Stile Sagio</p>
+                      <p className="py-2">Manufactured by TVT Textiles</p>
                     
                     )}
                   </div>
