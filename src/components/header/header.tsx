@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { SubCategory } from "../../types/CategoryType";
 import { AiOutlineInstagram } from "react-icons/ai";
 import { FiShoppingBag } from "react-icons/fi";
-import { IoIosArrowDown, IoIosArrowUp, IoMdClose, IoMdLogOut } from "react-icons/io";
+import { IoIosArrowDown, IoIosArrowUp, IoMdArrowBack, IoMdClose, IoMdLogOut } from "react-icons/io";
 import Cookies from "js-cookie";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firestore/store";
@@ -27,7 +27,7 @@ export default function Header() {
   const inputref = useRef<any>(null);
   const { setisUserOpen,isUserOpen,setUser, setiscartOpen, isAuthenticated, setisAuthenticated,isFavouriteOpen,setisFavouriteOpen,searchOpen,setsearchOpen } = useContext(HeaderContext);
   const [isdropDown, setisdropDown] = useState(false);
-  const [query,setQuery] = useState("");
+  const [query,setQuery] = useState<any>([]);
   const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
  
   const products = useSelector((state:any)=>state.Products);
@@ -246,29 +246,36 @@ export default function Header() {
             </div>
           </div>
         )}
-          <div className={`w-full top-0 md:w-auto inset-0 bg-white  md:top-1/2 md:left-1/2 transform md:-translate-x-1/2 md:-translate-y-1/2 ${searchOpen ? "absolute" : "hidden"} right-0 z-[999]`}>
-           <div className="relative w-[90%] ">
-           <div className="absolute top-full left-0 w-full bg-white shadow-lg z-10 p-4 max-w-full sm:max-w-md lg:max-w-lg">
-  <div className="flex items-center space-x-4 w-full">
-    <img src="path/to/product-image.jpg" alt="Product" className="w-16 h-16 object-cover rounded-md" />
-    <div className="flex-1">
-      <div className="text-base sm:text-lg lg:text-xl font-semibold">Product Name</div>
-      <div className="text-xs sm:text-sm md:text-base text-gray-500">Product Description</div>
-
-    
-      <div className="text-lg sm:text-xl md:text-2xl font-bold text-green-600">₹999</div>
-    </div>
-  </div>
-</div>
-
-            <button className="absolute  pr-10 right-2 top-1/2 transform -translate-y-1/2">
+          <div className={`w-full top-0 md:w-full  inset-0 bg-white  md:top-1/2 md:left-1/2 transform md:-translate-x-1/2 md:-translate-y-1/2 ${searchOpen ? "absolute" : "hidden"} right-0 z-[999]`}>
+          <div className="flex relative justify-end md:justify-center mr-3 h-full items-center">
+           <div className="relative  flex items-center justify-center w-[85%] md:w-1/2 ">
+           {query.length>0 &&
+           <div className="absolute top-[100%]  w-full bg-white shadow-lg z-10 p-4 max-w-full sm:max-w-md lg:max-w-lg">
+            {query.map((product:any)=>
+             <div key={product._id} className="flex items-center space-x-4 w-full">
+             <img src={product.images[0]} alt="Product" className="w-16 h-20 object-cover rounded-md" />
+             <div className="flex-1">
+               <div className="text-sm sm:text-sm lg:text-lg font-semibold">{product.name}</div>
+               <div className="text-xs sm:text-sm md:text-md text-gray-500">{product.description.split(" ").slice(0,10).join(" ")}...</div>
+               <div className="text-xs sm:text-sm md:text-md font-bold text-green-600">₹{product.price}</div>
+             </div>
+           </div>
+            )}
+          
+         </div> 
+           }
+           <button  onClick={()=>setsearchOpen(false)} className="md:hidden absolute -left-8">
+           <IoMdArrowBack className="text-xl" />
+           </button>
+            <button className="absolute  md:pr-10 right-2 top-1/2 transform -translate-y-1/2">
             <BiSearchAlt  className="text-xl" />
             </button>
-            <button className="absolute right-3 top-1/2 transform -translate-y-1/2">
+            <button className="absolute hidden md:block right-3 top-1/2 transform -translate-y-1/2">
             <IoMdClose onClick={()=>setsearchOpen(false)}  className="text-xl text-red-600" />
             </button>
-            <input onChange={(e:any)=>searchvalue(e)} ref={inputref} className="w-full  md:h-10 p-3 border" type="text" name="" id="" />
+            <input onChange={(e:any)=>searchvalue(e)} placeholder="Try Searching Polos.." ref={inputref} className="w-full h-8 placeholder:text-xs placeholder:text-gray-500 md:h-10 p-3 border" type="text" name="" id="" />
             {/* <Auto items={products.products} /> */}
+            </div>
             </div>
           </div>
         {/* Right Side Icons */}
