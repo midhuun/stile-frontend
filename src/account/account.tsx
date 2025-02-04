@@ -55,7 +55,7 @@ const Account = () => {
 
                         <h3 className="text-md font-semibold mt-4">Products</h3>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-2">
-                            {order.products.map((product:any) => (
+                            {order.products.length>0 && order.products.map((product:any) => (
                                 <div key={product._id} className="flex flex-col items-center bg-white p-2 rounded-lg shadow-sm border">
       
                                     <p className="text-sm text-center font-medium">{product.product}</p>
