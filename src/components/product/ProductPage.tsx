@@ -273,7 +273,7 @@ const handleDotClick = (index:any) => {
                 <div
                   key={size?._id}
                   onClick={() => setActiveSize(size.size)}
-                  className={`cursor-pointer uppercase text-semibold text-xs md:text-md px-2 py-1 md:px-4 md:py-2 border ${
+                  className={`cursor-pointer uppercase text-semibold text-sm md:text-md p-3 md:px-4 md:py-2 border ${
                     activeSize === size.size
                       ? "bg-black text-white"
                       : "bg-white text-black border-gray-500"
@@ -321,7 +321,7 @@ const handleDotClick = (index:any) => {
   {/** First Section */}
   <div className="flex flex-col gap-2 items-center text-center p-4 w-1/3 transform transition-transform hover:scale-105 duration-300">
     <BsFillCartCheckFill className="text-blue-500 text-lg md:text-3xl " />
-    <p className="text-gray-600 text-xs md:text-base font-medium">Day of Order</p>
+    <p className="text-gray-600 text-xs md:text-base font-medium"></p>
   </div>
 
   {/** Second Section */}
