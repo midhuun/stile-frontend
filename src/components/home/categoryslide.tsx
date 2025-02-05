@@ -5,7 +5,7 @@ const Categories = () => {
     const products = useSelector((state:any)=>state.Products);
   return (
     <>
-   <div className="relative my-4 text-center text-sm md:text-xl font-bold text-gray-800">
+   <div className="relative my-1 md:my-4 text-center text-sm md:text-xl font-bold text-gray-800">
   <span className="relative z-10">Most Popular</span>
   <div className="absolute left-1/2 bottom-0 w-24 h-[2px] bg-black rounded-full transform -translate-x-1/2"></div>
 </div>

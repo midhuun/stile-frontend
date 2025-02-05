@@ -146,7 +146,7 @@ const CartPage = () => {
     <ToastContainer position="top-left" autoClose={3000} theme="light" transition={Slide} />
       {verifyOrder && (
   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-    <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 w-[90%] max-w-md mx-auto">
+    <div className="bg-white   shadow-lg p-6 sm:p-8 w-[90%] max-w-md mx-auto">
       {/* Modal Header */}
       <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-4 text-center sm:text-left">
         Order Confirmation
@@ -166,13 +166,13 @@ const CartPage = () => {
       <div className="flex flex-col sm:flex-row justify-between items-center mt-8 gap-4">
         <button
           onClick={()=>handleOrder()}
-          className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold text-sm sm:text-base hover:bg-blue-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+          className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white   font-semibold text-sm sm:text-base hover:bg-blue-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
         >
           Yes, Confirm Order
         </button>
         <button
           onClick={() => setVerifyOrder(false)}
-          className="w-full sm:w-auto px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold text-sm sm:text-base hover:bg-gray-300 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2"
+          className="w-full sm:w-auto px-6 py-3 bg-gray-200 text-gray-700   font-semibold text-sm sm:text-base hover:bg-gray-300 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2"
         >
           No, Cancel
         </button>
@@ -183,7 +183,7 @@ const CartPage = () => {
 
       <div className="max-w-screen-xl mx-auto flex flex-col md:flex-row gap-6">
         {/* Address Form Section */}
-        <div className="flex-1  p-4 bg-white rounded-lg border-2 shadow-md">
+        <div className="flex-1  p-4 bg-white   border-2 shadow-md">
           <h1 className="text-2xl font-semibold mb-4">Shipping Address</h1>
           <form onSubmit={handleAddress} className=" text-sm">
             <label className="px-2 font-semibold">Full Name <span className="text-red-500">*</span></label>
@@ -259,7 +259,7 @@ const CartPage = () => {
         </div>
 
         {/* Cart Summary Section */}
-        <div className="flex-1 p-4 order-1 md:order-none bg-white rounded-lg border-2 shadow-md">
+        <div className="flex-1 p-4 order-1 md:order-none bg-white   border-2 shadow-md">
           <h1 className="text-lg md:text-xl  font-semibold border-b pb-2 ">Order Summary</h1>
           {cart.length === 0 ? (
             <p className="text-center text-[12px] md:text-md text-gray-500">
@@ -314,46 +314,90 @@ const CartPage = () => {
   </div>
 
   <div className="mb-6">
-    <p className="text-sm font-medium text-gray-700 uppercase">Payment Options</p>
-    
-    <div className="space-y-4 mt-3">
-      <label className={`block p-4 border rounded-lg shadow-sm cursor-pointer transition duration-150 ease-in-out 
-        ${paymentMethod === 'cashfree' ? 'border-violet-700 bg-violet-100' : 'border-gray-300 bg-white hover:bg-gray-50'}`}>
-        <input 
-          type="radio" 
-          name="paymentMethod" 
-          value="cashfree" 
-          checked={paymentMethod === 'cashfree'} 
-          onChange={handlePaymentChange} 
-          className="hidden"
-        />
-        <div className="flex items-center space-x-3">
-          <div className="h-8 w-8 bg-violet-500 text-white flex items-center justify-center rounded-full">
-            <span className="text-lg">💳</span>
-          </div>
-          <span className="text-sm md:text-lg font-medium">Cashfree</span>
+  <p className="text-sm font-medium text-gray-700 uppercase">Payment Options</p>
+
+  <div className=" mt-3">
+    {/* UPI */}
+    <label className={`block p-4 border shadow-sm cursor-pointer transition duration-150 ease-in-out 
+      ${paymentMethod === 'upi' ? 'border-blue-700 bg-blue-100' : 'border-gray-300 bg-white hover:bg-gray-50'}`}>
+      <input 
+        type="radio" 
+        name="paymentMethod" 
+        value="upi" 
+        checked={paymentMethod === 'upi'} 
+        onChange={handlePaymentChange} 
+        className="hidden"
+      />
+      <div className="flex items-center space-x-3">
+        <div className="h-8 w-8 border text-white flex items-center justify-center rounded-full">
+         <img className="h-6 w-6 object-contain" src="/upi.svg" alt="" />
         </div>
-      </label>
-      
-      <label className={`block p-4 border rounded-lg shadow-sm cursor-pointer transition duration-150 ease-in-out 
-        ${paymentMethod === 'cod' ? 'border-violet-500 bg-violet-100' : 'border-gray-300 bg-white hover:bg-gray-50'}`}>
-        <input 
-          type="radio" 
-          name="paymentMethod" 
-          value="cod" 
-          checked={paymentMethod === 'cod'} 
-          onChange={handlePaymentChange} 
-          className="hidden"
-        />
-        <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 bg-green-600 text-white flex items-center justify-center rounded-full">
-            <span className="text-lg">💵</span>
-          </div>
-          <span className="text-sm md:text-lg font-medium">Cash on Delivery</span>
+        <span className="text-sm md:text-lg font-medium">UPI</span>
+      </div>
+    </label>
+
+    {/* Card */}
+    <label className={`block p-4 border   shadow-sm cursor-pointer transition duration-150 ease-in-out 
+      ${paymentMethod === 'card' ? 'border-blue-700 bg-blue-100' : 'border-gray-300 bg-white hover:bg-gray-50'}`}>
+      <input 
+        type="radio" 
+        name="paymentMethod" 
+        value="card" 
+        checked={paymentMethod === 'card'} 
+        onChange={handlePaymentChange} 
+        className="hidden"
+      />
+      <div className="flex items-center space-x-3">
+        <div className="h-8 w-8 border text-white flex items-center justify-center rounded-full">
+        <img className="h-6 w-6 object-contain" src="/card.png" alt="" />
         </div>
-      </label>
-    </div>
+        <span className="text-sm md:text-lg font-medium">Credit / Debit Card</span>
+      </div>
+    </label>
+
+    {/* Net Banking */}
+    <label className={`block p-4 border   shadow-sm cursor-pointer transition duration-150 ease-in-out 
+      ${paymentMethod === 'netbanking' ? 'border border-blue-700 bg-blue-100' : 'border-gray-300 bg-white hover:bg-gray-50'}`}>
+      <input 
+        type="radio" 
+        name="paymentMethod" 
+        value="netbanking" 
+        checked={paymentMethod === 'netbanking'} 
+        onChange={handlePaymentChange} 
+        className="hidden"
+      />
+      <div className="flex items-center space-x-3">
+        <div className="h-8 w-8 border text-white flex items-center justify-center rounded-full">
+        <img className="h-6 w-6 object-contain" src="/net.png" alt="" />
+        </div>
+        <span className="text-sm md:text-lg font-medium">Net Banking</span>
+      </div>
+    </label>
+
+    {/* Wallets */}
+   
+    {/* Pay Later */}
+
+    {/* Cash on Delivery */}
+    <label className={`block p-4 border   shadow-sm cursor-pointer transition duration-150 ease-in-out 
+      ${paymentMethod === 'cod' ? 'border-blue-700 bg-blue-100' : 'border-gray-300 bg-white hover:bg-gray-50'}`}>
+      <input 
+        type="radio" 
+        name="paymentMethod" 
+        value="cod" 
+        checked={paymentMethod === 'cod'} 
+        onChange={handlePaymentChange} 
+        className="hidden"
+      />
+      <div className="flex items-center space-x-3">
+        <div className="w-8 h-8 border text-white flex items-center justify-center rounded-full">
+        <img className="h-6 w-6 object-contain" src="/cash.png" alt="" />
+        </div>
+        <span className="text-sm md:text-lg font-medium">Cash on Delivery</span>
+      </div>
+    </label>
   </div>
+</div>
 
   <hr className="my-4 border-gray-300" />
   
@@ -367,7 +411,7 @@ const CartPage = () => {
     <p>Your payment is secure and encrypted.</p>
   </div>
 
-  <button onClick={handlePayment} className={`mt-6 w-full py-2 bg-[#070b2a] text-white rounded-lg hover:bg-gray-800 transition duration-200`}>
+  <button onClick={handlePayment} className={`mt-6 w-full py-2 bg-[#070b2a] text-white   hover:bg-gray-800 transition duration-200`}>
     {paymentMethod === 'cod' ? 'Place Order' : 'Pay Now'}
   </button>
 

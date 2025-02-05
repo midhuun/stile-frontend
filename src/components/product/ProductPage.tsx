@@ -228,9 +228,9 @@ const handleDotClick = (index:any) => {
     </div>
    </div>
         {/* Right Side - Product Info */}
-        <div className="space-y-4 p-2 md:w-[50%]">
+        <div className="md:space-y-4 space-y-1 p-2 md:w-[50%]">
           <h1 className="text-md md:text-4xl">{productdata?.name}</h1>
-          <h2 className="text-md md:text-xl font-bold">Rs. {productdata?.price}.00</h2>
+          <h2 className="text-md md:text-xl font-bold">₹ {productdata?.price}.00 <span className=" font-normal text-[11px] md:text-xs text-gray-400">Inclusive of all Taxes</span></h2>
           <p className="text-gray-600 text-xs md:text-sm">
             Tax included. Shipping calculated at checkout.
           </p>
@@ -261,13 +261,13 @@ const handleDotClick = (index:any) => {
             )}
           </div>
           {/* Note */}
-          <p><span className="font-semibold text-sm">Note:</span> Please check size before buying</p>
+          <p className="text-xs md:text-sm"><span className="font-semibold text-xs md:text-sm">Note:</span> Please check size before buying</p>
           {/* Size Selection */}
           <div>
-            <div className="flex text-sm py-2 gap-1">
+            {/* <div className="flex text-sm py-2 gap-1">
             <p>Size:</p>
             <p>{activeSize}</p>
-            </div>
+            </div> */}
             <p className="text-sm md:text-md font-medium">Select Size:</p>
             <div className="flex gap-3 mt-2">
               {productdata?.sizes?.map((size:any) => (
@@ -364,7 +364,7 @@ const handleDotClick = (index:any) => {
                     {key === "description" &&
                       productdata?.description &&
                       <>
-                     <ul className="space-y-3 list-disc mx-3">
+                     <ul className="space-y-3 transition-all duration-700 list-disc mx-3">
                       {productdata.attributes && 
                         Object.keys(productdata.attributes).map((key)=>
                           <li className=""> <span className="font-semibold text-black">{key}</span> : {productdata.attributes[key]}</li>

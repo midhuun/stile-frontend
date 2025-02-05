@@ -50,7 +50,7 @@ const HomeSub = () => {
   return (
     <div className="w-full">
       {subcategories.map((subcategory: SubCategory, index) => (
-        <div key={subcategory._id} className="mt-5 w-full px-2 md:px-4">
+        <div key={subcategory._id} className="md:mt-5 w-full px-2 md:px-4">
           {/* Render the special image after the second subcategory */}
           {index === 2 && (
             <div className="w-full object-contain mb-5">
