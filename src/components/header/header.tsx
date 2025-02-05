@@ -55,7 +55,7 @@ export default function Header() {
   };
   async function handlelogout(){
     console.log("hello");
-    await fetch("https://stile-backend.vercel.app/user/logout");
+    await fetch("https://stile-backend.vercel.app/user/logout",{method:'POST',credentials:'include'});
     setisAuthenticated(false);
     setisUserOpen(false);
     window.location.reload();
@@ -248,7 +248,7 @@ export default function Header() {
             </div>
           </div>
         )}
-          <div className={`w-full top-0 md:w-full  inset-0 bg-white  md:top-1/2 md:left-1/2 transform md:-translate-x-1/2 md:-translate-y-1/2 ${searchOpen ? "absolute" : "hidden"} right-0 z-[999]`}>
+         <div className={`w-full md:w-full inset-0 bg-white top-0 right-0 z-[999] transform transition-all duration-300 ease-in-out absolute  ${searchOpen ? " md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 opacity-100" : "-translate-y-full opacity-0"}`}>
           <div className="flex relative justify-end md:justify-center mr-3 h-full items-center">
            <div className="relative flex items-center justify-center w-[85%] md:w-1/2 ">
           
@@ -265,18 +265,20 @@ export default function Header() {
             {/* <Auto items={products.products} /> */}
             </div>
             {query.length>0 &&
-           <div className="absolute top-[100%]  w-full bg-white shadow-lg z-10  max-w-full sm:max-w-md lg:max-w-lg">
+           <div className="absolute md:top-[150%] top-full  w-full bg-white shadow-lg z-10 md:w-[50%]">
+            <h3 className=" text-gray-600 text-[12px] md:text-md p-2">PRODUCTS</h3>
+            <hr />
             {query.map((product:any)=>
-            <Link onClick={handleClose} to={`/product/${product.slug}`} className="" key={product._id}>
+            <Link  onClick={handleClose} to={`/product/${product.slug}`} className="w-full" key={product._id}>
              <div className="flex p-3 items-center space-x-4 w-full">
-             <img src={product.images[0]} alt="Product" className="w-16 h-20 object-cover rounded-md" />
+             <img src={product.images[0]} alt="Product" className="w-12 h-16  object-cover" />
              <div className="flex-1">
-               <div className="text-sm text-gray-700 sm:text-sm lg:text-lg font-semibold">{product.name}</div>
-               <div className="text-xs sm:text-sm md:text-md text-gray-500">{product.description.split(" ").slice(0,10).join(" ")}{product.description.length>50 && "..."}</div>
-               <div className="text-xs sm:text-sm md:text-md font-bold text-gray-900">₹{product.price}</div>
+               <div className="text-sm text-gray-800 sm:text-sm lg:text-md">{product.name}</div>
+               {/* <div className="text-xs sm:text-sm md:text-md text-gray-500">{product.description.split(" ").slice(0,10).join(" ")}{product.description.length>50 && "..."}</div>
+               <div className="text-xs sm:text-sm md:text-md font-bold text-gray-900">₹{product.price}</div> */}
                </div>
              </div>
-             <div className="w-full h-[1px] my-[2px] bg-black"></div>
+             {/* <div className="w-full h-[1px] my-[2px] bg-black"></div> */}
            </Link>
             )}
           
