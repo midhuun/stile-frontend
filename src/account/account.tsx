@@ -6,14 +6,14 @@ const Account = () => {
     const { user, setisUserOpen } = useContext(HeaderContext);
     const navigate = useNavigate();
     const [orders, setOrders] = useState<any>([]);
-
+   
     async function getOrders() {
         const res = await fetch(`https://stile-backend.vercel.app/user/orders`, { credentials: 'include' });
         const data = await res.json();
         setOrders(data.orders);
         console.log(data)
     }
-
+    console.log(orders);
     useEffect(() => {
         if (!user) {
             navigate('/', { replace: true });
