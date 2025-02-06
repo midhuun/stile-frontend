@@ -13,7 +13,7 @@ const Account = () => {
         setOrders(data.orders);
         console.log(data)
     }
-    console.log(orders);
+    
     useEffect(() => {
         if (!user) {
             navigate('/', { replace: true });
@@ -49,19 +49,27 @@ const Account = () => {
                                 <p className="text-sm text-gray-600 font-medium">Status: <span className="text-black">{order.status}</span></p>
                                 <p className="text-sm text-gray-600 font-medium">Total: <span className="text-black font-semibold">₹{order.totalAmount}</span></p>
                                 <p className="text-sm text-gray-600">Payment: {order.paymentMethod}</p>
-                                <p className="text-xs text-gray-500 mt-2">Ordered on: {new Date(order.createdAt).toLocaleString()}</p>
-                            </div>
-                        </div>
-
-                        <h3 className="text-md font-semibold mt-4">Products</h3>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-2">
-                            {order.products.length>0 && order.products.map((product:any) => (
-                                <div key={product._id} className="flex flex-col items-center bg-white p-2 rounded-lg shadow-sm border">
-      
-                                    <p className="text-sm text-center font-medium">{product.product}</p>
-                                    <p className="text-xs text-gray-600">Qty: {product.quantity} | Size: {product.selectedSize}</p>
+                                {order.products && order.products.length >0 && 
+                                <div className='h-32 w-20'>
+                                    <img src={order.products[0].product.images[0]} alt="" className='w-full h-full object-cover' />
                                 </div>
-                            ))}
+                                }
+                                <div className='px-1 mt-3'>
+                                    <div className='h-[1px] bg-gray-300'></div>
+                                <div className='flex mt-3 justify-between'>
+                                <p className="md:text-sm text-xs text-gray-500 mt-2">Ordered on: {new Date(order.createdAt).toLocaleString()}</p> 
+                                <button className='w-[150px] hidden md:block px-3 py-2 border bg-black text-white text-xs  md:text-sm'>View Order</button>
+                                </div>
+                                <div className='flex mt-3 justify-between'>
+                                <p className="md:text-sm text-xs text-gray-500 mt-2">Order No: </p> 
+                                <button className='w-[150px] hidden md:block px-3 py-2 border bg-black text-white text-xs  md:text-sm'>Cancel Order</button>
+                                </div>
+                                <div className='mt-3 flex'>
+                                <button className='w-[150px] md:hidden px-3 py-2 border bg-black text-white text-xs  md:text-sm'>Cancel Order</button>
+                                <button className='w-[150px] md:hidden px-3 py-2 border bg-black text-white text-xs  md:text-sm'>View Order</button>
+                                </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 ))
