@@ -79,7 +79,7 @@ const OrderSuccess = () => {
         transition={{ duration: 0.6, delay: 1 }}
         className="flex space-x-4 mt-6"
       >
-        <Link to="/orders">
+        <Link to="/user/account">
           <button className="md:px-6 md:py-3 p-3 bg-blue-600 text-white rounded-lg font-medium text-sm md:text-lg shadow-md hover:bg-blue-700 transition">
             View Order
           </button>

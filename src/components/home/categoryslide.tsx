@@ -13,7 +13,7 @@ const Categories = () => {
     {products?.subCategories?.length>0 ? products?.subCategories.map((category:any)=>
     <div className=' flex flex-col  min-w-[140px] md:w-[250px] sm:w-[32%] justify-center gap-1 md:gap-4' key={category._id}>
         <Link to={`/subcategory/${category.slug}`}><img loading="lazy" className='rounded-md  h-[230px] xs:h-[300px] w-full md:h-[400px]  object-top object-cover ' src={`${category.image}?w=400&h=500&q=75`} alt="" /></Link>
-        <p className='text-[10px] overflow-hidden  break-words h-10 md:text-[18px] uppercase'>{category.name}</p>
+        <p className='text-[10px] overflow-hidden  break-words h-10 md:text-[14px] uppercase'>{category.name}</p>
     </div>
     ):null}
     </div>

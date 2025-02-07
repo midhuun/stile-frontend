@@ -103,20 +103,20 @@ const Account = () => {
                                         <p className="md:text-sm uppercase font-semibold text-xs text-gray-500 mt-2">Ordered on: 
                                             <span className='text-gray-800'> {new Date(order.createdAt).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })} </span> 
                                         </p> 
-                                        <Link to={`/order/${order.orderId}`} className='w-[150px] hidden md:block px-3 py-2 border bg-black text-white text-xs md:text-sm'>View Order</Link>
+                                        <Link to={`/order/${order.orderId}`} className='w-[150px] text-center hidden md:block px-3 py-2 border bg-black text-white text-xs md:text-sm'>View Order</Link>
                                     </div>
                                     <div className='flex mt-3 justify-between'>
                                         <p className="md:text-sm uppercase font-semibold text-xs text-gray-500 mt-2">Order No: <span className='text-gray-800'>{order.orderId} </span> </p> 
                                         <button 
                                             onClick={() => openCancelModal(order.orderId)} 
-                                            className='w-[150px] hidden md:block px-3 py-2 border bg-black text-white text-xs md:text-sm'
+                                            className='w-[150px] hidden md:block px-3 text-center py-2 border bg-black text-white text-xs md:text-sm'
                                         >
                                             Cancel Order
                                         </button>
                                     </div>
                                     <div className='mt-3 flex justify-between'>
-                                        <Link to={`/order/${order.orderId}`} className='w-[100px] md:hidden px-3 py-2 border bg-black text-white text-xs  md:text-sm'>View Order</Link>
-                                        <button className='w-[100px] md:hidden px-3 py-2 border bg-black text-white text-xs  md:text-sm'>Cancel Order</button>
+                                        <Link to={`/order/${order.orderId}`} className='w-[100px] md:hidden text-center px-3 py-2 border bg-black text-white text-xs  md:text-sm'>View Order</Link>
+                                        <button className='w-[100px] md:hidden px-3 py-2 text-center border bg-black text-white text-xs  md:text-sm'>Cancel Order</button>
                                         </div>
                                 </div>
                             </div>
