@@ -52,7 +52,7 @@ const HomeSub = () => {
     <div className="w-full h-full">
       <img src="https://i.ibb.co/23nH1Tcb/BRAND-STORY-stailosagio-1.jpg" className="w-full h-full object-contain" alt="" />
     </div>
-    <div className="w-full">
+    <div className="w-full mt-5">
       {subcategories.map((subcategory: SubCategory, index) => (
         <div key={subcategory._id} className="md:mt-5 w-full px-2 md:px-4">
           {/* Render the special image after the second subcategory */}

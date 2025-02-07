@@ -25,7 +25,7 @@ import { BiSearchAlt } from "react-icons/bi";
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const inputref = useRef<any>(null);
-  const { setisUserOpen,isUserOpen,setUser, setiscartOpen, isAuthenticated, setisAuthenticated,isFavouriteOpen,setisFavouriteOpen,searchOpen,setsearchOpen } = useContext(HeaderContext);
+  const { setisUserOpen,isUserOpen,setUser,user, setiscartOpen, isAuthenticated, setisAuthenticated,isFavouriteOpen,setisFavouriteOpen,searchOpen,setsearchOpen } = useContext(HeaderContext);
   const [isdropDown, setisdropDown] = useState(false);
   const [query,setQuery] = useState<any>([]);
   const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
@@ -38,7 +38,9 @@ export default function Header() {
   async function isUser() {
     const response = await fetch("https://stile-backend.vercel.app/user", { credentials: 'include' });
     const data = await response.json();
+    console.log("user",data)
     if (data) {
+      console.log("user",data)
       setUser(data?.user);
     }
     if (response.status === 200) {
@@ -50,6 +52,7 @@ export default function Header() {
   useEffect(() => {
     isUser();
   }, []);
+  console.dir(user);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
