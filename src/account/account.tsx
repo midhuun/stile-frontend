@@ -2,7 +2,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { HeaderContext } from '../context/appContext';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaAngleRight } from 'react-icons/fa';
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
 
 const Account = () => {
