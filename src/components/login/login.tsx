@@ -103,7 +103,7 @@ const OtpLoginPopup = () => {
      toast.error("Enter Valid Mobile Number");
      alert("Enter Valid Mobile Number");
     }
-    const res = await fetch("https://stile-backend.vercel.app/user/login",
+    const res = await fetch("http://localhost:3000/user/login",
     {method:"POST",
       headers:{"Content-Type":"application/json"},
       credentials:'include',
@@ -231,7 +231,7 @@ const OtpLoginPopup = () => {
             )}
 
             {/* OTP Form Section (Visible after OTP is sent) */}
-            {/* {otpSent && (
+            {otpSent && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -267,7 +267,7 @@ const OtpLoginPopup = () => {
                  Verify
                 </button>
               </motion.div>
-            )} */}
+            )}
           </motion.div>
         </div>
       )}

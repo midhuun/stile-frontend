@@ -5,7 +5,7 @@ import ProductCard from "./productCard";
 const Suggestion = ({subid,id}:any) => {
     const [suggestions, setSuggestions] = useState<any>([]);
     async function fetchSuggestions() {
-        const result = await fetch(`https://stile-backend.vercel.app/products`);
+        const result = await fetch(`http://localhost:3000/products`);
         const data = await result.json();
         setSuggestions(data?.products);
     }

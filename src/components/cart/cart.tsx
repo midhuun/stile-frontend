@@ -18,6 +18,7 @@ const CartPage = () => {
   const [isupdated,setisupdated] = useState(false);
   const [verifyOrder,setVerifyOrder] = useState(false);
   const navigate = useNavigate();
+  const [email,setmail] = useState("");
   const [sessionId,setsessionId] = useState("");
   const [orderId,setOrderId] = useState("");
   const {user,isAuthenticated} = useContext(HeaderContext);
@@ -32,7 +33,7 @@ const CartPage = () => {
   let cashfree:any;
   var initializeSDK = async function(){
     cashfree = await load({
-      mode:'production',
+      mode:'sandbox',
       
     })
   };
@@ -49,12 +50,12 @@ const CartPage = () => {
   const total = calculateTotal();
  async function verifyPayment(orderid:string){
       try{
-      const res = await fetch(`https://stile-backend.vercel.app/verify/payment/${orderid}`,{credentials:'include'});
+      const res = await fetch(`http://localhost:3000/verify/payment/${orderid}`,{credentials:'include'});
       const data = await res.json();
       console.log(data);
       if(data.success){
         console.log("payment verified");
-        const res = await fetch("https://stile-backend.vercel.app/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode,orderId:orderId})});
+        const res = await fetch("http://localhost:3000/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode,orderId:orderId,email:email})});
         // navigate(`/payment/status/?&txStatus=SUCCESS`);
         const data = await res.json();
         console.log(data);
@@ -77,30 +78,12 @@ const CartPage = () => {
       redirectTarget: "_blank",
       
     };
-    cashfree.checkout({...checkoutOptions , paymentFailureCallback :(data: any) => {
-      console.log("Payment failure callback", data);
-      // window.location.href = "http://localhost:5173/payment/status";
-    }
-  }).then((result:any)=>{
-      if (result.error) {
-        console.log("User has closed the popup or there is some payment error, Check for Payment Status");
-        console.log(result.error);
-        // window.location.href = "http://localhost:5173/payment/status?status=FAILED";
-      }
-      if (result.redirect) {
-        console.log("Payment will be redirected");
-      }
-      if (result.paymentDetails) {
-        console.log("Payment has been completed, Check for Payment Status");
-        console.log(result.paymentDetails.paymentMessage);
-        // window.location.href = "http://localhost:5173/payment/status?status=FAILED";
-      }
-      verifyPayment(orderid);
-  })
-   
+    cashfree.checkout(checkoutOptions);
+    verifyPayment(orderId)
   };
   async function handlePayment(e:any){
     e.preventDefault();
+    console.log(user)
     if(!isupdated){
       toast.warning("Please Enter your address to proceed!!")
       return
@@ -109,7 +92,7 @@ const CartPage = () => {
      setVerifyOrder(true);
      return
     }
-    const res = await fetch("https://stile-backend.vercel.app/user/payment",{credentials:'include',method:'POST',headers:{
+    const res = await fetch("http://localhost:3000/user/payment",{credentials:'include',method:'POST',headers:{
       "Content-Type": "application/json"},
       body:JSON.stringify({name:address.name,phone:user.phone,amount:total})
     })
@@ -127,7 +110,7 @@ const CartPage = () => {
       return
     }
     if(paymentMethod === 'cod'){
-    const res = await fetch("https://stile-backend.vercel.app/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode})});
+    const res = await fetch("http://localhost:3000/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode,email:email})});
     const data = await res.json();
     console.log(data);
     navigate(`/payment/status/?&txStatus=SUCCESS`);
@@ -193,6 +176,15 @@ const CartPage = () => {
               onChange={(e:any)=>setAddress((prev:any)=>({...prev,name:e.target.value}))
               }
               placeholder="Enter your  Name"
+              className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
+              required
+            />
+             <label className="px-2 font-semibold">Email <span className="text-red-500">*</span></label>
+            <input
+            disabled={isupdated}
+              type="text"
+              onChange={(e:any)=>setmail(e.target.value)}
+              placeholder="Enter your Email "
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
               required
             />

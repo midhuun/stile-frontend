@@ -2,6 +2,8 @@
 import { useContext, useEffect, useState } from 'react';
 import { HeaderContext } from '../context/appContext';
 import { Link, useNavigate } from 'react-router-dom';
+import { FaAngleRight } from 'react-icons/fa';
+import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
 
 const Account = () => {
     const { user, setisUserOpen } = useContext(HeaderContext);
@@ -12,7 +14,7 @@ const Account = () => {
     const [cancelReason, setCancelReason] = useState("");
 
     async function getOrders() {
-        const res = await fetch(`https://stile-backend.vercel.app/user/orders`, { credentials: 'include' });
+        const res = await fetch(`http://localhost:3000/user/orders`, { credentials: 'include' });
         const data = await res.json();
         setOrders(data.orders);
     }
@@ -26,7 +28,7 @@ const Account = () => {
     }, [user, navigate]);
 
     async function handleLogout() {
-        await fetch("https://stile-backend.vercel.app/user/logout", { method: 'POST', credentials: 'include' });
+        await fetch("http://localhost:3000/user/logout", { method: 'POST', credentials: 'include' });
         setisUserOpen(false);
     }
 
@@ -48,7 +50,7 @@ const Account = () => {
         if (!cancelOrderId || !cancelReason) return;
 
         try {
-            const res = await fetch(`https://stile-backend.vercel.app/order/delete/${cancelOrderId}`, {
+            const res = await fetch(`http://localhost:3000/order/delete/${cancelOrderId}`, {
                 method: 'POST',
                 credentials:'include',
                 headers: { 'Content-Type': 'application/json' },
@@ -66,7 +68,7 @@ const Account = () => {
     return (
         <div className="max-w-4xl mx-auto pt-10 p-6 bg-white shadow-lg rounded-lg">
             <div className="flex justify-between">
-                <h1 className="text-2xl font-semibold mb-6">My Account</h1>
+                <h1 className="md:text-2xl text-lg font-semibold mb-6">My Account</h1>
                 <button 
                     onClick={handleLogout} 
                     className="bg-blue-500 text-sm md:text-md text-white px-3 py-1 md:px-4 md:py-2 rounded-md hover:bg-blue-600 transition duration-200 mb-6"
@@ -75,53 +77,93 @@ const Account = () => {
                 </button>
             </div>
             
-            <h2 className="text-xl font-semibold mb-4">My Orders</h2>
+            <h2 className="md:text-xl text-md font-semibold mb-4">My Orders</h2>
 
             {orders.length === 0 ? (
                 <p className="text-gray-500">You have no orders yet.</p>
             ) : (
                 orders.map((order: any) => (
-                    <div key={order._id} className="border rounded-lg p-4 mb-4 bg-gray-50 shadow-sm hover:shadow-md transition duration-200">
-                        <div className="flex flex-col md:flex-row justify-between">
-                            <div className="flex-1">
-                                <p className="text-sm text-gray-600 font-medium">Order Status: <span className="text-black">{order.status}</span></p>
-                                <p className="text-sm text-gray-600 font-medium">Total: <span className="text-black font-semibold">₹{order.totalAmount}</span></p>
-                                <p className="text-sm text-gray-600">Payment: {order.paymentMethod}</p>
-                                
-                                {order.products && order.products.length > 0 && (
-                                    <div className='h-24 w-20 mt-2 relative'>
-                                        <div className="absolute text-[12px] font-bold text-gray-500 md:text-sm -right-2 -top-2 h-6 w-6 rounded-full bg-white border flex justify-center items-center">
-                                            {order.products.length}
-                                        </div>
-                                        <img src={order.products[0].product.images[0]} alt="" className='w-full h-full object-cover' />
-                                    </div>
-                                )}
-                                
-                                <div className='px-1 mt-3'>
-                                    <div className='h-[1px] bg-gray-300'></div>
-                                    <div className='flex mt-3 justify-between'>
-                                        <p className="md:text-sm uppercase font-semibold text-xs text-gray-500 mt-2">Ordered on: 
-                                            <span className='text-gray-800'> {new Date(order.createdAt).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })} </span> 
-                                        </p> 
-                                        <Link to={`/order/${order.orderId}`} className='w-[150px] text-center hidden md:block px-3 py-2 border bg-black text-white text-xs md:text-sm'>View Order</Link>
-                                    </div>
-                                    <div className='flex mt-3 justify-between'>
-                                        <p className="md:text-sm uppercase font-semibold text-xs text-gray-500 mt-2">Order No: <span className='text-gray-800'>{order.orderId} </span> </p> 
-                                        <button 
-                                            onClick={() => openCancelModal(order.orderId)} 
-                                            className='w-[150px] hidden md:block px-3 text-center py-2 border bg-black text-white text-xs md:text-sm'
-                                        >
-                                            Cancel Order
-                                        </button>
-                                    </div>
-                                    <div className='mt-3 flex justify-between'>
-                                        <Link to={`/order/${order.orderId}`} className='w-[100px] md:hidden text-center px-3 py-2 border bg-black text-white text-xs  md:text-sm'>View Order</Link>
-                                        <button className='w-[100px] md:hidden px-3 py-2 text-center border bg-black text-white text-xs  md:text-sm'>Cancel Order</button>
-                                        </div>
+                    <div className='my-5 border shadow-sm' key={order._id}>
+                        <div className="flex p-3  justify-between">
+                            <div className="flex items-center space-x-4">
+                                <img src="/received.png" className='h-10 w-10 object-contain' alt="" />
+                                <div>
+                                <p className='text-[12px] md:text-sm'>Order Received</p>
+                               <span className='text-gray-800 text-[12px] md:text-sm'> {new Date(order.createdAt).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })} </span> 
+
                                 </div>
-                            </div>
+                            </div>  
+                            <MdOutlineKeyboardArrowRight className='text-2xl ' />  
+                        </div>
+                        <div className='w-full h-[1px] bg-gray-200'></div>
+                        <div className="">
+                        {order.products && order.products.length > 0 && (
+                            <div className='p-3  mt-2'>
+                                  <div className=' flex gap-3  relative'>
+                                      {/* <div className="absolute text-[12px] font-bold text-gray-500 md:text-sm -right-2 -top-2 h-6 w-6 rounded-full bg-white border flex justify-center items-center">
+                                           {order.products.length}
+                                       </div> */}
+                                       <img src={order.products[0].product.images[0]} alt="" className='w-16  h-20 object-cover' />
+                                       <div className='py-2'>
+                                       <p className='text-[12px] md:text-sm'>{order.products[0].product.name}</p>
+                                       <p className='text-[12px] font-semibold md:text-sm text-black'><span className='font-semibold text-gray-500 pr-1'> Size:</span>{order.products[0].selectedSize}</p>
+                                       </div>
+                                     </div>
+                                     <div className="flex mt-4 justify-between ">
+                                        <Link to={`/order/${order.orderId}`}>
+                                        <button className='w-28 px-3 md:text-sm text-[12px] py-2 hover:bg-black hover:text-white border bg-white text-black duration-500 transition-all'>View Order</button>
+                                        </Link>                                     
+                                    <button className='w-28 px-3 py-2 text-[12px] md:text-sm hover:bg-black hover:text-white border bg-white text-black duration-500 transition-all'>Cancel Order</button>
+
+                                     </div>
+
+                                     </div>
+                                            
+                          )}
+                           <div className='w-full mt-2  h-[1px] bg-gray-300'></div>
                         </div>
                     </div>
+                    // <div key={order._id} className="border rounded-lg p-4 mb-4 bg-gray-50 shadow-sm hover:shadow-md transition duration-200">
+                    //     <div className="flex flex-col md:flex-row justify-between">
+                    //         <div className="flex-1">
+                    //             <p className="text-sm text-gray-600 font-medium">Order Status: <span className="text-black">{order.status}</span></p>
+                    //             <p className="text-sm text-gray-600 font-medium">Total: <span className="text-black font-semibold">₹{order.totalAmount}</span></p>
+                    //             <p className="text-sm text-gray-600">Payment: {order.paymentMethod}</p>
+                                
+                    //             {order.products && order.products.length > 0 && (
+                    //                 <div className='h-24 w-20 mt-2 relative'>
+                    //                     <div className="absolute text-[12px] font-bold text-gray-500 md:text-sm -right-2 -top-2 h-6 w-6 rounded-full bg-white border flex justify-center items-center">
+                    //                         {order.products.length}
+                    //                     </div>
+                    //                     <img src={order.products[0].product.images[0]} alt="" className='w-full h-full object-cover' />
+                    //                 </div>
+                    //             )}
+                                
+                    //             <div className='px-1 mt-3'>
+                    //                 <div className='h-[1px] bg-gray-300'></div>
+                    //                 <div className='flex mt-3 justify-between'>
+                    //                     <p className="md:text-sm uppercase font-semibold text-xs text-gray-500 mt-2">Ordered on: 
+                    //                         <span className='text-gray-800'> {new Date(order.createdAt).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })} </span> 
+                    //                     </p> 
+                    //                     <Link to={`/order/${order.orderId}`} className='w-[150px] text-center hidden md:block px-3 py-2 border bg-black text-white text-xs md:text-sm'>View Order</Link>
+                    //                 </div>
+                    //                 <div className='flex mt-3 justify-between'>
+                    //                     <p className="md:text-sm uppercase font-semibold text-xs text-gray-500 mt-2">Order No: <span className='text-gray-800'>{order.orderId} </span> </p> 
+                    //                     <button 
+                    //                         onClick={() => openCancelModal(order.orderId)} 
+                    //                         className='w-[150px] hidden md:block px-3 text-center py-2 border bg-black text-white text-xs md:text-sm'
+                    //                     >
+                    //                         Cancel Order
+                    //                     </button>
+                    //                 </div>
+                    //                 <div className='mt-3 flex justify-between'>
+                    //                     <Link to={`/order/${order.orderId}`} className='w-[100px] md:hidden text-center px-3 py-2 border bg-black text-white text-xs  md:text-sm'>View Order</Link>
+                    //                     <button className='w-[100px] md:hidden px-3 py-2 text-center border bg-black text-white text-xs  md:text-sm'>Cancel Order</button>
+                    //                     </div>
+                    //             </div>
+                    //         </div>
+                    //     </div>
+                    // </div>
                 ))
             )} 
 
