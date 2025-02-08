@@ -23,7 +23,7 @@ const Carousel = () => {
   };
 
   async function getBanner() {
-    const res = await fetch("http://localhost:3000/banner");
+    const res = await fetch("https://stile-backend.vercel.app/banner");
     const data = await res.json();
     setItems(data);
     setIsLoading(false); // Content has loaded

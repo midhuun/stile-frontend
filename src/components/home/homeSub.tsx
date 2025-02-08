@@ -10,7 +10,7 @@ const HomeSub = () => {
   // Fetch categories from the backend
   async function fetchCategories() {
     try {
-      const result = await fetch("http://localhost:3000/products");
+      const result = await fetch("https://stile-backend.vercel.app/products");
       const data = await result.json();
 
       // Pre-process and remove duplicate products only once

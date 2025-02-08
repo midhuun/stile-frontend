@@ -11,8 +11,8 @@ import { Slide, toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 const OtpLoginPopup = () => {
    
-  const [mobileNumber, setMobileNumber] = useState<any>("");
-  const [otp, setOtp] = useState<any>(["", "", "", "","",""]);
+  const [email, setemail] = useState<any>("");
+  const [otp, setOtp] = useState<any>(["", "", "", ""]);
   const [otpSent, setOtpSent] = useState<any>(false); // State to track if OTP is sent
   const { isUserOpen, setisUserOpen,isAuthenticated,setisAuthenticated } = useContext<any>(HeaderContext);
   const [isverifying,setisverifying] = useState<any>(false);
@@ -20,80 +20,92 @@ const OtpLoginPopup = () => {
   const [error, seterror] = useState<any>("");
   const [confirmationResult, setConfirmationResult] = useState<any>(null);
   const [btnmsg,setBtnmsg] = useState<any>("Login Instantly");
-  // function oncaptchaVerify() {
-  //   if (!window.recaptchaVerifier) {
-  //     window.recaptchaVerifier = new RecaptchaVerifier(
-  //      auth,"recaptcha",
-  //       {
-  //         size: "invisible",
-  //         callback: (response) => {
-  //           onSignup();
-  //         },
-  //         "expired-callback": () => {
-  //           console.log("Recaptcha expired");
-  //         },
-  //       }
-  //     );
-  //   }
-  // }
-  // function onSignup(e){
-  //   e.preventDefault();
-  //   setBtnmsg("Sending OTP");
-  //   setTimeout(() => {
-  //     setBtnmsg("Send OTP");
-  //   }, 2000);
-  //   setisverifying(true);
-  //   try{
-  //     if(!validator.isMobilePhone(mobileNumber,"en-IN")){
-  //       setiserror(true);
-  //       toast.error("Invalid Mobile Number");
-  //       seterror("Invalid Mobile Number")
-  //       setTimeout(() => {
-  //         setiserror(false)
-  //       }, 2500);
-  //       seterror("Enter valid Phone Number");
-  //       throw new Error("Enter Valid Phone Number")
-  //     }
-  //   auth.settings.appVerificationDisabledForTesting = true;
-  //   oncaptchaVerify();
-  //   const appVerifier = window.recaptchaVerifier;
-  //   const phoneNumber = "+91" + mobileNumber; // Phone number with country code
-  //   signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-  //     .then((result) => {
-  //       setConfirmationResult(result);
-  //       console.log("Sign-in success",confirmationResult);
-  //       toast.done("OTP Sent");
-  //       setOtpSent(true);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Enter Valid details", error);
+  async function onOTPVerify() {
+    try{
+    const res = await fetch('https://stile-backend.vercel.app/verify-otp',{method:'POST',headers:{
+      'Content-Type': 'application/json',
+    },
+    body:JSON.stringify({otp:otp.join(""),email})
+  })
+    const data = await res.json();
+    if(data){
+      const data = await fetch("https://stile-backend.vercel.app/user/login",{method:'POST',headers:{
+        'Content-Type': 'application/json',
+      },body:JSON.stringify({email:email})
+    })
+      const user = await data.json();
+      setisAuthenticated(true);
+      setisUserOpen(false);
+    }
+    else{
+      setiserror(true);
+      seterror("Invalid OTP");
+    }
+  }
+  catch(err){
+    console.log(err);
+  }
+  }
+  async function onSignup(e) {
+    console.log("clicked");
 
-  //     });
-  //   }
-  //   catch(err){
-  //     console.log(err);
-  //     setiserror(true)
-  //     setTimeout(() => {
-  //       setiserror(false)
-  //     }, 2500);
-  //     seterror("Enter Valid details");
+    e.preventDefault();
+    setBtnmsg("Sending OTP");
+    try {
+        if (!validator.isEmail(email)) {
+            setiserror(true);
+            seterror("Invalid Email Address"); // ✅ Corrected message
+            toast.error("Invalid Email Address");
+            setTimeout(() => {
+                setiserror(false);
+            }, 2500);
+            throw new Error("Enter a valid Email Address");
+        }
+        const res = await fetch("https://stile-backend.vercel.app/send-otp", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email: email }),
+        });
+        if (!res.ok) {
+            throw new Error("Failed to send OTP. Try again later.");
+        }
+        const data = await res.json();
+        // toast.success("OTP Sent Successfully");
+        setOtpSent(true); // ✅ Now the UI updates properly
+        return
+    } catch (err) {
+        console.error("Error:", err);
+        toast.error(err.message || "Something went wrong.");
+    } finally {
+        setBtnmsg("Send OTP"); // ✅ Ensures button resets even on error
+    }
+}
 
-  //   }
-  // }
+  // Validate Logic
   const validateNumber = () => {
-    const isValid = /^[6-9]\d{9}$/.test(mobileNumber); // Only 10-digit Indian numbers
-    if (!isValid) {
-      seterror("Invalid mobile number. Enter a valid 10-digit number.");
+    const isValidEmail = (email) => {
+      return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+  };
+    if (!isValidEmail) {
+      seterror("Invalid Email ID. Enter a valid Email");
       return false;
     }
     seterror("");
     return true;
   };
+
+
+
+
+
+
   const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newOtp = [...otp];
     newOtp[index] = e.target.value;
     setOtp(newOtp);
-    if (e.target.value && index < 5) {
+    if (e.target.value && index < 3) {
       document.getElementById(`otp-input-${index + 1}`)?.focus();
     }
   };
@@ -103,11 +115,11 @@ const OtpLoginPopup = () => {
      toast.error("Enter Valid Mobile Number");
      alert("Enter Valid Mobile Number");
     }
-    const res = await fetch("http://localhost:3000/user/login",
+    const res = await fetch("https://stile-backend.vercel.app/user/login",
     {method:"POST",
       headers:{"Content-Type":"application/json"},
       credentials:'include',
-      body:JSON.stringify({phone:mobileNumber})
+      body:JSON.stringify({email:email})
       });
     const data = await res.json();
     console.log(data);
@@ -125,7 +137,7 @@ const OtpLoginPopup = () => {
     setisUserOpen(false);
     setisverifying(false);
     setOtpSent(false);
-    setMobileNumber("");
+    setemail("");
     setOtp(["", "", "", "","",""]);
   }
   
@@ -191,27 +203,21 @@ const OtpLoginPopup = () => {
             {!otpSent && (
               <div className="p-6 flex flex-col">
                 <h2 className="text-md md:text-lg font-semibold text-gray-800 text-center mb-4">
-                  Login without OTP
+                  Login with OTP
                 </h2>
                 <p className="text-gray-600 text-sm md:text-lg text-center mb-4">
-                  Enter your mobile number to receive an OTP for verification.
+                  Enter your Gmail to receive an OTP for verification.
                 </p>
-                <form onSubmit={otpVerified} className="space-y-4">
+                <form onSubmit={onSignup} className="space-y-4">
                   <div className="text-sm md:text-md">
-                    <label
-                      htmlFor="mobileNumber"
-                      className="block text-gray-700 font-medium mb-1"
-                    >
-                      Mobile Number
-                    </label>
                     <input
-                      type="text"
-                      id="mobileNumber"
-                      value={mobileNumber}
-                      onChange={(e) => setMobileNumber(e.target.value)}
-                      placeholder="Enter your mobile number"
+                      type="email"
+                      id="email"
+                      value={email}
+                      onChange={(e) => setemail(e.target.value)}
+                      placeholder="Email"
                       className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                      maxLength={10}
+                     
                       required
                     />
                   </div>
@@ -224,7 +230,7 @@ const OtpLoginPopup = () => {
                 </form>
                 <div className="mt-4 text-center">
                   <p className="text-sm text-gray-500">
-                    We will send an OTP to your registered mobile number for verification.
+                    We will send an OTP to your Gmail for verification.
                   </p>
                 </div>
               </div>
