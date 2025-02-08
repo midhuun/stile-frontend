@@ -34,6 +34,7 @@ const Account = () => {
 
     // Open cancel modal
     const openCancelModal = (orderId: string) => {
+        console.log(orderId);
         setCancelOrderId(orderId);
         setShowCancelModal(true);
     };
@@ -48,7 +49,7 @@ const Account = () => {
     // Handle cancel order submission
     async function handleCancelOrder() {
         if (!cancelOrderId || !cancelReason) return;
-
+        console.log(cancelOrderId);
         try {
             const res = await fetch(`http://localhost:3000/order/delete/${cancelOrderId}`, {
                 method: 'POST',
@@ -113,7 +114,7 @@ const Account = () => {
                                         <Link to={`/order/${order.orderId}`}>
                                         <button className='w-28 px-3 md:text-sm text-[12px] py-2 hover:bg-black hover:text-white border bg-white text-black duration-500 transition-all'>View Order</button>
                                         </Link>                                     
-                                    <button className='w-28 px-3 py-2 text-[12px] md:text-sm hover:bg-black hover:text-white border bg-white text-black duration-500 transition-all'>Cancel Order</button>
+                                    <button onClick={() => openCancelModal(order._id)}  className='w-28 px-3 py-2 text-[12px] md:text-sm hover:bg-black hover:text-white border bg-white text-black duration-500 transition-all'>Cancel Order</button>
 
                                      </div>
 
@@ -123,47 +124,6 @@ const Account = () => {
                            <div className='w-full mt-2  h-[1px] bg-gray-300'></div>
                         </div>
                     </div>
-                    // <div key={order._id} className="border rounded-lg p-4 mb-4 bg-gray-50 shadow-sm hover:shadow-md transition duration-200">
-                    //     <div className="flex flex-col md:flex-row justify-between">
-                    //         <div className="flex-1">
-                    //             <p className="text-sm text-gray-600 font-medium">Order Status: <span className="text-black">{order.status}</span></p>
-                    //             <p className="text-sm text-gray-600 font-medium">Total: <span className="text-black font-semibold">₹{order.totalAmount}</span></p>
-                    //             <p className="text-sm text-gray-600">Payment: {order.paymentMethod}</p>
-                                
-                    //             {order.products && order.products.length > 0 && (
-                    //                 <div className='h-24 w-20 mt-2 relative'>
-                    //                     <div className="absolute text-[12px] font-bold text-gray-500 md:text-sm -right-2 -top-2 h-6 w-6 rounded-full bg-white border flex justify-center items-center">
-                    //                         {order.products.length}
-                    //                     </div>
-                    //                     <img src={order.products[0].product.images[0]} alt="" className='w-full h-full object-cover' />
-                    //                 </div>
-                    //             )}
-                                
-                    //             <div className='px-1 mt-3'>
-                    //                 <div className='h-[1px] bg-gray-300'></div>
-                    //                 <div className='flex mt-3 justify-between'>
-                    //                     <p className="md:text-sm uppercase font-semibold text-xs text-gray-500 mt-2">Ordered on: 
-                    //                         <span className='text-gray-800'> {new Date(order.createdAt).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })} </span> 
-                    //                     </p> 
-                    //                     <Link to={`/order/${order.orderId}`} className='w-[150px] text-center hidden md:block px-3 py-2 border bg-black text-white text-xs md:text-sm'>View Order</Link>
-                    //                 </div>
-                    //                 <div className='flex mt-3 justify-between'>
-                    //                     <p className="md:text-sm uppercase font-semibold text-xs text-gray-500 mt-2">Order No: <span className='text-gray-800'>{order.orderId} </span> </p> 
-                    //                     <button 
-                    //                         onClick={() => openCancelModal(order.orderId)} 
-                    //                         className='w-[150px] hidden md:block px-3 text-center py-2 border bg-black text-white text-xs md:text-sm'
-                    //                     >
-                    //                         Cancel Order
-                    //                     </button>
-                    //                 </div>
-                    //                 <div className='mt-3 flex justify-between'>
-                    //                     <Link to={`/order/${order.orderId}`} className='w-[100px] md:hidden text-center px-3 py-2 border bg-black text-white text-xs  md:text-sm'>View Order</Link>
-                    //                     <button className='w-[100px] md:hidden px-3 py-2 text-center border bg-black text-white text-xs  md:text-sm'>Cancel Order</button>
-                    //                     </div>
-                    //             </div>
-                    //         </div>
-                    //     </div>
-                    // </div>
                 ))
             )} 
 
