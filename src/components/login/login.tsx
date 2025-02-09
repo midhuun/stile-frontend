@@ -232,7 +232,7 @@ const OtpLoginPopup = () => {
             {!otpSent && (
               <div className="p-6 flex flex-col">
                 <h2 className="text-md md:text-lg font-semibold text-gray-800 text-center mb-4">
-                  Login with OTP
+                  Login with Gmail
                 </h2>
                 <p className="text-gray-600 text-sm md:text-lg text-center mb-4">
                   Enter your Gmail to receive an OTP for verification.
@@ -252,7 +252,7 @@ const OtpLoginPopup = () => {
                   </div>
                   <button
                     type="submit"
-                    className="w-full py-3 bg-black text-white rounded-lg shadow-md"
+                    className="w-full py-[6px] md:py-3 bg-black text-white rounded-lg shadow-md"
                   >
                  {btnmsg}
                   </button>
