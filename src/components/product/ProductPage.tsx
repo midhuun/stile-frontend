@@ -239,7 +239,7 @@ const handleDotClick = (index:any) => {
           <div>
             <button
               onClick={() => setchartOpen(true)}
-              className="flex space-y-3 items-center gap-2"
+              className="flex items-center gap-2"
             >
               <img src='/size.png' className="w-8 h-8" alt="Size Chart Icon" />
               <p className="text-sm">Size Chart</p>
