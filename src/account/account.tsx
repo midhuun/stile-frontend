@@ -19,11 +19,12 @@ const Account = () => {
     }
 
     useEffect(() => {
-        if (!user) {
-            navigate('/', { replace: true });
-        } else {
-            getOrders();
-        }
+        // if (!user) {
+        //     navigate('/', { replace: true });
+        // } else {
+        //     getOrders();
+        // }
+        getOrders();
     }, [user, navigate]);
 
     async function handleLogout() {

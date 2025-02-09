@@ -28,7 +28,7 @@ const OtpLoginPopup = () => {
   })
     console.log(res.status);
     const data = await res.json();
-    if(res.status === '200'){
+    if(res.status === 200){
       const data = await fetch("https://stile-backend.vercel.app/user/login",{method:'POST',credentials:'include',headers:{
         'Content-Type': 'application/json',
       },body:JSON.stringify({email:email})
@@ -70,7 +70,7 @@ const OtpLoginPopup = () => {
             throw new Error("Failed to send OTP. Try again later.");
         }
         const data = await res.json();
-        // toast.success("OTP Sent Successfully");
+        toast.success("OTP Sent Successfully");
         setOtpSent(true); // ✅ Now the UI updates properly
         return
     } catch (err) {
@@ -163,9 +163,9 @@ const OtpLoginPopup = () => {
   // }
   return (
     <div>
-      {/* <div className="absolute inset-0 z-1000  h-screen">
+      <div className="absolute top-0 z-1000  h-screen">
       <ToastContainer position="top-right" autoClose={3000} theme="light" transition={Slide} />
-      </div> */}
+      </div>
      
       {isUserOpen && !isAuthenticated && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black bg-opacity-50">
