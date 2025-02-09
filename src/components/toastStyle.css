@@ -1,0 +1,27 @@
+/* Make the toast smaller & rounded */
+.custom-toast-container .Toastify__toast {
+    min-height: 40px;
+    font-size: 14px;
+    padding: 8px 15px;
+    border-radius: 12px; /* Rounded corners */
+    width: 250px; /* Smaller width */
+  }
+  
+  /* Style for the success toast */
+  .Toastify__toast--success {
+    background-color: #4CAF50; /* Green color */
+    color: white;
+  }
+  
+  /* Style for the error toast */
+  .Toastify__toast--error {
+    background-color: #E53935; /* Red color */
+    color: white;
+  }
+  
+  /* Style for the progress bar */
+  .Toastify__progress-bar {
+    height: 2px;
+    border-radius: 12px;
+  }
+  

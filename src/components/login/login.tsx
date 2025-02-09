@@ -9,6 +9,7 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import 'react-toastify/dist/ReactToastify.css';
 import { Slide, toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import '../toastStyle.css';
 const OtpLoginPopup = () => {
   const [email, setemail] = useState<any>("");
   const [otp, setOtp] = useState<any>(["", "", "", ""]);
@@ -29,15 +30,49 @@ const OtpLoginPopup = () => {
     console.log(res.status);
     const data = await res.json();
     if(res.status === 200){
+      toast.success("OTP Verified Successfully ✅", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       const data = await fetch("https://stile-backend.vercel.app/user/login",{method:'POST',credentials:'include',headers:{
         'Content-Type': 'application/json',
       },body:JSON.stringify({email:email})
     })
       const user = await data.json();
-      setisAuthenticated(true);
-      setisUserOpen(false);
+      if(data.status === 200){
+        setisAuthenticated(true);
+        setisUserOpen(false);
+      }
+      else{
+        toast.error("Error Login ⚠️", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
     }
     else{
+      toast.error("Enter Valid OTP ⚠️", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       setiserror(true);
       seterror("Invalid OTP");
     }
@@ -53,7 +88,16 @@ const OtpLoginPopup = () => {
         if (!validator.isEmail(email)) {
             setiserror(true);
             seterror("Invalid Email Address"); // ✅ Corrected message
-            toast.error("Invalid Email Address");
+            toast.error("Enter Valid Email Id", {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
             setTimeout(() => {
                 setiserror(false);
             }, 2500);
@@ -70,8 +114,18 @@ const OtpLoginPopup = () => {
             throw new Error("Failed to send OTP. Try again later.");
         }
         const data = await res.json();
-        toast.success("OTP Sent Successfully");
+        console.log(data);
         setOtpSent(true); // ✅ Now the UI updates properly
+        toast.success("OTP Sent Successfully ✅", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         return
     } catch (err) {
         console.error("Error:", err);
@@ -121,7 +175,7 @@ const OtpLoginPopup = () => {
       });
     const data = await res.json();
     console.log(data);
-    toast.success("User Login Success ✅", {
+    toast.success("OTP Sent Successfully ✅", {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -136,35 +190,13 @@ const OtpLoginPopup = () => {
     setisverifying(false);
     setOtpSent(false);
     setemail("");
-    setOtp(["", "", "", "","",""]);
+    setOtp(["", "", "", ""]);
   }
   
-  // function onOTPVerify() {
-  //   console.log(otp.join(""));
-  //   console.log(confirmationResult)
-  //   if (!confirmationResult) {
-  //     console.log("No confirmation result available");
-  //     return;
-  //   }
-  //   confirmationResult
-  //     .confirm(otp.join(""))
-  //     .then(async (res) => {
-  //       console.log("OTP verified, user signed in:", res);
-  //       otpVerified()
-  //     })
-  //     .catch((err) => {
-  //       console.error("OTP verification failed:", err);
-  //       setiserror(true)
-  //       setTimeout(() => {
-  //         setiserror(false)
-  //       }, 2500);
-  //       seterror("Enter correct OTP");
-  //     });
-  // }
   return (
     <div>
-      <div className="absolute top-0 z-1000  h-screen">
-      <ToastContainer position="top-right" autoClose={3000} theme="light" transition={Slide} />
+      <div className="absolute inset-0 z-1000  h-screen">
+      <ToastContainer className='custom-toast-container' position="top-right" autoClose={3000} theme="light" transition={Slide} />
       </div>
      
       {isUserOpen && !isAuthenticated && (
@@ -176,7 +208,6 @@ const OtpLoginPopup = () => {
             transition={{ duration: 0.3 }}
             className="bg-white relative rounded-lg shadow-lg w-[90%] max-w-md flex flex-col h-auto overflow-hidden"
           >
-            <ToastContainer autoClose={5000} position="top-right " hideProgressBar={false} theme="light" />
             <button
               onClick={() => setisUserOpen(false)}
               className="absolute -top-3 right-2 hover:scale-105 text-black hover:text-red-500 text-[40px]"
