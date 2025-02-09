@@ -28,8 +28,8 @@ const OtpLoginPopup = () => {
     body:JSON.stringify({otp:otp.join(""),email})
   })
     const data = await res.json();
-    if(data){
-      const data = await fetch("https://stile-backend.vercel.app/user/login",{method:'POST',headers:{
+    if(res.status === '200'){
+      const data = await fetch("https://stile-backend.vercel.app/user/login",{method:'POST',credentials:'include',headers:{
         'Content-Type': 'application/json',
       },body:JSON.stringify({email:email})
     })
@@ -47,8 +47,6 @@ const OtpLoginPopup = () => {
   }
   }
   async function onSignup(e) {
-    console.log("clicked");
-
     e.preventDefault();
     setBtnmsg("Sending OTP");
     try {

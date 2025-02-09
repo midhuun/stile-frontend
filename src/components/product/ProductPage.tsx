@@ -121,7 +121,7 @@ const handleDotClick = (index:any) => {
      getProduct();
      setTimeout(() => {
       setisLoading(false);
-     }, 1300);
+     }, 800);
     getCart().then((data) => dispatch(setcart(data))).catch((err) => console.log(err));
   }, [dispatch,activeSize]);
   function handleChangeImage(data: string) {
@@ -239,7 +239,7 @@ const handleDotClick = (index:any) => {
           <div>
             <button
               onClick={() => setchartOpen(true)}
-              className="flex items-center gap-2"
+              className="flex space-y-3 items-center gap-2"
             >
               <img src='/size.png' className="w-8 h-8" alt="Size Chart Icon" />
               <p className="text-sm">Size Chart</p>
