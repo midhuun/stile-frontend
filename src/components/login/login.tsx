@@ -19,7 +19,7 @@ const OtpLoginPopup = () => {
   const [iserror, setiserror] = useState<any>(false);
   const [error, seterror] = useState<any>("");
   const [confirmationResult, setConfirmationResult] = useState<any>(null);
-  const [btnmsg,setBtnmsg] = useState<any>("Login Instantly");
+  const [btnmsg,setBtnmsg] = useState<any>("Login");
   async function onOTPVerify() {
     try{
     const res = await fetch('https://stile-backend.vercel.app/verify-otp',{method:'POST',headers:{
