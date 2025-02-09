@@ -121,7 +121,7 @@ const handleDotClick = (index:any) => {
      getProduct();
      setTimeout(() => {
       setisLoading(false);
-     }, 700);
+     }, 1300);
     getCart().then((data) => dispatch(setcart(data))).catch((err) => console.log(err));
   }, [dispatch,activeSize]);
   function handleChangeImage(data: string) {
