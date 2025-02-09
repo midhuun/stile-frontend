@@ -10,7 +10,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Slide, toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 const OtpLoginPopup = () => {
-   
   const [email, setemail] = useState<any>("");
   const [otp, setOtp] = useState<any>(["", "", "", ""]);
   const [otpSent, setOtpSent] = useState<any>(false); // State to track if OTP is sent

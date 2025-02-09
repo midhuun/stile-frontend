@@ -228,7 +228,7 @@ const handleDotClick = (index:any) => {
     </div>
    </div>
         {/* Right Side - Product Info */}
-        <div className="md:space-y-4 space-y-1 p-2 md:w-[50%]">
+        <div className="md:space-y-4 space-y-2 p-2 md:w-[50%]">
           <h1 className="text-md md:text-4xl">{productdata?.name}</h1>
           <h2 className="text-md md:text-xl font-bold">₹ {productdata?.price}.00 <span className=" font-normal text-[11px] md:text-xs text-gray-400">Inclusive of all Taxes</span></h2>
           <p className="text-gray-600 text-xs md:text-sm">
