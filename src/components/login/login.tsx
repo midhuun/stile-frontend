@@ -26,6 +26,7 @@ const OtpLoginPopup = () => {
     },
     body:JSON.stringify({otp:otp.join(""),email})
   })
+    console.log(res.status);
     const data = await res.json();
     if(res.status === '200'){
       const data = await fetch("https://stile-backend.vercel.app/user/login",{method:'POST',credentials:'include',headers:{

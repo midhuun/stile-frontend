@@ -419,7 +419,7 @@ const handleDotClick = (index:any) => {
 
 
     {/* You May Also Like */}
-    <Link onClick={()=>window.location.reload()} to={`/product/${productdata?.slug}`}>
+    <Link  to={`/product/${productdata?.slug}`}>
     <Suggestion subid={productdata?.subcategory._id} id={productdata?._id} />
     </Link>
     </>
