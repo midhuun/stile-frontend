@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addtoCart, deleteFromCart, removeFromCart, setcart } from "../../store/reducers/cartReducer";
 
 const Bag = () => {
-  const { iscartOpen, setiscartOpen,user,setisUserOpen} = useContext(HeaderContext);
+  const { iscartOpen, setiscartOpen,user,setisUserOpen,isAuthenticated} = useContext(HeaderContext);
   const cart = useSelector((state:RootState)=>state.Cart);
   const dispatch = useDispatch();
   async function fetchCart() {
@@ -106,7 +106,7 @@ const Bag = () => {
           <h2 className="text-lg md:text-xl font-light text-gray-900">Your Bag</h2>
           <hr />
           <div className="space-y-10 flex flex-col items-center justify-center">
-            <p>{user ?"Oops....Your Bag is Empty":"Please Login to view your Bag"}</p>
+            <p>{isAuthenticated ?"Oops....Your Bag is Empty":"Please Login to view your Bag"}</p>
             {user?
              <Link to='/'>
              <button className="p-3 w-full font-light text-xs border bg-black text-white rounded-lg transition duration-200 hover:bg-gray-800">Shop Now</button>

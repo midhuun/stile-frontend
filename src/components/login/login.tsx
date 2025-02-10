@@ -195,9 +195,7 @@ const OtpLoginPopup = () => {
   
   return (
     <div>
-      <div className="absolute inset-0 z-1000  h-screen">
       <ToastContainer className='custom-toast-container' position="top-right" autoClose={3000} theme="light" transition={Slide} />
-      </div>
      
       {isUserOpen && !isAuthenticated && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black bg-opacity-50">

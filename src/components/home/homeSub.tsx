@@ -69,7 +69,7 @@ const HomeSub = () => {
             </Link>
           </div>
 
-          <div className="flex min-h-[350px] md:justify-start overflow-x-scroll gap-2 md:gap-4 will-change-transform">
+          <div className="flex min-h-[350px] md:justify-start hide-scroll overflow-x-scroll gap-2 md:gap-4 will-change-transform">
             {subcategory.products.slice(0, 5).map((product, i) => (
               <div key={i}>
                 <ProductCard product={{ ...product, type: "home" }} />
