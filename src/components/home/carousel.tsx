@@ -23,10 +23,14 @@ const Carousel = () => {
   };
 
   async function getBanner() {
-    const res = await fetch("https://stile-backend.vercel.app/banner");
+    setIsLoading(true);
+    const res = await fetch("http://localhost:3000/banner");
     const data = await res.json();
     setItems(data);
-    setIsLoading(false); // Content has loaded
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+ // Content has loaded
   }
 
   useEffect(() => {
@@ -37,10 +41,11 @@ const Carousel = () => {
     <>
     <div className="flex  flex-col md:flex-row gap-2 items-center justify-center  md:h-[450px] min-w-full p-2 md:p-4">
       {/* Carousel Section */}
+      {isLoading &&  <div className="md:w-[50%] w-full h-[180px] sm:h-[450px] md:h-[400px]  animate-pulse bg-gray-200 border rounded-lg"></div>}
       <div className="relative  h-[180px] md:h-[450px] w-full md:w-[50%] overflow-hidden  rounded-lg flex flex-col justify-between">
         {/* Carousel Wrapper */}
         <div
-          className="flex transition-transform ease-in-out duration-300 h-full"
+          className="flex transition-transform ease-in-out duration-300 max-h-[180px] sm:h-[450px] md:h-[400px]"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {items.length > 0 &&
@@ -51,7 +56,7 @@ const Carousel = () => {
               >
                 {isLoading ? (
                   // Skeleton Loader
-                  <div className="w-full h-[230px] md:h-[450px]  animate-pulse rounded-lg"></div>
+                  <div className="min-w-full min-h-[150px] sm:min-h-[450px] md:min-h-[400px]  animate-pulse bg-gray-200 border rounded-lg"></div>
                 ) : (
                   <>
                  <div className="relative md:h-[400px] rounded-lg sm:h-[450px]  h-full min-w-full">
@@ -114,6 +119,7 @@ const Carousel = () => {
       </div>
     
       {/* Customize Section */}
+      {/* {isLoading ?<div className="min-h-[230px] sm:min-h-[450px] w-full md:min-w-[50%] md:min-h-[400px]"></div>} */}
       <div className="relative flex-1 h-[180px]  md:h-[400px] w-full md:w-[50%] rounded-lg overflow-hidden bg-[#b5fc6b]  flex flex-col justify-between items-center">
         <img
           src="/customize.png"

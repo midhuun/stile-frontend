@@ -13,6 +13,7 @@
     "@cashfreepayments/cashfree-js": "^1.0.5",
     "@reduxjs/toolkit": "^2.5.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
+    "cashfree-pg": "^4.3.10",
     "firebase": "^11.1.0",
     "framer-motion": "^11.15.0",
     "fuse.js": "^7.1.0",

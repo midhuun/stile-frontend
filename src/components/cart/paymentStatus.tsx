@@ -8,7 +8,7 @@ const OrderSuccess = () => {
   const [searchParams] = useSearchParams();
   const [statusMessage, setStatusMessage] = useState("Order Placed Successfully! 🎉");
   async function clearCart() {
-    await fetch("https://stile-backend.vercel.app/user/clearCart", {
+    await fetch("http://localhost:3000/user/clearCart", {
       credentials: 'include',
       method: 'DELETE'
     });

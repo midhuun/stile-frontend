@@ -39,7 +39,7 @@ const Bag = () => {
       console.log("cartvalue",value.item);
       dispatch(deleteFromCart({...value.item,selectedSize:value.size}))
     }
-    const res= await fetch(`https://stile-backend.vercel.app/user/${value.value}`,{
+    const res= await fetch(`http://localhost:3000/user/${value.value}`,{
       method: 'POST',
       credentials:'include',
       headers: {

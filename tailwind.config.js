@@ -18,13 +18,28 @@ module.exports = {
       },
     },
     animation: {
-      scroll: 'scroll 15s linear infinite',
+      spin: "spin 1s linear infinite",
+      fadeIn: "fadeIn 0.3s ease-out",
     },
     keyframes: {
+      fadeIn: {
+        "0%": { opacity: 0, transform: "scale(0.9)" },
+        "100%": { opacity: 1, transform: "scale(1)" },
+      },
+    },
+    keyframes: {
+      fadeIn: {
+        '0%': { opacity: '0', transform: 'scale(0.9)' },
+        '100%': { opacity: '1', transform: 'scale(1)' },
+      },
       scroll: {
         '0%': { transform: 'translateX(100%)' },
         '100%': { transform: 'translateX(-100%)' },
       },
+    },
+    animation: {
+      fadeIn: 'fadeIn 0.3s ease-out',
+      scroll: 'scroll 30s linear infinite', // Adjust speed as needed
     },
   },
   plugins: [

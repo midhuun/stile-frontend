@@ -22,7 +22,7 @@ const OtpLoginPopup = () => {
   const [btnmsg,setBtnmsg] = useState<any>("Login");
   async function onOTPVerify() {
     try{
-    const res = await fetch('https://stile-backend.vercel.app/verify-otp',{method:'POST',headers:{
+    const res = await fetch('http://localhost:3000/verify-otp',{method:'POST',headers:{
       'Content-Type': 'application/json',
     },
     body:JSON.stringify({otp:otp.join(""),email})
@@ -40,7 +40,7 @@ const OtpLoginPopup = () => {
         progress: undefined,
         theme: "light",
       });
-      const data = await fetch("https://stile-backend.vercel.app/user/login",{method:'POST',credentials:'include',headers:{
+      const data = await fetch("http://localhost:3000/user/login",{method:'POST',credentials:'include',headers:{
         'Content-Type': 'application/json',
       },body:JSON.stringify({email:email})
     })
@@ -103,7 +103,7 @@ const OtpLoginPopup = () => {
             }, 2500);
             throw new Error("Enter a valid Email Address");
         }
-        const res = await fetch("https://stile-backend.vercel.app/send-otp", {
+        const res = await fetch("http://localhost:3000/send-otp", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -167,7 +167,7 @@ const OtpLoginPopup = () => {
      toast.error("Enter Valid Mobile Number");
      alert("Enter Valid Mobile Number");
     }
-    const res = await fetch("https://stile-backend.vercel.app/user/login",
+    const res = await fetch("http://localhost:3000/user/login",
     {method:"POST",
       headers:{"Content-Type":"application/json"},
       credentials:'include',

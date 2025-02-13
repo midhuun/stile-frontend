@@ -4,11 +4,12 @@ import { HeaderContext } from "../../context/appContext";
 import { getCart } from "../../utils/getItems";
 import { useDispatch, useSelector } from "react-redux";
 import { setcart } from "../../store/reducers/cartReducer";
-import { RootState } from "../../store/store";
+import { RootState } from "../../store/store"; 
 import {  BsCashCoin } from "react-icons/bs";
 import {load} from "@cashfreepayments/cashfree-js";
 import { Slide, ToastContainer,toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import './cart.css';
 const CartPage = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state:RootState)=>state.Cart);
@@ -23,17 +24,16 @@ const CartPage = () => {
   const [orderId,setOrderId] = useState("");
   const {user,isAuthenticated} = useContext(HeaderContext);
   const shippingCharge = paymentMethod === 'cod' ? 100 : 0;
-
+  const [paymentStatus,setpaymentStatus] = useState("");
+  const [processing,setprocessing] = useState(false);
+  const [response,setresponse] = useState(false);
   useEffect(() => {
     getCart().then((data) => dispatch(setcart(data)));
   },[isAuthenticated]);
-   if(cart.length<1){
-    navigate("/")
-   }
   let cashfree:any;
   var initializeSDK = async function(){
     cashfree = await load({
-      mode:'sandbox',
+      mode:'production',
       
     })
   };
@@ -48,27 +48,94 @@ const CartPage = () => {
     );
   };
   const total = calculateTotal();
- async function verifyPayment(orderid:string){
-      try{
-      const res = await fetch(`https://stile-backend.vercel.app/verify/payment/${orderid}`,{credentials:'include'});
-      const data = await res.json();
-      console.log(data);
-      if(data.success){
-        console.log("payment verified");
-        const res = await fetch("https://stile-backend.vercel.app/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode,orderId:orderId,email:email})});
-        // navigate(`/payment/status/?&txStatus=SUCCESS`);
-        const data = await res.json();
-        console.log(data);
+async function paymentCheck(orderid:any) {
+  const res = await fetch(`http://localhost:3000/payment/status/${orderid}`,{method:'POST'});
+  const data = await res.json();
+  return data;
+}
+async function verifyPayment(orderId: string) {
+  setprocessing(true);
+  console.log(orderId);
+  let pollCount = 0;
+  const pollInterval = 5000;
+  // Function to poll payment status
+  const pollTimeout = setInterval(async () => {
+    if (pollCount >= 10) {
+      setprocessing(false);
+      toast.error("Payment did not Fetch!!.Try again")
+      clearInterval(pollTimeout);
+      return;
+    }
+    
+    try {
+      const status = await paymentCheck(orderId); // Await inside an async function'
+      if(status.length >0){
+        setresponse(true);
+        setprocessing(false);
+        setpaymentStatus(status.message);
+        if(status[0].paymentStatus === 'SUCCESS'){
+          setTimeout(() => {
+            toast.success("Order Successfull ✔️");
+          }, 1500);
+         
+          const res = await fetch("http://localhost:3000/user/order", {
+                credentials: 'include',
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  products: cart,
+                  totalAmount: total,
+                  paymentMethod,
+                  address,
+                  pincode,
+                  orderId,
+                  email
+                })
+              });
+              const data = await res.json(); // Await the response
+              navigate(`/payment/status/?&txStatus=SUCCESS`); // Ensure `navigate` is defined
         }
-      else{
-        console.log(data)
-        // navigate(`/payment/status/?&txStatus=FAILED`);
+        if(status[0].paymentStatus === 'FAILED'){
+          setTimeout(() => {
+            toast.error("Payment Failed. Try again ❌");
+            setisupdated(false)
+          }, 1500);
+          
+        }
+        toast.error("Payment Failed!! Try again")
+        setisupdated(false)
+        clearInterval(pollTimeout);
       }
+      setpaymentStatus(status.message); // Assuming setPaymentStatus is a state setter function
+      pollCount++;
+       
+    } catch (error) {
+      console.error("Error fetching payment status:", error);
     }
-    catch(err){
-      console.log(err);
-    }
-  }
+  }, pollInterval);
+
+  // try {
+  //   const res = await fetch("http://localhost:3000/user/order", {
+  //     credentials: 'include',
+  //     method: 'POST',
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({
+  //       products: cart,
+  //       totalAmount: total,
+  //       paymentMethod,
+  //       address,
+  //       pincode,
+  //       orderId,
+  //       email
+  //     })
+  //   });
+  //   const data = await res.json(); // Await the response
+  //   console.log(data);
+  //   navigate(`/payment/status/?&txStatus=SUCCESS`); // Ensure `navigate` is defined
+  // } catch (error) {
+  //   console.error("Error processing order:", error);
+  // }
+}
   const handlePaymentChange = (e:any) => {
     setPaymentMethod(e.target.value);
   };
@@ -76,14 +143,20 @@ const CartPage = () => {
     let checkoutOptions = {
       paymentSessionId: token,
       redirectTarget: "_blank",
-      
     };
-    cashfree.checkout(checkoutOptions);
-    verifyPayment(orderId)
+    cashfree.checkout(checkoutOptions).then(function(result){
+      if(result.error){
+        console.log(result.error);
+      }
+      if(result.redirect){
+        console.log("redirection")
+      }
+    });
+    verifyPayment(orderid)
   };
   async function handlePayment(e:any){
     e.preventDefault();
-    console.log(user)
+    console.log(user);
     if(!isupdated){
       toast.warning("Please Enter your address to proceed!!")
       return
@@ -92,12 +165,11 @@ const CartPage = () => {
      setVerifyOrder(true);
      return
     }
-    const res = await fetch("https://stile-backend.vercel.app/user/payment",{credentials:'include',method:'POST',headers:{
+    const res = await fetch("http://localhost:3000/user/payment",{credentials:'include',method:'POST',headers:{
       "Content-Type": "application/json"},
-      body:JSON.stringify({name:address.name,phone:user.phone,amount:total})
+      body:JSON.stringify({name:address.name,email:user.email,amount:total,phone:address.alternateMobile})
     })
     const data = await res.json();
-    console.log(data);
     setOrderId(data.order_id)
     setsessionId(data.token);
     doPayment(data.token,data.order_id);
@@ -110,20 +182,66 @@ const CartPage = () => {
       return
     }
     if(paymentMethod === 'cod'){
-    const res = await fetch("https://stile-backend.vercel.app/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode,email:email})});
+    const res = await fetch("http://localhost:3000/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode,email:email})});
     const data = await res.json();
     console.log(data);
     navigate(`/payment/status/?&txStatus=SUCCESS`);
-
     }
     
   }
+
  function handleAddress(e:any){
    e.preventDefault();
    setisupdated(true);
    toast.success("Address Updated 🎉");
   
  }
+  if(cart.length<1){
+    return (
+      <div className="flex flex-col items-center justify-center h-[60vh] px-4 text-center">
+  <img
+    src="/cart.png" // Replace with an actual image or an icon
+    alt="Empty Cart"
+    className="w-20 h-20 md:w-40 md:h-40"
+  />
+  <h2 className="mt-6 text-xl md:text-2xl font-semibold text-gray-800">
+    Your Cart is Empty
+  </h2>
+  <p className="mt-2 text-gray-500 text-sm md:text-base">
+    Looks like you haven't added anything to your cart yet.
+  </p>
+  <Link to='/' className="mt-6 px-4 md:px-6 md:py-3 py-2 bg-blue-600 text-white text-sm md:text-base rounded-lg shadow-md hover:bg-blue-700 transition">
+    Start Shopping
+  </Link>
+</div>
+
+    )
+  }
+  if(processing){
+    return(
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+      <div className="bg-white shadow-xl rounded-lg p-6 md:p-10 flex flex-col items-center space-y-6 animate-fadeIn">
+        {/* Loader with Animated Blue Border */}
+        <div className="relative flex items-center justify-center h-16 w-16">
+          <div className="absolute h-16 w-16   rounded-full"></div>
+          <div class="spinner"></div>
+        </div>
+    
+        {/* Processing Message */}
+        <p className="text-lg md:text-xl font-semibold text-gray-700 text-center">
+          Processing your payment, please wait...
+        </p>
+    
+        {/* Additional Info */}
+        <div className="text-center text-sm md:text-base text-gray-500">
+          <p>Do not close this window until the process is complete.</p>
+          <p>If it takes too long, please check your transaction history.</p>
+        </div>
+      </div>
+    </div>
+    
+    )
+  }
   return (
     <div className=" min-h-screen p-4 mt-7 ">
     <ToastContainer position="top-left" autoClose={3000} theme="light" transition={Slide} />
