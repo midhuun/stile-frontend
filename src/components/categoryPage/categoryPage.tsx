@@ -11,7 +11,7 @@ const CategoryPage = () => {
     const [isLoading,setisLoading] = useState(false);
     console.log(subcategoryName);
     async function getcategories(){
-        const response = await fetch(`http://localhost:3000/category/${subcategoryName}`);
+        const response = await fetch(`https://stile-backend.vercel.app/category/${subcategoryName}`);
         const data:any = await response.json();
         setCategory(data?.category);
         setProducts(data?.products)

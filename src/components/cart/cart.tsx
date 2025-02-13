@@ -49,7 +49,7 @@ const CartPage = () => {
   };
   const total = calculateTotal();
 async function paymentCheck(orderid:any) {
-  const res = await fetch(`http://localhost:3000/payment/status/${orderid}`,{method:'POST'});
+  const res = await fetch(`https://stile-backend.vercel.app/payment/status/${orderid}`,{method:'POST'});
   const data = await res.json();
   return data;
 }
@@ -78,7 +78,7 @@ async function verifyPayment(orderId: string) {
             toast.success("Order Successfull ✔️");
           }, 1500);
          
-          const res = await fetch("http://localhost:3000/user/order", {
+          const res = await fetch("https://stile-backend.vercel.app/user/order", {
                 credentials: 'include',
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
@@ -115,7 +115,7 @@ async function verifyPayment(orderId: string) {
   }, pollInterval);
 
   // try {
-  //   const res = await fetch("http://localhost:3000/user/order", {
+  //   const res = await fetch("https://stile-backend.vercel.app/user/order", {
   //     credentials: 'include',
   //     method: 'POST',
   //     headers: { "Content-Type": "application/json" },
@@ -165,7 +165,7 @@ async function verifyPayment(orderId: string) {
      setVerifyOrder(true);
      return
     }
-    const res = await fetch("http://localhost:3000/user/payment",{credentials:'include',method:'POST',headers:{
+    const res = await fetch("https://stile-backend.vercel.app/user/payment",{credentials:'include',method:'POST',headers:{
       "Content-Type": "application/json"},
       body:JSON.stringify({name:address.name,email:user.email,amount:total,phone:address.alternateMobile})
     })
@@ -182,7 +182,7 @@ async function verifyPayment(orderId: string) {
       return
     }
     if(paymentMethod === 'cod'){
-    const res = await fetch("http://localhost:3000/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode,email:email})});
+    const res = await fetch("https://stile-backend.vercel.app/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode,email:email})});
     const data = await res.json();
     console.log(data);
     navigate(`/payment/status/?&txStatus=SUCCESS`);

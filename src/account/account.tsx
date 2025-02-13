@@ -13,7 +13,7 @@ const Account = () => {
     const [cancelReason, setCancelReason] = useState("");
 
     async function getOrders() {
-        const res = await fetch(`http://localhost:3000/user/orders`, { credentials: 'include' });
+        const res = await fetch(`https://stile-backend.vercel.app/user/orders`, { credentials: 'include' });
         const data = await res.json();
         setOrders(data.orders);
     }
@@ -29,7 +29,7 @@ const Account = () => {
 
     async function handleLogout() {
         
-        await fetch("http://localhost:3000/user/logout", { method: 'POST', credentials: 'include' });
+        await fetch("https://stile-backend.vercel.app/user/logout", { method: 'POST', credentials: 'include' });
         setisUserOpen(false);
     }
 
@@ -52,7 +52,7 @@ const Account = () => {
         if (!cancelOrderId || !cancelReason) return;
         console.log(cancelOrderId);
         try {
-            const res = await fetch(`http://localhost:3000/order/delete/${cancelOrderId}`, {
+            const res = await fetch(`https://stile-backend.vercel.app/order/delete/${cancelOrderId}`, {
                 method: 'POST',
                 credentials:'include',
                 headers: { 'Content-Type': 'application/json' },

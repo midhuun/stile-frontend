@@ -9,7 +9,7 @@ const HomeSub = () => {
   async function fetchCategories() {
     setLoading(true);
     try {
-      const result = await fetch("http://localhost:3000/products");
+      const result = await fetch("https://stile-backend.vercel.app/products");
       const data = await result.json();
       const processedSubcategories = data?.subCategories?.map((subcategory: SubCategory) => ({
         ...subcategory,

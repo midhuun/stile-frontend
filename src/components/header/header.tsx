@@ -36,7 +36,7 @@ export default function Header() {
     return fuse.search(query).map((result:any) => result.item);
   };
   async function isUser() {
-    const response = await fetch("http://localhost:3000/user", { credentials: 'include' });
+    const response = await fetch("https://stile-backend.vercel.app/user", { credentials: 'include' });
     const data = await response.json();
     console.log("user",data)
     if (data) {
@@ -58,7 +58,7 @@ export default function Header() {
   };
   async function handlelogout(){
     console.log("hello");
-    await fetch("http://localhost:3000/user/logout",{method:'POST',credentials:'include'});
+    await fetch("https://stile-backend.vercel.app/user/logout",{method:'POST',credentials:'include'});
     setisAuthenticated(false);
     setisUserOpen(false);
     window.location.reload();

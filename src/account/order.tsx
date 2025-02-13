@@ -12,7 +12,7 @@ const OrderDetails = () => {
 
     async function getOrder() {
         try {
-            const res = await fetch(`http://localhost:3000/order/${params.orderid}`, { credentials: 'include' });
+            const res = await fetch(`https://stile-backend.vercel.app/order/${params.orderid}`, { credentials: 'include' });
             const data = await res.json();
             setOrder(data.order);
         } catch (error) {
