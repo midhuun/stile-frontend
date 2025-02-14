@@ -34,7 +34,6 @@ const CartPage = () => {
   var initializeSDK = async function(){
     cashfree = await load({
       mode:'production',
-      
     })
   };
 
@@ -89,7 +88,8 @@ async function verifyPayment(orderId: string) {
                   address,
                   pincode,
                   orderId,
-                  email
+                  email,
+                  alternateMobile:address.alternateMobile
                 })
               });
               const data = await res.json(); // Await the response
@@ -311,7 +311,7 @@ async function verifyPayment(orderId: string) {
              disabled={isupdated}
               type="text"
               placeholder="Enter your Address"
-              onChange={(e:any)=>setAddress((prev:any)=>({...prev,Location:e.target.value}))}
+              onChange={(e:any)=>setAddress((prev:any)=>({...prev,location:e.target.value}))}
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
               required
             />

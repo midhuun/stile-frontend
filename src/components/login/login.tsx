@@ -1,5 +1,5 @@
 //@ts-nocheck
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { HeaderContext } from "../../context/appContext";
 import { motion } from "framer-motion";
 import Logo from '../../assets/logo.png';
@@ -10,8 +10,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Slide, toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import '../toastStyle.css';
+import { initiate, verify } from "../../utils/initotpless";
 const OtpLoginPopup = () => {
   const [email, setemail] = useState<any>("");
+  const [phone,setphone] = useState<any>("");
   const [otp, setOtp] = useState<any>(["", "", "", ""]);
   const [otpSent, setOtpSent] = useState<any>(false); // State to track if OTP is sent
   const { isUserOpen, setisUserOpen,isAuthenticated,setisAuthenticated } = useContext<any>(HeaderContext);
@@ -19,17 +21,29 @@ const OtpLoginPopup = () => {
   const [iserror, setiserror] = useState<any>(false);
   const [error, seterror] = useState<any>("");
   const [confirmationResult, setConfirmationResult] = useState<any>(null);
+  const [resend,setresend] = useState(false);
   const [btnmsg,setBtnmsg] = useState<any>("Login");
-  async function onOTPVerify() {
+  useEffect(()=>{
+   if(!isUserOpen){
+    setOtpSent(false);
+    setphone("");
+    setisverifying(false);
+   }
+  },[isUserOpen])
+  async function onOTPVerify(e:any) {
+    e.preventDefault();
+    console.log("verifying")
     try{
-    const res = await fetch('https://stile-backend.vercel.app/verify-otp',{method:'POST',headers:{
-      'Content-Type': 'application/json',
-    },
-    body:JSON.stringify({otp:otp.join(""),email})
-  })
-    console.log(res.status);
-    const data = await res.json();
-    if(res.status === 200){
+       const res =await verify(phone,otp.join(""));
+       console.log(res);
+  //   const res = await fetch('https://stile-backend.vercel.app/verify-otp',{method:'POST',headers:{
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body:JSON.stringify({otp:otp.join(""),email})
+  // })
+  //   console.log(res.status);
+  //   const data = await res.json();
+    if(res.success){
       toast.success("OTP Verified Successfully ✅", {
         position: "top-right",
         autoClose: 3000,
@@ -42,7 +56,7 @@ const OtpLoginPopup = () => {
       });
       const data = await fetch("https://stile-backend.vercel.app/user/login",{method:'POST',credentials:'include',headers:{
         'Content-Type': 'application/json',
-      },body:JSON.stringify({email:email})
+      },body:JSON.stringify({phone:phone})
     })
       const user = await data.json();
       if(data.status === 200){
@@ -82,51 +96,57 @@ const OtpLoginPopup = () => {
   }
   }
   async function onSignup(e) {
+    setTimeout(() => {
+      setresend(true);
+    }, 30000);
     e.preventDefault();
     setBtnmsg("Sending OTP");
     try {
-        if (!validator.isEmail(email)) {
-            setiserror(true);
-            seterror("Invalid Email Address"); // ✅ Corrected message
-            toast.error("Enter Valid Email Id", {
-              position: "top-right",
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-            setTimeout(() => {
-                setiserror(false);
-            }, 2500);
-            throw new Error("Enter a valid Email Address");
+        // if (!validator.isEmail(email)) {
+        //     setiserror(true);
+        //     seterror("Invalid Email Address"); // ✅ Corrected message
+        //     toast.error("Enter Valid Email Id", {
+        //       position: "top-right",
+        //       autoClose: 3000,
+        //       hideProgressBar: false,
+        //       closeOnClick: true,
+        //       pauseOnHover: true,
+        //       draggable: true,
+        //       progress: undefined,
+        //       theme: "light",
+        //     });
+        //     setTimeout(() => {
+        //         setiserror(false);
+        //     }, 2500);
+        //     throw new Error("Enter a valid Email Address");
+        // }
+         const res = await initiate(phone);
+         console.log(res);    
+        // const res = await fetch("https://stile-backend.vercel.app/send-otp", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({ email: email }),
+        // });
+        // if (!res.ok) {
+        //     throw new Error("Failed to send OTP. Try again later.");
+        // }
+        // const data = await res.json();
+        // console.log(data); // ✅ Now the UI updates properly
+        if(res?.success){
+          setOtpSent(true);
+          toast.success("OTP Sent Successfully ✅", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
         }
-        const res = await fetch("https://stile-backend.vercel.app/send-otp", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email: email }),
-        });
-        if (!res.ok) {
-            throw new Error("Failed to send OTP. Try again later.");
-        }
-        const data = await res.json();
-        console.log(data);
-        setOtpSent(true); // ✅ Now the UI updates properly
-        toast.success("OTP Sent Successfully ✅", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        return
     } catch (err) {
         console.error("Error:", err);
         toast.error(err.message || "Something went wrong.");
@@ -199,7 +219,6 @@ const OtpLoginPopup = () => {
      
       {isUserOpen && !isAuthenticated && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black bg-opacity-50">
-          <div id="recaptcha"></div>
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -230,21 +249,22 @@ const OtpLoginPopup = () => {
             {!otpSent && (
               <div className="p-6 flex flex-col">
                 <h2 className="text-md md:text-lg font-semibold text-gray-800 text-center mb-4">
-                  Login with Gmail
+                  Login with your Mobile
                 </h2>
                 <p className="text-gray-600 text-sm md:text-lg text-center mb-4">
-                  Enter your Gmail to receive an OTP for verification.
+                  Enter your Mobile Number to receive an OTP for verification.
                 </p>
                 <form onSubmit={onSignup} className="space-y-4">
                   <div className="text-sm md:text-md">
                     <input
-                      type="email"
-                      id="email"
-                      value={email}
-                      onChange={(e) => setemail(e.target.value)}
-                      placeholder="Email"
+                      type="phone"
+                      id="phone"
+                      value={phone}
+                      maxLength={10}
+                      onChange={(e) => setphone(e.target.value)}
+                      placeholder="Enter your Mobile Number"
                       className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                     
+                      autoComplete="tel"
                       required
                     />
                   </div>
@@ -257,7 +277,7 @@ const OtpLoginPopup = () => {
                 </form>
                 <div className="mt-4 text-center">
                   <p className="text-sm text-gray-500">
-                    We will send an OTP to your Gmail for verification.
+                    We will send an OTP to your Mobile for verification.
                   </p>
                 </div>
               </div>
@@ -288,8 +308,9 @@ const OtpLoginPopup = () => {
                   ))}
                 </div>
                 <button
+                  disabled={!resend}
                   onClick={onSignup}
-                  className="w-full py-2 bg-gray-300 text-gray-800 rounded-lg"
+                  className={`w-full py-2 ${resend?"":"cursor-not-allowed"} bg-gray-300 text-gray-800 rounded-lg`}
                 >
                   Resend OTP
                 </button>

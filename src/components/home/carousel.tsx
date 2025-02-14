@@ -54,11 +54,6 @@ const Carousel = () => {
                 key={item._id}
                 className="w-full h-[180px] md:h-[450px] flex-shrink-0 flex items-center justify-center"
               >
-                {isLoading ? (
-                  // Skeleton Loader
-                  <div className="min-w-full min-h-[150px] sm:min-h-[450px] md:min-h-[400px]  animate-pulse bg-gray-200 border rounded-lg"></div>
-                ) : (
-                  <>
                  <div className="relative md:h-[400px] rounded-lg sm:h-[450px]  h-full min-w-full">
                  <div className="absolute bottom-2 flex justify-center w-full">
           {items.map((_: any, index: number) => (
@@ -88,9 +83,7 @@ const Carousel = () => {
                    </button>
                    </Link>
                  </div>
-                 </div>
-                 </>
-                )}
+                 </div>  
               </div>
             ))}
         </div>

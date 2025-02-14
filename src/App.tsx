@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { fetchProducts } from './store/reducers/productReducer';
 import HomeSub from './components/home/homeSub';
 import OrderDetails from './account/order';
+import OTPLess from './components/login/otplessLogin';
 const About = lazy(() => import('./components/about/about'));
 const CategoryPage = lazy(() => import('./components/categoryPage/categoryPage'));
 const ProductPage = lazy(() => import('./components/product/ProductPage'));
