@@ -13,6 +13,7 @@ import '../toastStyle.css';
 import { initiate, verify } from "../../utils/initotpless";
 const OtpLoginPopup = () => {
   const [email, setemail] = useState<any>("");
+  const [seconds,setSeconds] = useState(0);
   const [phone,setphone] = useState<any>("");
   const [otp, setOtp] = useState<any>(["", "", "", ""]);
   const [otpSent, setOtpSent] = useState<any>(false); // State to track if OTP is sent
@@ -96,6 +97,16 @@ const OtpLoginPopup = () => {
   }
   }
   async function onSignup(e) {
+    setSeconds(30);
+    const secondsInterval = setInterval(() => {
+      setSeconds((prev) => {
+        if (prev <= 1) {
+          clearInterval(secondsInterval); // Stop interval when it reaches 0
+          return 0; 
+        }
+        return prev - 1;
+      });
+    }, 1000);
     setTimeout(() => {
       setresend(true);
     }, 30000);
@@ -307,10 +318,13 @@ const OtpLoginPopup = () => {
                     />
                   ))}
                 </div>
+                {seconds>1 &&
+                <p className="text-[12px] text-center text-gray-700 md:text-xs"> Resend otp in {seconds} seconds</p>
+}
                 <button
                   disabled={!resend}
                   onClick={onSignup}
-                  className={`w-full py-2 ${resend?"":"cursor-not-allowed"} bg-gray-300 text-gray-800 rounded-lg`}
+                  className={`w-full py-2 ${resend?"bg-blue-500":"cursor-not-allowed"} bg-gray-300 text-gray-800 rounded-lg`}
                 >
                   Resend OTP
                 </button>

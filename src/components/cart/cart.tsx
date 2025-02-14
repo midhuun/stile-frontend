@@ -142,7 +142,7 @@ async function verifyPayment(orderId: string) {
   const doPayment = async (token,orderid) => {
     let checkoutOptions = {
       paymentSessionId: token,
-      redirectTarget: "_blank",
+      redirectTarget: "_top",
     };
     cashfree.checkout(checkoutOptions).then(function(result){
       if(result.error){
