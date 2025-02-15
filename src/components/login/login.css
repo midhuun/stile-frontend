@@ -1,0 +1,13 @@
+/* Hide number input spinners */
+.no-spinner {
+    appearance: textfield; /* Standard property */
+    -webkit-appearance: none; /* Chrome, Safari */
+    -moz-appearance: textfield; /* Firefox */
+  }
+  
+  .no-spinner::-webkit-outer-spin-button,
+  .no-spinner::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  

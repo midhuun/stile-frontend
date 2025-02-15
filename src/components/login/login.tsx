@@ -1,8 +1,9 @@
 //@ts-nocheck
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { HeaderContext } from "../../context/appContext";
 import { motion } from "framer-motion";
 import Logo from '../../assets/logo.png';
+import './login.css';
 import validator from "validator";
 import { auth } from "../../firestore/store";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
@@ -16,9 +17,11 @@ const OtpLoginPopup = () => {
   const [seconds,setSeconds] = useState(0);
   const [phone,setphone] = useState<any>("");
   const [otp, setOtp] = useState<any>(["", "", "", ""]);
+  const [isFocused, setIsFocused] = useState(false);
   const [otpSent, setOtpSent] = useState<any>(false); // State to track if OTP is sent
   const { isUserOpen, setisUserOpen,isAuthenticated,setisAuthenticated } = useContext<any>(HeaderContext);
   const [isverifying,setisverifying] = useState<any>(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [iserror, setiserror] = useState<any>(false);
   const [error, seterror] = useState<any>("");
   const [confirmationResult, setConfirmationResult] = useState<any>(null);
@@ -31,6 +34,19 @@ const OtpLoginPopup = () => {
     setisverifying(false);
    }
   },[isUserOpen])
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+     // Only numbers, limit to 4 digits
+    setOtp(e.target.value);
+  };
+
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    let pastedData = e.clipboardData.getData("Text").replace(/\D/g, "").slice(0, 4);
+    setOtp(pastedData);
+  };
+
+  const handleClick = () => {
+    inputRef.current?.focus(); // Focus on input when clicking the container
+  };
   async function onOTPVerify(e:any) {
     e.preventDefault();
     console.log("verifying")
@@ -274,7 +290,7 @@ const OtpLoginPopup = () => {
                       maxLength={10}
                       onChange={(e) => setphone(e.target.value)}
                       placeholder="Enter your Mobile Number"
-                      className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      className="w-full px-4 py-2 border-b rounded-lg focus:ring-2  focus:outline-none"
                       autoComplete="tel"
                       required
                     />
@@ -296,45 +312,68 @@ const OtpLoginPopup = () => {
 
             {/* OTP Form Section (Visible after OTP is sent) */}
             {otpSent && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-                className="p-6 flex flex-col space-y-3 md:space-y-4"
-              >
-                <h2 className="text-md md:text-lg font-semibold text-gray-800 text-center mb-2 md:mb-4">
-                  Enter OTP
-                </h2>
-                <div className="flex justify-center gap-4 mb-4">
-                  {otp.map((digit, index) => (
-                    <input
-                      key={index}
-                      id={`otp-input-${index}`}
-                      type="number"
-                      maxLength={1}
-                      value={digit}
-                      onChange={(e) => handleOtpChange(e, index)}
-                      className="md:w-12 md:h-12 h-7 w-7 text-center border-b border-black no-arrows focus:border-black focus:outline-none"
-                    />
-                  ))}
-                </div>
-                {seconds>1 &&
-                <p className="text-[12px] text-center text-gray-700 md:text-xs"> Resend otp in {seconds} seconds</p>
-}
-                <button
-                  disabled={!resend}
-                  onClick={onSignup}
-                  className={`w-full py-2 ${resend?"bg-blue-500":"cursor-not-allowed"} bg-gray-300 text-gray-800 rounded-lg`}
-                >
-                  Resend OTP
-                </button>
-                <button
-                  onClick={onOTPVerify}
-                  className="w-full py-2 bg-[#000435] text-white rounded-lg"
-                >
-                 Verify
-                </button>
-              </motion.div>
+             <motion.div
+             initial={{ opacity: 0 }}
+             animate={{ opacity: 1 }}
+             transition={{ duration: 0.3 }}
+             className="p-6 w-full flex flex-col space-y-4 max-w-sm mx-auto"
+           >
+             <h2 className="text-lg md:text-xl font-semibold text-gray-800 text-center mb-4">
+               Enter OTP
+             </h2>
+     
+             {/* OTP Input */}
+             <div
+               onClick={handleClick}
+               className="w-full  flex flex-col items-center"
+             >
+               {/* Hidden Input */}
+               <input
+                 ref={inputRef}
+                 type="tel"
+                 inputMode="numeric"
+                pattern="[0-9]*"
+                onInput={(e) => (e.target.value = e.target.value.replace(/\D/g, ""))}
+                 value={otp}
+                 onChange={handleChange}
+                 onPaste={handlePaste}
+                 maxLength={4}
+                 onFocus={() => setIsFocused(true)}
+                 onBlur={() => setIsFocused(false)}
+                 className={`relative w-[70%] text-lg flex text-center items-center no-spinner justify-center p-2 rounded-md border-b ${
+                  isFocused ? "border-blue-500 shadow-md" : "border-gray-300"
+                } transition-all duration-300`}
+               />
+     
+               {/* Display OTP Boxes */}
+              
+             </div>
+     
+             {/* Resend OTP */}
+             {seconds > 1 && (
+               <p className="text-sm text-center text-gray-700">
+                 Resend OTP in {seconds} seconds
+               </p>
+             )}
+     
+             <button
+               disabled={!resend}
+               onClick={onSignup}
+               className={`w-full py-2 rounded-lg text-white font-semibold transition-all duration-300 ${
+                 resend ? "bg-blue-500 hover:bg-blue-600" : "bg-gray-300 cursor-not-allowed"
+               }`}
+             >
+               Resend OTP
+             </button>
+     
+             {/* Verify Button */}
+             <button
+               onClick={onOTPVerify}
+               className="w-full py-2 bg-[#000435] hover:bg-[#000560] text-white rounded-lg font-semibold transition-all duration-300"
+             >
+               Verify
+             </button>
+           </motion.div>
             )}
           </motion.div>
         </div>
