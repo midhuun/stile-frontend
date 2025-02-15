@@ -13,7 +13,7 @@ export async function OTPlessSdk() {
 
     // Get your app id from https://otpless.com/dashboard/customer/dev-settings
 
-    script.setAttribute("data-appid", "47JNO5SNY98OZ0ADIS42");
+    script.setAttribute("data-appid", "4ULZ8ZIE096DPDSX64B0");
 
     // Initializing the OTPless SDK when the script loads with the callback function
 
