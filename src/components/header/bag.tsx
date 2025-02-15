@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addtoCart, deleteFromCart, removeFromCart, setcart } from "../../store/reducers/cartReducer";
 
 const Bag = () => {
-  const { iscartOpen, setiscartOpen,user,setisUserOpen,isAuthenticated} = useContext(HeaderContext);
+  const { iscartOpen, setiscartOpen,setisUserOpen,isAuthenticated} = useContext(HeaderContext);
   const cart = useSelector((state:RootState)=>state.Cart);
   const dispatch = useDispatch();
   async function fetchCart() {
