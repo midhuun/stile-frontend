@@ -33,7 +33,8 @@ export default function Header() {
   const products = useSelector((state:any)=>state.Products);
   const fuse = products&& new Fuse(products.products,{keys:["name"],threshold:0.5,minMatchCharLength:2});
   const searchProducts = (query:any) => {
-    return fuse.search(query).map((result:any) => result.item);
+    const products = fuse.search(query).map((result:any) => result.item).slice(0,4)
+    return products ;
   };
   async function isUser() {
     const response = await fetch("https://stile-backend.vercel.app/user", { credentials: 'include' });
@@ -231,9 +232,7 @@ export default function Header() {
               <li className="border-b py-3">Account</li>
              </Link>
              }
-            <Link onClick={()=>setIsMenuOpen(false)} to='/customize'>
-             <li className="border-b py-3">Customize Now</li> 
-             </Link>
+           
             </ul>
             <div className="flex gap-5 justify-center items-center">
               <a href="https://www.instagram.com/stilesagio" className=" flex items-center justify-center ">

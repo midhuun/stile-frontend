@@ -41,7 +41,7 @@ const CustomizeNowForm = () => {
   };
 
   return (
-    <div className="min-h-screen work-bg flex items-center justify-center p-2 md:p-6">
+    <div className="min-h-screen mt-[30px] work-bg flex items-center justify-center p-2 md:p-6">
       <div className="w-full max-w-2xl bg-white rounded-lg shadow-lg overflow-hidden">
         <div className="bg-gradient-to-r from-indigo-600 to-blue-500 p-3 md:p-6 text-white text-center">
           <h1 className="md:text-4xl text-lg font-bold">Customize Your Order</h1>

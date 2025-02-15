@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import  { RootState } from "../../store/store";
 import { addtoCart, deleteFromCart, removeFromCart, setcart } from "../../store/reducers/cartReducer";
 import { BiSolidHeart } from "react-icons/bi";
-
+import { useSwipeable } from "react-swipeable";
 const ProductPage = () => {
   const params: any = useParams();
   const { product } = params;
@@ -31,6 +31,7 @@ const ProductPage = () => {
   });
   const thisProduct = cart?.find((item:any)=>item.product._id === productdata?._id && item.selectedSize === activeSize);
   console.log(thisProduct);
+  
   // const [startX, setStartX] = useState(0);
 
 // function handleTouchStart(event: React.TouchEvent) {
