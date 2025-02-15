@@ -8,10 +8,6 @@
   }
   
   /* Style for the success toast */
-  .Toastify__toast--success {
-    background-color: #4CAF50; /* Green color */
-    color: white;
-  }
   
   /* Style for the error toast */
   .Toastify__toast--error {

@@ -16,7 +16,7 @@ const OtpLoginPopup = () => {
   const [email, setemail] = useState<any>("");
   const [seconds,setSeconds] = useState(0);
   const [phone,setphone] = useState<any>("");
-  const [otp, setOtp] = useState<any>(["", "", "", ""]);
+  const [otp, setOtp] = useState<any>("");
   const [isFocused, setIsFocused] = useState(false);
   const [otpSent, setOtpSent] = useState<any>(false); // State to track if OTP is sent
   const { isUserOpen, setisUserOpen,isAuthenticated,setisAuthenticated } = useContext<any>(HeaderContext);
