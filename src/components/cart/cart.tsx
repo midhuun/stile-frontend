@@ -100,12 +100,12 @@ async function verifyPayment(orderId: string) {
             toast.error("Payment Failed. Try again ❌");
             setisupdated(false);
             navigate("/checkout");
-            window.location.href ='/payment/status/?&txStatus=SUCCESS';
+            window.location.href ='/payment/status/?&txStatus=FAILED';
           }, 1500);
           
        }
         toast.error("Payment Failed!! Try again")
-        window.location.href ='/payment/status/?&txStatus=SUCCESS';
+        window.location.href ='/payment/status/?&txStatus=FAILED';
         setisupdated(false)
         clearInterval(pollTimeout);
       }
@@ -114,6 +114,7 @@ async function verifyPayment(orderId: string) {
        
     } catch (error) {
       console.error("Error fetching payment status:", error);
+
     }
   }, pollInterval);
 

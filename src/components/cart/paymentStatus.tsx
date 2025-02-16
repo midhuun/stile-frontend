@@ -3,10 +3,12 @@ import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Confetti from "react-confetti";
 import { FaCheckCircle } from "react-icons/fa";
+import { FaFaceSadCry } from "react-icons/fa6";
 const OrderSuccess = () => {
   const [showConfetti, setShowConfetti] = useState(true);
   const [searchParams] = useSearchParams();
   const [statusMessage, setStatusMessage] = useState("Order Placed Successfully! 🎉");
+  const [isfailed,setisfailed] = useState(false);
   async function clearCart() {
     await fetch("https://stile-backend.vercel.app/user/clearCart", {
       credentials: 'include',
@@ -21,7 +23,8 @@ const OrderSuccess = () => {
       setShowConfetti(true);
     } else if (status === "FAILED") {
       setShowConfetti(false);
-      setStatusMessage("Payment Failed. Please try again. ❌");
+      setisfailed(true);
+      setStatusMessage("Payment Failed. Try again. ");
     } else {
       setShowConfetti(false);
       setStatusMessage("Payment is pending. Check back later. ⏳");
@@ -37,15 +40,14 @@ const OrderSuccess = () => {
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-gray-50 px-6">
       {showConfetti &&  <Confetti />}
-
       {/* ✅ Animated Check Icon */}
        <motion.div
        initial={{ scale: 0 }}
        animate={{ scale: 1 }}
        transition={{ duration: 0.5, ease: "easeOut" }}
-       className="bg-green-100 p-4 rounded-full"
+       className={`${isfailed?"bg-yellow-100":"bg-green-100"} p-4 rounded-full`}
      >
-       <FaCheckCircle  className="md:w-16 md:h-16 h-8 w-8 text-green-600" />
+      {isfailed ?<FaFaceSadCry className="md:w-16 md:h-16 h-8 w-8 text-yellow-600"  />:<FaCheckCircle  className="md:w-16 md:h-16 h-8 w-8 text-green-600" />}
      </motion.div>
 
 
@@ -64,15 +66,31 @@ const OrderSuccess = () => {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.5 }}
-        className="text-gray-600 text-xs md:text-lg text-center max-w-lg mt-2"
+        className="text-gray-600 text-sm md:text-lg text-center max-w-lg mt-2"
       >
-        Thanks for shopping with Stile Sagio! We are processing your order and will send you a confirmation email shortly.
+        {isfailed?
+        "Oops! Your payment was not successful. If the amount was deducted, it will be refunded shortly. Please try again or use a different payment method. If you need assistance, feel free to contact our support team":
+        "  Thanks for shopping with Stile Sagio! We are processing your order and will send you a confirmation email shortly."}
       </motion.p>
 
       {/* ✅ Order Details Section */}
 
 
       {/* ✅ Call-to-Action Buttons */}
+      {isfailed?
+       <motion.div
+       initial={{ opacity: 0, y: 20 }}
+       animate={{ opacity: 1, y: 0 }}
+       transition={{ duration: 0.6, delay: 1 }}
+       className="flex space-x-4 mt-6"
+     >
+       <Link to="/checkout">
+          <button className="md:px-6 md:py-3 p-3 bg-blue-600 text-white rounded-lg font-medium text-sm md:text-lg shadow-md hover:bg-blue-700 transition">
+           Try Again
+          </button>
+        </Link>
+      </motion.div>
+      :
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -90,6 +108,7 @@ const OrderSuccess = () => {
           </button>
         </Link>
       </motion.div>
+}
     </div>
   );
 };

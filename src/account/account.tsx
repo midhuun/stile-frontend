@@ -68,9 +68,12 @@ const Account = () => {
     }
 
     return (
-        <div className="max-w-4xl mx-auto pt-10 p-6 bg-white shadow-lg rounded-lg">
+        <div className="max-w-4xl mx-auto pt-10 p-6 bg-white  rounded-lg">
             <div className="flex justify-between">
-                <h1 className="md:text-2xl text-lg font-semibold mb-6">My Account</h1>
+                <div className='mb-6'>
+                <h1 className="md:text-2xl text-lg font-semibold ">My Account</h1>
+                <div className="w-full h-[2px] bg-black"></div>
+                </div>
                 <button 
                     onClick={handleLogout} 
                     className="bg-blue-500 text-sm md:text-md text-white px-3 py-1 md:px-4 md:py-2 rounded-md hover:bg-blue-600 transition duration-200 mb-6"
@@ -82,7 +85,22 @@ const Account = () => {
             <h2 className="md:text-xl text-md font-semibold mb-4">My Orders</h2>
 
             {orders.length === 0 ? (
-                <p className="text-gray-500">You have no orders yet.</p>
+              <div className="flex flex-col items-center justify-center text-center text-gray-500 mt-10">
+              <img 
+                  src="/no-order.png" 
+                  alt="No Orders" 
+                  className="w-24 h-24 mb-4 opacity-60"
+              />
+              <p className="text-lg font-semibold">No orders yet!</p>
+              <p className="text-sm mt-2">Looks like you haven’t placed any orders. Start shopping now and fill your cart with amazing products!</p>
+              <a 
+                  href="/shop"
+                  className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+              >
+                  Browse Products
+              </a>
+          </div>
+          
             ) : (
                 orders.map((order: any) => (
                     <div className='my-5 border shadow-sm' key={order._id}>
