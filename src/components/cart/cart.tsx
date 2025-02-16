@@ -95,15 +95,17 @@ async function verifyPayment(orderId: string) {
               const data = await res.json(); // Await the response
               navigate(`/payment/status/?&txStatus=SUCCESS`); // Ensure `navigate` is defined
         }
-        if(status[0].paymentStatus === 'FAILED'){
+       else if(status[0].paymentStatus === 'FAILED'){
           setTimeout(() => {
             toast.error("Payment Failed. Try again ❌");
             setisupdated(false);
             navigate("/checkout");
+            window.location.reload();
           }, 1500);
           
-        }
+       }
         toast.error("Payment Failed!! Try again")
+        window.location.reload();
         setisupdated(false)
         clearInterval(pollTimeout);
       }
