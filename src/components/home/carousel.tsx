@@ -63,9 +63,9 @@ const Carousel = () => {
   return (
     <div className="flex flex-col md:flex-row gap-2 items-center justify-center md:h-[450px] min-w-full p-2 md:p-4">
       {/* Carousel Section */}
-      {isLoading && (
+      {isLoading ? (
         <div className="md:w-[50%] w-full h-[180px] sm:h-[450px] md:h-[400px] animate-pulse bg-gray-200 border rounded-lg"></div>
-      )}
+      ):
       <div
         {...swipeHandlers} // Apply swipe here
         className="relative h-[180px] md:h-[450px] w-full md:w-[50%] overflow-hidden rounded-lg flex flex-col justify-between"
@@ -97,7 +97,6 @@ const Carousel = () => {
             </div>
           ))}
         </div>
-
         {/* Previous Button */}
         {currentIndex > 0 && (
           <button
@@ -131,7 +130,7 @@ const Carousel = () => {
           ))}
         </div>
       </div>
-
+}
       {/* Customize Section */}
       <div className="relative flex-1 h-[180px] md:h-[400px] w-full md:w-[50%] rounded-lg overflow-hidden bg-[#b5fc6b] flex flex-col justify-between items-center">
         <img src="/customize.png" alt="Customize GIF" className="md:h-[450px] rounded-lg sm:h-[300px] h-[180px] min-w-full object-contain" />

@@ -31,7 +31,7 @@ export default function PaymentStatusPage() {
   }, []);
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-900 text-white p-4">
+    <div className="flex items-center justify-center h-screen  p-4">
       {status === null ? (
         <motion.div
           initial={{ opacity: 0 }}
@@ -49,7 +49,15 @@ export default function PaymentStatusPage() {
           className="text-center"
         >
           <FiCheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-          <p className="text-lg sm:text-2xl font-semibold">Payment Successful!</p>
+          <div className="text-center text-green-600">
+    <p className="text-lg sm:text-2xl font-semibold flex items-center justify-center gap-2">
+        🎉 Payment Successful! 🎉
+    </p>
+    <p className="text-sm sm:text-lg mt-2 text-gray-600">
+        Thank you for shopping with <span className="font-semibold">Stile Sagio</span>! 🛍️  
+        Your order is being processed, and we’ll send you a confirmation email shortly.  
+    </p>
+</div>
         </motion.div>
       ) : (
         <motion.div
@@ -59,7 +67,16 @@ export default function PaymentStatusPage() {
           className="text-center"
         >
           <FiXCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-          <p className="text-lg sm:text-2xl font-semibold">Payment Failed. Try Again.</p>
+          <div className="text-center text-red-600">
+    <p className="text-lg sm:text-2xl font-semibold flex items-center justify-center gap-2">
+        Payment Failed!  
+    </p>
+    <p className="text-sm sm:text-lg mt-2 text-gray-600">
+        Oops! Something went wrong with your payment. If the amount was deducted,  
+        it will be refunded shortly. Please try again or use a different payment method.  
+    </p>
+</div>
+
         </motion.div>
       )}
     </div>
