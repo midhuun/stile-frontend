@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { fetchProducts } from './store/reducers/productReducer';
 import HomeSub from './components/home/homeSub';
 import OrderDetails from './account/order';
+import PaymentStatusPage from './components/cart/orderStatus';
 const About = lazy(() => import('./components/about/about'));
 const CategoryPage = lazy(() => import('./components/categoryPage/categoryPage'));
 const ProductPage = lazy(() => import('./components/product/ProductPage'));
@@ -56,6 +57,7 @@ function App() {
                 <Route path="/payment/status" element={<PaymentStatus />} />
                 <Route path="/products/all" element={<HomeSub />} />
                 <Route path="/order/:orderid" element={<OrderDetails />} />
+                <Route path="/checkout/:orderid" element={<PaymentStatusPage />} />
               </Routes>
             </Suspense>
 

@@ -76,7 +76,7 @@ async function verifyPayment(orderId: string) {
           setTimeout(() => {
             toast.success("Order Successfull ✔️");
           }, 1500);
-         
+      
           const res = await fetch("https://stile-backend.vercel.app/user/order", {
                 credentials: 'include',
                 method: 'POST',
@@ -98,7 +98,8 @@ async function verifyPayment(orderId: string) {
         if(status[0].paymentStatus === 'FAILED'){
           setTimeout(() => {
             toast.error("Payment Failed. Try again ❌");
-            setisupdated(false)
+            setisupdated(false);
+            navigate("/checkout");
           }, 1500);
           
         }
