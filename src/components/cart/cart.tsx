@@ -105,7 +105,7 @@ async function verifyPayment(orderId: string) {
           
        }
         toast.error("Payment Failed!! Try again")
-        window.location.reload();
+        window.location.href ='/payment/status/?&txStatus=SUCCESS';
         setisupdated(false)
         clearInterval(pollTimeout);
       }
