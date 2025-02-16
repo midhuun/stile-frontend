@@ -1,16 +1,33 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FiCheckCircle, FiXCircle } from "react-icons/fi";
+import { useParams } from "react-router-dom";
 
 export default function PaymentStatusPage() {
-  const [status, setStatus] = useState(null);
-
+  const [status, setStatus] = useState<any>(null);
+  const {orderid} = useParams();
+   async function getPaymentStatus() {
+    try{
+     const res = await fetch(`https://stile-backend.vercel.app/payment/status/${orderid}`,{method:'POST'});
+     const data = await res.json();
+     if(data.length>0){
+        if(status[0].paymentStatus === 'SUCCESS'){
+            setStatus(true);
+        }
+        else {
+            setStatus(false);
+        }
+     }
+     else{
+        setStatus(false);
+     }
+    }
+    catch(error){
+        console.log(error);
+    }
+   }
   useEffect(() => {
-    // Simulating API response delay
-    setTimeout(() => {
-      const isSuccess:any = Math.random() > 0.5; // Random success or failure
-      setStatus(isSuccess);
-    }, 2000);
+    getPaymentStatus();
   }, []);
 
   return (
