@@ -53,6 +53,22 @@ async function paymentCheck(orderid:any) {
   return data;
 }
 async function verifyPayment(orderId: string) {
+  const res = await fetch("https://stile-backend.vercel.app/user/order", {
+    credentials: 'include',
+    method: 'POST',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      products: cart,
+      totalAmount: total,
+      paymentMethod,
+      address,
+      pincode,
+      orderId,
+      email,
+      alternateMobile:address.alternateMobile,
+    })
+  });
+  const data = await res.json();
   setprocessing(true);
   console.log(orderId);
   let pollCount = 0;
@@ -76,7 +92,6 @@ async function verifyPayment(orderId: string) {
           setTimeout(() => {
             toast.success("Order Successfull ✔️");
           }, 1500);
-      
           const res = await fetch("https://stile-backend.vercel.app/user/order", {
                 credentials: 'include',
                 method: 'POST',

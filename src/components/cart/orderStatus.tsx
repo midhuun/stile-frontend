@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FiCheckCircle, FiXCircle } from "react-icons/fi";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function PaymentStatusPage() {
   const [status, setStatus] = useState<any>(null);
@@ -14,7 +14,7 @@ export default function PaymentStatusPage() {
       setStatus(false);
      }
      else if(data.length>0){
-        if(status[0].paymentStatus === 'SUCCESS'){
+        if(data[0].paymentStatus === 'SUCCESS'){
             setStatus(true);
         }
         else {
@@ -60,6 +60,14 @@ export default function PaymentStatusPage() {
         Thank you for shopping with <span className="font-semibold">Stile Sagio</span>! 🛍️  
         Your order is being processed, and we’ll send you a confirmation email shortly.  
     </p>
+    <div className="mt-6 flex justify-center gap-5">
+    <Link className="px-3 text-sm md:text-md rounded-md py-3 bg-black text-white border " to='/'>
+    Shop More
+    </Link>
+    <Link className="px-3 text-sm md:text-md rounded-md py-3 bg-black text-white border " to={`/order/${orderid}`}>
+    View Order
+    </Link>
+    </div>
 </div>
         </motion.div>
       ) : (
