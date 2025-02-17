@@ -53,22 +53,6 @@ async function paymentCheck(orderid:any) {
   return data;
 }
 async function verifyPayment(orderId: string) {
-  const res = await fetch("https://stile-backend.vercel.app/user/order", {
-    credentials: 'include',
-    method: 'POST',
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      products: cart,
-      totalAmount: total,
-      paymentMethod,
-      address,
-      pincode,
-      orderId,
-      email,
-      alternateMobile:address.alternateMobile,
-    })
-  });
-  const data = await res.json();
   setprocessing(true);
   console.log(orderId);
   let pollCount = 0;
@@ -172,7 +156,7 @@ async function verifyPayment(orderId: string) {
         console.log("redirection")
       }
     });
-    verifyPayment(orderid)
+    verifyPayment(orderid);
   };
   async function handlePayment(e:any){
     e.preventDefault();
@@ -193,6 +177,22 @@ async function verifyPayment(orderId: string) {
     setOrderId(data.order_id)
     setsessionId(data.token);
     doPayment(data.token,data.order_id);
+       const res = await fetch("https://stile-backend.vercel.app/user/order", {
+      credentials: 'include',
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        products: cart,
+        totalAmount: total,
+        paymentMethod,
+        address,
+        pincode,
+        orderId:data.order_id,
+        email
+      })
+    });
+    const data = await res.json(); // Await the response
+    console.log(data);
   }
  async function handleOrder(){
     setVerifyOrder(false);
@@ -503,12 +503,6 @@ async function verifyPayment(orderId: string) {
         <span className="text-sm md:text-lg font-medium">Net Banking</span>
       </div>
     </label>
-
-    {/* Wallets */}
-   
-    {/* Pay Later */}
-
-    {/* Cash on Delivery */}
     <label className={`block p-4 border   shadow-sm cursor-pointer transition duration-150 ease-in-out 
       ${paymentMethod === 'cod' ? 'border-blue-700 bg-blue-100' : 'border-gray-300 bg-white hover:bg-gray-50'}`}>
       <input 
