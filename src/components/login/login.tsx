@@ -61,7 +61,7 @@ const OtpLoginPopup = () => {
   //   console.log(res.status);
   //   const data = await res.json();
     if(res.success){
-      toast.success("OTP Verified Successfully ✅", {
+      toast.success("OTP Verified Successfully", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -94,7 +94,7 @@ const OtpLoginPopup = () => {
       }
     }
     else{
-      toast.error("Enter Valid OTP ⚠️", {
+      toast.error("Enter Valid OTP ", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -163,7 +163,7 @@ const OtpLoginPopup = () => {
         // console.log(data); // ✅ Now the UI updates properly
         if(res?.success){
           setOtpSent(true);
-          toast.success("OTP Sent Successfully ✅", {
+          toast.success("OTP Sent Successfully ", {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,

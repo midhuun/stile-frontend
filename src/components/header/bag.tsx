@@ -67,17 +67,20 @@ const Bag = () => {
           <hr />
           <div className="space-y-4 mt-5">
             {cart.length>0 && cart?.map((item:any) => (
-              <Link key={item._id} to={`/product/${item.product.slug}`}>
               <div  className="flex justify-between items-start bg-gray-50 p-3 rounded-lg shadow-sm">
                 <div className="flex w-2/3 gap-4">
+               
                   <img 
                     src={item?.product?.images[0]} 
                     alt={item?.product?.name} 
                     className="w-[70px] h-[100px] md:w-[100px] md:h-[150px] border rounded-md object-cover" 
                   />
+                 
                   <div className="desc w-full flex flex-col justify-between h-full text-gray-700 text-sm">
                     <div>
+                    <Link  to={`/product/${item.product.slug}`}>
                       <h1 className="text-sm md:text-md font-semibold hover:underline">{item?.product?.name.slice(0, 15)}{item?.product?.name?.length > 15 && "..."}</h1>
+                      </Link>
                       <p className="text-gray-700 text-sm md:text-md font-light">Rs.{item?.product?.price?.toFixed(2)}</p>
                       <div className="flex gap-3 p-1">
                         <p  className="text-gray-700 text-sm md:text-md font-semibold">Size</p>
@@ -96,7 +99,7 @@ const Bag = () => {
                 </div>
                 <div className=" text-sm  md:text-md">Rs.{(item?.quantity * item?.product?.price).toFixed(2)}</div>
               </div>
-              </Link>
+              
             ))}
           </div>
         </div>

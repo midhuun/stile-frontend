@@ -79,6 +79,7 @@ const handleDotClick = (index:any) => {
    }
    setiscartOpen(true);
    if(value === 'addToCart'){
+      console.log(activeSize)
            dispatch(addtoCart({product:productdata,selectedSize:activeSize}))
       }
       if(value === 'removeFromCart'){
@@ -116,12 +117,15 @@ const handleDotClick = (index:any) => {
       console.log(err);
     }
   };
-  useEffect(() => {
-     setisLoading(true);
-     getProduct();
-     setTimeout(() => {
+  useEffect(()=>{
+    setisLoading(true);
+    setTimeout(() => {
       setisLoading(false);
      }, 800);
+  },[])
+  useEffect(() => {
+     getProduct();
+     
     getCart().then((data) => dispatch(setcart(data))).catch((err) => console.log(err));
   }, [dispatch,activeSize,params]);
   function handleChangeImage(data: string) {
@@ -136,6 +140,9 @@ const handleDotClick = (index:any) => {
       setActive((prev) => prev + 1);
     }
   }
+  if(isLoading){
+    return <Loading />
+  }
   //  function addClick(){
   //   setiscartOpen(true);
   //   dispatch(addtoCart(productdata))
@@ -146,7 +153,7 @@ const handleDotClick = (index:any) => {
   console.log("cart",cart);
   return (
     <>
-    {isLoading && <Loading />}
+    {/* {isLoading && <Loading />} */}
     <div className="w-full p-3 flex justify-center">
       <div className="flex flex-col md:flex-row justify-center md:justify-start pt-10 md:gap-10  md:pt-10">
         {/* Left Side - Thumbnails and Main Image */}
@@ -294,7 +301,7 @@ const handleDotClick = (index:any) => {
                 onClick={() =>
                  handleCart('removeFromCart')
                 }
-                className="md:px-3 px-2 py-1 md:py-2 hover:bg-gray-200"
+                className={`${thisProduct?.quantity === 0 || 1 && 'cursor-not-allowed'} md:px-3 px-2 py-1 md:py-2 hover:bg-gray-200`}
               >
                 -
               </button>
