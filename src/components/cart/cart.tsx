@@ -145,7 +145,7 @@ async function verifyPayment(orderId: string) {
   const doPayment = async (token,orderid) => {
     let checkoutOptions = {
       paymentSessionId: token,
-      redirectTarget: "_self",
+      redirectTarget: "_modal",
     };
     cashfree.checkout(checkoutOptions).then(function(result){
       console.log(result);
