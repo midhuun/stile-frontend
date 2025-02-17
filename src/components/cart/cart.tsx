@@ -177,7 +177,7 @@ async function verifyPayment(orderId: string) {
     setOrderId(data.order_id)
     setsessionId(data.token);
     doPayment(data.token,data.order_id);
-       const res = await fetch("https://stile-backend.vercel.app/user/order", {
+       const orderres = await fetch("https://stile-backend.vercel.app/user/order", {
       credentials: 'include',
       method: 'POST',
       headers: { "Content-Type": "application/json" },
@@ -191,8 +191,8 @@ async function verifyPayment(orderId: string) {
         email
       })
     });
-    const data = await res.json(); // Await the response
-    console.log(data);
+    const orderdata = await res.json(); // Await the response
+    console.log(orderdata);
   }
  async function handleOrder(){
     setVerifyOrder(false);
