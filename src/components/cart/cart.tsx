@@ -99,12 +99,13 @@ async function verifyPayment(orderId: string) {
             toast.error("Payment Failed. Try again ❌");
             setisupdated(false);
             navigate(`/checkout/${orderId}`);
-            window.location.href ='/payment/status/?&txStatus=FAILED';
+            // window.location.href ='/payment/status/?&txStatus=FAILED';
           }, 1500);
           
        }
-        toast.error("Payment Failed!! Try again")
-        window.location.href ='/payment/status/?&txStatus=FAILED';
+        toast.error("Payment Failed!! Try again");
+        navigate(`/checkout/${orderId}`);
+        // window.location.href ='/payment/status/?&txStatus=FAILED';
         setisupdated(false)
         clearInterval(pollTimeout);
       }
