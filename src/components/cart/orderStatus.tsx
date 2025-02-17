@@ -10,7 +10,10 @@ export default function PaymentStatusPage() {
     try{
      const res = await fetch(`https://stile-backend.vercel.app/payment/status/${orderid}`,{method:'POST'});
      const data = await res.json();
-     if(data.length>0){
+     if(res.status === 404){
+      setStatus(false);
+     }
+     else if(data.length>0){
         if(status[0].paymentStatus === 'SUCCESS'){
             setStatus(true);
         }
