@@ -92,13 +92,13 @@ async function verifyPayment(orderId: string) {
                 })
               });
               const data = await res.json(); // Await the response
-              navigate(`/payment/status/?&txStatus=SUCCESS`); // Ensure `navigate` is defined
+              navigate(`/checkout/${orderId}`);// Ensure `navigate` is defined
         }
        else if(status[0].paymentStatus === 'FAILED'){
           setTimeout(() => {
             toast.error("Payment Failed. Try again ❌");
             setisupdated(false);
-            navigate("/checkout");
+            navigate(`/checkout/${orderId}`);
             window.location.href ='/payment/status/?&txStatus=FAILED';
           }, 1500);
           
@@ -205,7 +205,7 @@ async function verifyPayment(orderId: string) {
     const res = await fetch("https://stile-backend.vercel.app/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode,email:email})});
     const data = await res.json();
     console.log(data);
-    navigate(`/payment/status/?&txStatus=SUCCESS`);
+    navigate(`/checkout/${orderId}`);
     }
     
   }
