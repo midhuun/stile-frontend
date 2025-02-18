@@ -290,7 +290,7 @@ const OtpLoginPopup = () => {
                       maxLength={10}
                       onChange={(e) => setphone(e.target.value)}
                       placeholder="Enter your Mobile Number"
-                      className="w-full px-4 py-2 border-b rounded-lg focus:ring-2  focus:outline-none"
+                      className="w-full px-4 py-2 border  focus:border-black rounded-lg   focus:outline-none"
                       autoComplete="tel"
                       required
                     />
@@ -340,7 +340,7 @@ const OtpLoginPopup = () => {
                  maxLength={4}
                  onFocus={() => setIsFocused(true)}
                  onBlur={() => setIsFocused(false)}
-                 className={`relative w-[70%] text-lg flex text-center items-center no-spinner justify-center p-2 rounded-md border-b ${
+                 className={`relative w-[70%] text-lg flex text-center items-center no-spinner justify-center p-2 rounded-md border ${
                   isFocused ? "border-blue-500 shadow-md" : "border-gray-300"
                 } transition-all duration-300`}
                />
