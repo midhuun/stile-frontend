@@ -7,7 +7,6 @@ import { getCart } from "../../utils/getItems";
 import { RootState } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { addtoCart, deleteFromCart, removeFromCart, setcart } from "../../store/reducers/cartReducer";
-
 const Bag = () => {
   const { iscartOpen, setiscartOpen,setisUserOpen,isAuthenticated} = useContext(HeaderContext);
   const cart = useSelector((state:RootState)=>state.Cart);
@@ -114,7 +113,7 @@ const Bag = () => {
              <Link to='/'>
              <button className="p-3 w-full font-light text-xs border bg-black text-white rounded-lg transition duration-200 hover:bg-gray-800">Shop Now</button>
            </Link>:
-                         <button onClick={handlelogin} className="p-3 w-[50%] font-light text-xs border bg-blue-600 text-white rounded-sm transition duration-200 hover:bg-gray-800">Login</button>
+           <button onClick={handlelogin} className="p-3 w-[50%] font-light text-xs border bg-blue-600 text-white rounded-sm transition duration-200 hover:bg-gray-800">Login</button>
             }
            
           </div>
