@@ -35,7 +35,6 @@ const Account = () => {
 
     // Open cancel modal
     const openCancelModal = (orderId: string) => {
-        console.log(orderId);
         setCancelOrderId(orderId);
         setShowCancelModal(true);
     };
@@ -50,7 +49,7 @@ const Account = () => {
     // Handle cancel order submission
     async function handleCancelOrder() {
         if (!cancelOrderId || !cancelReason) return;
-        console.log(cancelOrderId);
+     
         try {
             const res = await fetch(`https://stile-backend.vercel.app/order/delete/${cancelOrderId}`, {
                 method: 'POST',

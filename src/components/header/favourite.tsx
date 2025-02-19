@@ -24,7 +24,7 @@ const Favorites = () => {
         body: JSON.stringify({ productId: item._id })
       });
       const data = await res.json();
-      console.log(data);
+      
       getFavorites(); 
     } catch (error) {
       console.error("Error removing favorite:", error);

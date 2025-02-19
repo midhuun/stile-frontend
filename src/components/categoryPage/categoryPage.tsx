@@ -6,14 +6,14 @@ import Loading from "../loading/loading";
 
 const CategoryPage = () => {
     const {subcategoryName} = useParams<any>();
-    const [category,setCategory] = useState<Category | null>(null);
+    const [category,setCategory] = useState<any>(null);
     const [products,setProducts] = useState<Product[]>([]);
     const [isLoading,setisLoading] = useState(false);
-    console.log(subcategoryName);
+  
     async function getcategories(){
         const response = await fetch(`https://stile-backend.vercel.app/category/${subcategoryName}`);
         const data:any = await response.json();
-        setCategory(data?.category);
+        setCategory(data?.subcategory?.name);
         setProducts(data?.products)
     }
   useEffect(()=>{
@@ -27,11 +27,12 @@ const CategoryPage = () => {
   if(isLoading){
     return <Loading />
   }
+
   return (
    
-    <div className="min-h-screen bg-gray-100 py-8 px-2 md:px-4">
-      <h1 className="text-lg md:text-3xl  font-bold  text-gray-800 mb-6">
-        {category?.name}
+    <div className="mt-12 md:py-4 pb-2 px-2 md:px-4">
+      <h1 className="text-sm md:text-3xl  font-bold  text-gray-800 mb-4">
+        {category}
       </h1>
       <div className="flex justify-between sm:justify-start flex-wrap gap-[2px] md:gap-5 ">
         {products?.map((product:any) => (

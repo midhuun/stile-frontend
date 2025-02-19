@@ -14,11 +14,11 @@ const Bag = () => {
   const dispatch = useDispatch();
   async function fetchCart() {
     const cartItems = await getCart();
-    console.log("csrt",cartItems);
+    // console.log("csrt",cartItems);
     dispatch(setcart(cartItems));
   }
   useEffect(() => {
-    console.log("Bag mounted");
+    // console.log("Bag mounted");
      fetchCart();
   }, [dispatch]);
   function handlelogin(){
@@ -26,17 +26,17 @@ const Bag = () => {
     setiscartOpen(false);
   }
   const handleCart = async(value:any) => {
-    console.log(value.item)
+    // console.log(value.item)
     if(value.value === 'addToCart'){
-         console.log("cartvalue",{...value.item,selectedSize:value.size});
+       
          dispatch(addtoCart({...value.item,selectedSize:value.size}))
     }
     if(value.value === 'removeFromCart'){
-      console.log("cartvalue",value.item);
+     
        dispatch(removeFromCart({...value.item,selectedSize:value.size}))
     }
     if(value.value === 'deleteFromCart'){
-      console.log("cartvalue",value.item);
+    
       dispatch(deleteFromCart({...value.item,selectedSize:value.size}))
     }
     const res= await fetch(`https://stile-backend.vercel.app/user/${value.value}`,{
@@ -67,7 +67,7 @@ const Bag = () => {
           <hr />
           <div className="space-y-4 mt-5">
             {cart.length>0 && cart?.map((item:any) => (
-              <div  className="flex justify-between items-start bg-gray-50 p-3 rounded-lg shadow-sm">
+              <div key={item._id}  className="flex justify-between items-start bg-gray-50 p-3 rounded-lg shadow-sm">
                 <div className="flex w-2/3 gap-4">
                
                   <img 

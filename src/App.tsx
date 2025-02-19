@@ -1,10 +1,10 @@
 import './App.css';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Header from './components/header/header';
-import HeaderProvider from './context/appContext';
+import HeaderProvider, { HeaderContext } from './context/appContext';
 import OtpLoginPopup from './components/login/login';
 import Offer from './components/offer';
-import { Suspense, lazy, useEffect } from 'react';
+import { Suspense, lazy, useContext, useEffect } from 'react';
 import Loading from './components/loading/loading';
 import ScrollToTop from './components/home/scrollTop';
 import PaymentStatus from './components/cart/paymentStatus';
@@ -28,8 +28,22 @@ const TermsAndConditions = lazy(() => import('./components/FooterDetails/terms')
 const Account = lazy(() => import('./account/account'));
 function App() {
   const dispatch = useDispatch<any>();
+  const {setUser,setisAuthenticated } = useContext(HeaderContext);
+  async function isUser() {
+    const response = await fetch("https://stile-backend.vercel.app/user", { credentials: 'include' });
+    const data = await response.json();
+    if (data) {
+      setUser(data?.user);
+    }
+    if (response.status === 200) {
+      setisAuthenticated(true);
+    } else {
+      setisAuthenticated(false);
+    }
+  }
   useEffect(() => {
     dispatch(fetchProducts());
+    isUser();
   }, [dispatch]);
   return (
     <>

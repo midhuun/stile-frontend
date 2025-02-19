@@ -8,14 +8,11 @@ import Fuse from 'fuse.js'
 // import Logo from '../../assets/logo.png';
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaFacebookSquare, FaMapMarkerAlt, FaWhatsapp, FaYoutube } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SubCategory } from "../../types/CategoryType";
 import { AiOutlineInstagram } from "react-icons/ai";
 import { FiShoppingBag } from "react-icons/fi";
 import { IoIosArrowDown, IoIosArrowUp, IoMdArrowBack, IoMdClose, IoMdLogOut } from "react-icons/io";
-// import Cookies from "js-cookie";
-// import { signOut } from "firebase/auth";
-// import { auth } from "../../firestore/store";
 import {useSelector } from "react-redux";
 import Bag from "./bag";
 import Favorites from "./favourite";
@@ -24,8 +21,9 @@ import { BiSearchAlt } from "react-icons/bi";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
   const inputref = useRef<any>(null);
-  const { setisUserOpen,isUserOpen,setUser,user, setiscartOpen, isAuthenticated, setisAuthenticated,isFavouriteOpen,setisFavouriteOpen,searchOpen,setsearchOpen } = useContext(HeaderContext);
+  const { setisUserOpen,isUserOpen, setiscartOpen, isAuthenticated, setisAuthenticated,isFavouriteOpen,setisFavouriteOpen,searchOpen,setsearchOpen } = useContext(HeaderContext);
   const [isdropDown, setisdropDown] = useState(false);
   const [query,setQuery] = useState<any>([]);
   const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
@@ -36,33 +34,16 @@ export default function Header() {
     const products = fuse.search(query).map((result:any) => result.item).slice(0,4)
     return products ;
   };
-  async function isUser() {
-    const response = await fetch("https://stile-backend.vercel.app/user", { credentials: 'include' });
-    const data = await response.json();
-    console.log("user",data)
-    if (data) {
-      console.log("user",data)
-      setUser(data?.user);
-    }
-    if (response.status === 200) {
-      setisAuthenticated(true);
-    } else {
-      setisAuthenticated(false);
-    }
-  }
-  useEffect(() => {
-    isUser();
-  }, []);
-  console.dir(user);
+  
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
   async function handlelogout(){
-    console.log("hello");
     await fetch("https://stile-backend.vercel.app/user/logout",{method:'POST',credentials:'include'});
     setisAuthenticated(false);
     setisUserOpen(false);
-    window.location.reload();
+    navigate("/")
+    
   }
 
   const sendMessage = () => {

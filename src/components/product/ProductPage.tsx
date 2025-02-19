@@ -49,7 +49,6 @@ const ProductPage = () => {
 //     setStartX(0); 
 //   }
 // } console.log("product",productdata)
-console.log(productdata)
 const handleDotClick = (index:any) => {
   setActive(index);
 };
@@ -79,7 +78,7 @@ const handleDotClick = (index:any) => {
    }
    setiscartOpen(true);
    if(value === 'addToCart'){
-      console.log(activeSize)
+      
            dispatch(addtoCart({product:productdata,selectedSize:activeSize}))
       }
       if(value === 'removeFromCart'){
@@ -87,7 +86,7 @@ const handleDotClick = (index:any) => {
          dispatch(removeFromCart({product:productdata,selectedSize:activeSize}))
       }
       if(value === 'deleteFromCart'){
-        console.log("cartvalue",value.item);
+    
         dispatch(deleteFromCart({product:productdata,selectedSize:activeSize}))
       }
     const res= await fetch(`https://stile-backend.vercel.app/user/${value}`,{
@@ -150,7 +149,7 @@ const handleDotClick = (index:any) => {
   function handleThumbnailClick(index: number) {
     setActive(index);
   }
-  console.log("cart",cart);
+
   return (
     <>
     {/* {isLoading && <Loading />} */}

@@ -16,8 +16,9 @@
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: radial-gradient(farthest-side,#474bff 94%,#0000) top/9px 9px no-repeat,
-           conic-gradient(#0000 30%,#474bff);
+    background: 
+    radial-gradient(circle, rgba(71, 75, 255, 0.6) 10%, transparent 50%) center/200% 200% no-repeat,
+    conic-gradient(from 0deg, #474bff, #8a2be2, #ff00ff, #474bff);  
     animation: spinner-c7wet2 1s infinite linear;
  }
  

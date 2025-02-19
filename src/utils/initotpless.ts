@@ -44,15 +44,13 @@ export async function hitOTPlessSdk(params) {
  * @returns {void}
  */
 const callback = (eventCallback) => {
-  console.log({ eventCallback });
+ 
 
   const ONETAP = () => {
     const { response } = eventCallback;
 
-    console.log({ response, token: response.token });
-
     // Replace the following code with your own logic
-    console.log(response);
+ 
     // location.reload();
     return response.status;
   };
@@ -72,7 +70,7 @@ const callback = (eventCallback) => {
   const FAILED = () => {
     const { response } = eventCallback;
 
-    console.log({ response });
+    
   };
 
   const FALLBACK_TRIGGERED = () => {
@@ -111,7 +109,7 @@ export async function oauth(channelType) {
     },
   });
 
-  console.log({ initiate });
+ 
 }
 
 

@@ -49,7 +49,7 @@ const OtpLoginPopup = () => {
   };
   async function onOTPVerify(e:any) {
     e.preventDefault();
-    console.log("verifying")
+    // console.log("verifying")
     try{
        const res =await verify(phone,otp);
        console.log(res);

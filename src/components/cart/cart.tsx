@@ -53,7 +53,6 @@ async function paymentCheck(orderid:any) {
   return data;
 }
 async function verifyPayment(orderId: string) {
-  setprocessing(true);
   console.log(orderId);
   let pollCount = 0;
   const pollInterval = 5000;
@@ -149,7 +148,7 @@ async function verifyPayment(orderId: string) {
       redirectTarget: "_self",
     };
     cashfree.checkout(checkoutOptions).then(function(result){
-      console.log(result);
+      // console.log(result);
       if(result.error){
         console.log(result.error);
       }
@@ -161,7 +160,7 @@ async function verifyPayment(orderId: string) {
   };
   async function handlePayment(e:any){
     e.preventDefault();
-    console.log(user);
+    // console.log(user);
     if(!isupdated){
       toast.warning("Please Enter your address to proceed!!")
       return
@@ -170,6 +169,7 @@ async function verifyPayment(orderId: string) {
      setVerifyOrder(true);
      return
     }
+    setprocessing(true);
     const res = await fetch("https://stile-backend.vercel.app/user/payment",{credentials:'include',method:'POST',headers:{
       "Content-Type": "application/json"},
       body:JSON.stringify({name:address.name,email:user.email,amount:total,phone:address.alternateMobile})
@@ -192,18 +192,19 @@ async function verifyPayment(orderId: string) {
         email
       })
     });
-    const orderdata = await res.json(); // Await the response
-    console.log(orderdata);
+    await res.json(); // Await the response
+    // console.log(orderdata);
   }
  async function handleOrder(){
     setVerifyOrder(false);
-   console.log(address);
+  //  console.log(address);
     if(!isupdated){
       toast.warn("Please update Address !!!");
       return
     }
     if(paymentMethod === 'cod'){
-    const res = await fetch("https://stile-backend.vercel.app/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode,email:email})});
+    const orderId = `ORDER_${new Date().getTime()}`;
+    const res = await fetch("https://stile-backend.vercel.app/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({orderId,products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode,email})});
     const data = await res.json();
     console.log(data);
     navigate(`/checkout/${orderId}`);
@@ -244,7 +245,7 @@ async function verifyPayment(orderId: string) {
       <div className="bg-white shadow-xl rounded-lg p-6 md:p-10 flex flex-col items-center space-y-6 animate-fadeIn">
         {/* Loader with Animated Blue Border */}
         <div className="relative flex items-center justify-center h-16 w-16">
-          <div className="absolute h-16 w-16   rounded-full"></div>
+          <div className="absolute h-16 w-16  rounded-full"></div>
           <div class="spinner"></div>
         </div>
     
@@ -307,7 +308,7 @@ async function verifyPayment(orderId: string) {
         {/* Address Form Section */}
         <div className="flex-1  p-4 bg-white   border-2 shadow-md">
           <h1 className="text-2xl font-semibold mb-4">Shipping Address</h1>
-          <form onSubmit={handleAddress} className=" text-sm">
+          <form autoComplete="on" onSubmit={handleAddress} className=" text-sm">
             <label className="px-2 font-semibold">Full Name <span className="text-red-500">*</span></label>
             <input
               disabled={isupdated}
@@ -318,19 +319,20 @@ async function verifyPayment(orderId: string) {
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
               required
             />
-             <label className="px-2 font-semibold">Email <span className="text-red-500">*</span></label>
+             <label className="px-2 font-semibold">Email</label>
             <input
             disabled={isupdated}
               type="text"
               onChange={(e:any)=>setmail(e.target.value)}
               placeholder="Enter your Email "
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
-              required
+             
             />
             <label className="px-2 font-semibold">Address<span className="text-red-500">*</span></label>
             <input
              disabled={isupdated}
               type="text"
+              autoComplete="street-address"
               placeholder="Enter your Address"
               onChange={(e:any)=>setAddress((prev:any)=>({...prev,location:e.target.value}))}
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
@@ -348,6 +350,7 @@ async function verifyPayment(orderId: string) {
             <input
             disabled={isupdated}
               type="text"
+              autocomplete="address-level2"
               placeholder="Enter your City Name"
               onChange={(e:any)=>setAddress((prev:any)=>({...prev,city:e.target.value}))}
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
@@ -357,6 +360,7 @@ async function verifyPayment(orderId: string) {
             <input
             disabled={isupdated}
               type="text"
+              autocomplete="address-level1"
               onChange={(e:any)=>setAddress((prev:any)=>({...prev,city:e.target.value}))}
               placeholder="Enter your State Name"
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
@@ -375,6 +379,7 @@ async function verifyPayment(orderId: string) {
             <input
             disabled={isupdated}
               type="text"
+              autoComplete="tel"
               placeholder="Mobile Number"
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
               onChange={(e:any)=>setAddress((prev:any)=>({...prev,alternateMobile:e.target.value}))}
