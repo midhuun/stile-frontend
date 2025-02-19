@@ -28,13 +28,14 @@ const TermsAndConditions = lazy(() => import('./components/FooterDetails/terms')
 const Account = lazy(() => import('./account/account'));
 function App() {
   const dispatch = useDispatch<any>();
-  const {setUser,setisAuthenticated } = useContext(HeaderContext);
+  const {setUser,user,setisAuthenticated,isAuthenticated } = useContext(HeaderContext);
   async function isUser() {
     const response = await fetch("https://stile-backend.vercel.app/user", { credentials: 'include' });
     const data = await response.json();
     console.log(data);
     if (data) {
       setUser(data?.user);
+
     }
     if (response.status === 200) {
       setisAuthenticated(true);
@@ -45,7 +46,7 @@ function App() {
   useEffect(() => {
     dispatch(fetchProducts());
     isUser();
-  }, [dispatch]);
+  }, [dispatch,user,isAuthenticated]);
   return (
     <>
       <Router>

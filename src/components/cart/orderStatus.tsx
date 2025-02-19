@@ -6,25 +6,41 @@ import {Loader} from 'lucide-react';
 export default function PaymentStatusPage() {
   const [status, setStatus] = useState<any>(null);
   const {orderid} = useParams();
-   async function getPaymentStatus() {
-    try{
-     const res = await fetch(`https://stile-backend.vercel.app/payment/status/${orderid}`,{method:'POST'});
-     const data = await res.json();
-     if(res.status === 404){
-      setStatus(false);
-     }
-     else if(data.paymentStatus === 'SUCCESS'){
-        console.log(data)
-        setStatus(true);
-     }
-     else{
+  async function getPaymentStatus() {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 7000); // 7 seconds timeout
+  
+    try {
+      const res = await fetch(`https://stile-backend.vercel.app/payment/status/${orderid}`, {
+        method: 'POST',
+        signal: controller.signal, // Attach signal to abort fetch if needed
+      });
+  
+      clearTimeout(timeout); // Clear timeout if request completes in time
+  
+      if (res.status === 404) {
         setStatus(false);
-     }
+        return;
+      }
+  
+      const data = await res.json();
+  
+      if (data.paymentStatus === 'SUCCESS') {
+        console.log(data);
+        setStatus(true);
+      } else {
+        setStatus(false);
+      }
+    } catch (error:any) {
+      if (error.name === 'AbortError') {
+        console.log('Request timed out');
+      } else {
+        console.error(error);
+      }
+      setStatus(false);
     }
-    catch(error){
-        console.log(error);
-    }
-   }
+  }
+  
   useEffect(() => {
     getPaymentStatus();
   }, []);
