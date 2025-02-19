@@ -13,13 +13,9 @@ export default function PaymentStatusPage() {
      if(res.status === 404){
       setStatus(false);
      }
-     else if(data.length>0){
-        if(data[0].paymentStatus === 'SUCCESS'){
-            setStatus(true);
-        }
-        else {
-            setStatus(false);
-        }
+     else if(data.paymentStatus === 'SUCCESS'){
+        console.log(data)
+        setStatus(true);
      }
      else{
         setStatus(false);
