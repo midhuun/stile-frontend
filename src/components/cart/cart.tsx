@@ -64,7 +64,6 @@ async function verifyPayment(orderId: string) {
       clearInterval(pollTimeout);
       return;
     }
-    
     try {
       const status = await paymentCheck(orderId); // Await inside an async function'
       if(status.length >0){
@@ -75,22 +74,22 @@ async function verifyPayment(orderId: string) {
           setTimeout(() => {
             toast.success("Order Successfull ✔️");
           }, 1500);
-          const res = await fetch("https://stile-backend.vercel.app/user/order", {
-                credentials: 'include',
-                method: 'POST',
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  products: cart,
-                  totalAmount: total,
-                  paymentMethod,
-                  address,
-                  pincode,
-                  orderId,
-                  email,
-                  alternateMobile:address.alternateMobile
-                })
-              });
-              const data = await res.json(); // Await the response
+          // const res = await fetch("https://stile-backend.vercel.app/user/order", {
+          //       credentials: 'include',
+          //       method: 'POST',
+          //       headers: { "Content-Type": "application/json" },
+          //       body: JSON.stringify({
+          //         products: cart,
+          //         totalAmount: total,
+          //         paymentMethod,
+          //         address,
+          //         pincode,
+          //         orderId,
+          //         email,
+          //         alternateMobile:address.alternateMobile
+          //       })
+          //     });
+          //     const data = await res.json(); // Await the response
               navigate(`/checkout/${orderId}`);// Ensure `navigate` is defined
         }
        else if(status[0].paymentStatus === 'FAILED'){
@@ -178,7 +177,7 @@ async function verifyPayment(orderId: string) {
     setOrderId(data.order_id)
     setsessionId(data.token);
     doPayment(data.token,data.order_id);
-       const orderres = await fetch("https://stile-backend.vercel.app/user/order", {
+    await fetch("https://stile-backend.vercel.app/user/order", {
       credentials: 'include',
       method: 'POST',
       headers: { "Content-Type": "application/json" },

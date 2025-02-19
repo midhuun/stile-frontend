@@ -30,8 +30,8 @@ const CategoryPage = () => {
 
   return (
    
-    <div className="mt-12 md:py-4 pb-2 px-2 md:px-4">
-      <h1 className="text-sm md:text-3xl  font-bold  text-gray-800 mb-4">
+    <div className="mt-12 md:mt-5 md:py-4 pb-2 px-2 md:px-4">
+      <h1 className="text-sm md:text-xl  font-bold  text-gray-800 mb-4">
         {category}
       </h1>
       <div className="flex justify-between sm:justify-start flex-wrap gap-[2px] md:gap-5 ">
