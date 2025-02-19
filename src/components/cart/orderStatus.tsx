@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FiCheckCircle, FiXCircle } from "react-icons/fi";
 import { Link, useParams } from "react-router-dom";
-
+import {Loader} from 'lucide-react';
 export default function PaymentStatusPage() {
   const [status, setStatus] = useState<any>(null);
   const {orderid} = useParams();
@@ -32,14 +32,27 @@ export default function PaymentStatusPage() {
   return (
     <div className="flex items-center justify-center h-screen  p-4">
       {status === null ? (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="text-lg sm:text-2xl"
-        >
-          Checking payment status...
-        </motion.div>
+         <div className="flex flex-col items-center justify-center space-y-4">
+         {/* Animated Loader Icon */}
+         <motion.div
+           initial={{ rotate: 0 }}
+           animate={{ rotate: 360 }}
+           transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+           className="p-4 rounded-full border-4 border-t-blue-500 border-gray-300"
+         >
+           <Loader className="h-10 w-10 text-blue-500 animate-spin" />
+         </motion.div>
+   
+         {/* Text with Gradient & Animation */}
+         <motion.p
+           initial={{ opacity: 0, scale: 0.9 }}
+           animate={{ opacity: 1, scale: 1 }}
+           transition={{ duration: 0.5 }}
+           className="text-lg sm:text-2xl font-semibold text-center bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent drop-shadow-lg"
+         >
+           Checking Payment Status...
+         </motion.p>
+       </div>
       ) : status ? (
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
