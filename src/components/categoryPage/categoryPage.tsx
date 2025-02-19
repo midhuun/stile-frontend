@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { Category, Product } from "../../types/CategoryType";
+import {  Product } from "../../types/CategoryType";
 import ProductCard from "../product/productCard";
 import Loading from "../loading/loading";
 

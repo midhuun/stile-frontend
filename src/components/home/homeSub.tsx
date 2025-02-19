@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { SubCategory } from "../../types/CategoryType";
 import ProductCard from "../product/productCard";
 import { Link } from "react-router-dom";
