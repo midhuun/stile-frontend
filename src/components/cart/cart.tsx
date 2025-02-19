@@ -171,7 +171,7 @@ async function verifyPayment(orderId: string) {
     setprocessing(true);
     const res = await fetch("https://stile-backend.vercel.app/user/payment",{credentials:'include',method:'POST',headers:{
       "Content-Type": "application/json"},
-      body:JSON.stringify({name:address.name,email:email|| "",amount:total,phone:address?.alternateMobile})
+      body:JSON.stringify({name:address.name,email:email|| "",amount:total,phone:user?.phone})
     })
     const data = await res.json();
     setOrderId(data.order_id)
