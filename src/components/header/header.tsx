@@ -105,7 +105,7 @@ export default function Header() {
       >
         <FaWhatsapp className="text-xl md:text-3xl text-white bg-green-500" />
       </button>
-      <header className="border-b relative flex items-center justify-between shadow-sm ml-3 py-2  md:h-auto md:px-3">
+      <header className="border-b relative flex items-center justify-between shadow-sm px-3 py-2  md:h-auto md:px-3">
         <RxHamburgerMenu
           onClick={toggleMenu}
           className="md:hidden text-2xl cursor-pointer"
@@ -114,11 +114,11 @@ export default function Header() {
         <Link to="/" className="flex-1 text-center md:hidden">
           <h1 className="flex justify-center items-center">
             <img
-              className="h-[25px] w-[40px] object-contain"
+              className="h-5  object-contain"
               alt="stile sagio"
               src='/logo.png'
             />
-            <p className="text-xs pl-2">STILE SAGIO</p>
+            <p className="text-xs md:pl-2">STILE SAGIO</p>
           </h1>
         </Link>
 
@@ -174,8 +174,8 @@ export default function Header() {
         </nav>
 
         {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="absolute top-0  left-0 right-0 w-[300px] h-screen bg-white shadow-lg z-[999]  md:hidden">
+      
+          <div className={`absolute ${isMenuOpen ?" translate-x-0":"translate-x-[-100%]"} duration-500 transition-all overflow-hidden top-0 transform  left-0 right-0 w-[300px] h-screen bg-white shadow-lg z-[999]  md:hidden`}>
             <div className="flex  justify-between">
               <h1 className="pb-4 p-4 font-semibold">Menu</h1>
               <IoCloseOutline onClick={toggleMenu} className="text-2xl m-4 cursor-pointer" />
@@ -230,7 +230,7 @@ export default function Header() {
               </a>
             </div>
           </div>
-        )}
+     
          <div className={`w-full md:w-full inset-0 bg-white top-0 right-0 z-[999] transform transition-all duration-300 ease-in-out absolute  ${searchOpen ? " md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 opacity-100" : "-translate-y-full opacity-0"}`}>
           <div className="flex relative justify-end md:justify-center mr-3 h-full items-center">
            <div className="relative flex items-center justify-center w-[85%] md:w-1/2 ">
