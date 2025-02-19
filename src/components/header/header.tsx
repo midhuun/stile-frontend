@@ -18,12 +18,11 @@ import Bag from "./bag";
 import Favorites from "./favourite";
 import { BiSearchAlt } from "react-icons/bi";
 
-
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const inputref = useRef<any>(null);
-  const { setisUserOpen,isUserOpen, setiscartOpen, isAuthenticated, setisAuthenticated,isFavouriteOpen,setisFavouriteOpen,searchOpen,setsearchOpen } = useContext(HeaderContext);
+  const { setisUserOpen,isUserOpen,setUser, setiscartOpen, isAuthenticated, setisAuthenticated,isFavouriteOpen,setisFavouriteOpen,searchOpen,setsearchOpen } = useContext(HeaderContext);
   const [isdropDown, setisdropDown] = useState(false);
   const [query,setQuery] = useState<any>([]);
   const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
@@ -34,7 +33,22 @@ export default function Header() {
     const products = fuse.search(query).map((result:any) => result.item).slice(0,4)
     return products ;
   };
-  
+  async function isUser() {
+    const response = await fetch("https://stile-backend.vercel.app/user", { credentials: 'include' });
+    const data = await response.json();
+    console.log(data);
+    if (data) {
+      setUser(data?.user);
+    }
+    if (response.status === 200) {
+      setisAuthenticated(true);
+    } else {
+      setisAuthenticated(false);
+    }
+  }
+  useEffect(() => {
+      isUser();
+    }, [isAuthenticated]);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -175,7 +189,7 @@ export default function Header() {
 
         {/* Mobile Menu */}
       
-          <div className={`absolute ${isMenuOpen ?" translate-x-0":"translate-x-[-100%]"} duration-500 transition-all overflow-hidden top-0 transform  left-0 right-0 w-[300px] h-screen bg-white shadow-lg z-[999]  md:hidden`}>
+          <div className={`absolute ${isMenuOpen ?" translate-x-0":"translate-x-[-100%]"} duration-300 transition-all overflow-hidden top-0 transform  left-0 right-0 w-[300px] h-screen bg-white shadow-lg z-[999]  md:hidden`}>
             <div className="flex  justify-between">
               <h1 className="pb-4 p-4 font-semibold">Menu</h1>
               <IoCloseOutline onClick={toggleMenu} className="text-2xl m-4 cursor-pointer" />

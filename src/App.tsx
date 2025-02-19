@@ -35,7 +35,6 @@ function App() {
     console.log(data);
     if (data) {
       setUser(data?.user);
-
     }
     if (response.status === 200) {
       setisAuthenticated(true);
