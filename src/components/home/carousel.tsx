@@ -80,7 +80,7 @@ const Carousel = () => {
               <div className="relative md:h-[400px] rounded-lg sm:h-[450px] h-full min-w-full">
                 {/* Image */}
                 <img
-                  loading="lazy"
+                 
                   src={`${item.image}?q=30&format=webp`}
                   alt={item.title}
                   className="object-cover object-top rounded-lg w-full h-full"
