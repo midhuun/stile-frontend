@@ -56,9 +56,9 @@ const Bag = () => {
       }`}
     >
       {cart && cart?.length > 0 ? (
-        <div className="px-4 relative mt-5 max-h-[calc(100vh-160px)] mb-5 border-b border-gray-300 overflow-y-scroll">
+        <div className="px-4 relative mt-2 md:mt-5 max-h-[calc(100vh-160px)] mb-5 border-b border-gray-300 overflow-y-scroll">
           <TfiClose onClick={() => setiscartOpen(false)} size={18} className="absolute cursor-pointer text-md md:text-2xl right-4 top-4" />
-          <h2 className="text-2xl mt-2 font-bold text-gray-900">Your Bag</h2>
+          <h2 className="text-xl md:text-2xl mt-2 font-light upper text-gray-900">Your Bag</h2>
           <div className="flex mt-5 text-gray-500 uppercase justify-between w-full text-[10px]">
             <p>Product</p>
             <p>Total</p>

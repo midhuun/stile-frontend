@@ -372,7 +372,7 @@ const handleDotClick = (index:any) => {
                       <>
                      <ul className="space-y-3 transition-all duration-700 list-disc mx-3">
                       {productdata.attributes && 
-                        Object.keys(productdata.attributes).map((key)=>
+                        Object.keys(productdata.attributes)?.map((key)=>
                           <li className=""> <span className="font-semibold text-black">{key}</span> : {productdata.attributes[key]}</li>
                         )
                       }
