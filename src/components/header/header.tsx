@@ -61,7 +61,7 @@ export default function Header() {
   }
 
   const sendMessage = () => {
-    const phoneNumber = "9677966333";
+    const phoneNumber = "8220856333";
     const message = encodeURIComponent("Hello! I'm interested in your product.");
     const url = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(url, "_blank");
