@@ -46,16 +46,14 @@ const HomeSub = () => {
         {["1","2","3","4","5"].map((__,index:number)=><div key={index} className="flex min-h-[350px] md:justify-start hide-scroll overflow-x-scroll gap-2 py-4  md:gap-4 will-change-transform">
         {["1","2","3","4","5"].map((__,index)=>
         <div key={index}
-        className={`h-[300px] gap-4 flex flex-col min-w-[140px] md:min-w-[250px]  md:h-[520px] md:w-[300px] animate-pulse bg-gray-200 rounded-lg`}
+        className={`h-[300px] gap-4 flex flex-col min-w-[140px] md:min-w-[250px]  md:h-[520px] md:w-[300px] animate-pulse bg-gray-100 rounded-lg`}
       >
         {/* Image Skeleton */}
-        <div className="w-full h-[250px] md:h-[450px] bg-gray-300 rounded-md"></div>
-  
+        <div className="w-full h-[250px] md:h-[450px]  rounded-md"></div>
         {/* Product Info Skeleton */}
         <div className="md:p-2 p-2">
-          <div className="h-5 w-3/4 bg-gray-300 rounded-md"></div>
-          <div className="mt-2 h-4 w-1/2 bg-gray-300 rounded-md"></div>
-          <div className="mt-1 h-5 w-1/3 bg-gray-300 rounded-md"></div>
+          <div className=" h-4 w-full bg-white rounded-md"></div>
+          <div className=" h-5 mt-2 w-[10%] bg-white rounded-md"></div>
         </div>
       </div>
         )}
@@ -67,16 +65,19 @@ const HomeSub = () => {
 
   return (
     <>
-    <div className="w-full h-full">
+    <div className="md:w-full hidden md:block md:h-full">
       <img src="/story.jpg" className="w-full h-full object-contain" alt="" />
     </div>
-    <div className="w-full mt-5">
+    <div className="w-full md:hidden  mb-3">
+              <img src="/poster.png" alt="Story" loading="lazy" className="w-full h-[450px] object-contain " />
+            </div>
+    <div className="w-full mt-2">
       {subcategories.map((subcategory: SubCategory) => (
         <div key={subcategory._id} className="md:mt-5 w-full px-2 md:px-4">
           {/* Render the special image after the second subcategory */}
           {/* {index === 2 && (
-            <div className="w-full object-contain mb-5">
-              <img src="/story.webp" alt="Story" loading="lazy" className="w-full h-auto" />
+            <div className="w-full  mb-3">
+              <img src="/poster.png" alt="Story" loading="lazy" className="w-full h-[450px] object-contain " />
             </div>
           )} */}
 
