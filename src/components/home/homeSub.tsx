@@ -68,9 +68,7 @@ const HomeSub = () => {
     <div className="md:w-full hidden md:block md:h-full">
       <img src="/story.jpg" className="w-full h-full object-contain" alt="" />
     </div>
-    <div className="w-full md:hidden  mb-3">
-              <img src="/poster.png" alt="Story" loading="lazy" className="w-full h-[450px] object-contain " />
-            </div>
+    
     <div className="w-full mt-2">
       {subcategories.map((subcategory: SubCategory) => (
         <div key={subcategory._id} className="md:mt-5 w-full px-2 md:px-4">
