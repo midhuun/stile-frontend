@@ -1,4 +1,4 @@
-import { act, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { IoCloseSharp } from "react-icons/io5";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
@@ -232,7 +232,7 @@ const handleDotClick = (index:any) => {
 
       {/* Dots Navigation */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-        {productdata?.images?.map((_, index:number) => (
+        {productdata?.images?.map((_:any, index:number) => (
           <div
             key={index}
             onClick={() => handleDotClick(index)}

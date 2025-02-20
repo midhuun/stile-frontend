@@ -39,8 +39,8 @@ const ProductCard = ({product}:any) => {
         </div>
         <div className="md:p-2 p-2">  
           <div className='h-5 overflow-hidden '>
-            <p className="text-[10px] hidden md:block text-gray-600  font-semibold  md:text-[16px] uppercase break-words">{product?.name.slice(0,25)}{product.name.length>17 && "..."}</p>
-            <p className="text-[10px] md:hidden text-gray-600  font-semibold  md:text-[16px] uppercase break-words">{product?.name.slice(0,17)} {product.name.length>17 && "..."}</p>
+            <p className="text-[10px] hidden md:block text-gray-600  font-semibold  md:text-[16px] uppercase break-words">{product?.name.slice(0,20)}{product.name.length>20 && "..."}</p>
+            <p className="text-[10px] md:hidden text-gray-600  font-semibold  md:text-[16px] uppercase break-words">{product?.name.slice(0,18)} {product.name.length>20 && "..."}</p>
             </div>
             {/* <p className="text-[11px] h-10 tracking-wide font-semibold text-gray-700  md:h-5 md:text-[13px]">{product?.description.split(" ").slice(0,6).join(" ")}...</p> */}
             <p className="text-[12px] md:mt-1 md:text-sm text-black tracking-wide">₹{(product?.discountedPrice!==product.price)?product?.discountedPrice:product?.price} <span className="pl-1 md:pl-3 text-[10px] text-gray-400 line-through">{product?.discountedPrice && product?.discountedPrice!==product.price && `Rs. ${product.price}`}</span></p>  
