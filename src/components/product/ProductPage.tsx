@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+import { act, useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Product } from "../../types/CategoryType";
 import { IoCloseSharp } from "react-icons/io5";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { HeaderContext } from "../../context/appContext";
@@ -11,10 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import  { RootState } from "../../store/store";
 import { addtoCart, deleteFromCart, removeFromCart, setcart } from "../../store/reducers/cartReducer";
 import { BiSolidHeart } from "react-icons/bi";
+import { useSwipeable } from "react-swipeable";
 const ProductPage = () => {
   const params: any = useParams();
   const { product } = params;
-  const [productdata, setproductdata] = useState<Product | null>(null);
+  const [productdata, setproductdata] = useState<any>(null);
   // const [isimageLoading, setisImageLoading] = useState(true);
   const cart = useSelector((state:RootState)=>state.Cart);
   const {setiscartOpen,setisFavouriteOpen,setFavourites,isAuthenticated,setisUserOpen} = useContext<any>(HeaderContext);
@@ -30,7 +30,20 @@ const ProductPage = () => {
   });
   const thisProduct = cart?.find((item:any)=>item.product._id === productdata?._id && item.selectedSize === activeSize);
   console.log(thisProduct);
-  
+  const swipeHandlers = useSwipeable({
+   onSwipedLeft: () => {
+    if(active < productdata?.images?.length-1){
+      console.log(productdata?.images?.length)
+      console.log(active)
+    setActive((prevActive) => prevActive + 1);
+    }
+   },
+   onSwipedRight:()=>{
+    if(active > 0){
+    setActive((prevActive) => prevActive - 1);
+    }
+   }
+  })
   // const [startX, setStartX] = useState(0);
 
 // function handleTouchStart(event: React.TouchEvent) {
@@ -120,11 +133,11 @@ const handleDotClick = (index:any) => {
     setisLoading(true);
     setTimeout(() => {
       setisLoading(false);
+      
      }, 800);
   },[])
   useEffect(() => {
      getProduct();
-     
     getCart().then((data) => dispatch(setcart(data))).catch((err) => console.log(err));
   }, [dispatch,activeSize,params]);
   function handleChangeImage(data: string) {
@@ -197,7 +210,7 @@ const handleDotClick = (index:any) => {
       {isLoading && (
         <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-md"></div>
       )}
-      <img
+      <img {...swipeHandlers}
         className="w-full h-full object-cover object-top transition-transform duration-500"
         src={productdata?.images?.[active]}
         loading="lazy"

@@ -29,7 +29,7 @@ export default function Header() {
   const [query,setQuery] = useState<any>([]);
   const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
   const [searchVal,setsearchVal] =useState("");
-  const products = useSelector((state:RootState)=>state.Products);
+  const products:any = useSelector((state:RootState)=>state.Products);
   function getProduct() {
     return fetch("https://stile-backend.vercel.app/allproducts")
         .then((res) => res.json()) // Convert response to JSON
