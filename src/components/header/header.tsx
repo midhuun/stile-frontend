@@ -17,6 +17,7 @@ import {useSelector } from "react-redux";
 import Bag from "./bag";
 import Favorites from "./favourite";
 import { BiSearchAlt } from "react-icons/bi";
+import { RootState } from "../../store/store";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,13 +25,23 @@ export default function Header() {
   const inputref = useRef<any>(null);
   const { setisUserOpen,isUserOpen,setUser, setiscartOpen, isAuthenticated, setisAuthenticated,isFavouriteOpen,setisFavouriteOpen,searchOpen,setsearchOpen } = useContext(HeaderContext);
   const [isdropDown, setisdropDown] = useState(false);
+  const [allProducts,setAllProducts] = useState([]);
   const [query,setQuery] = useState<any>([]);
   const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
   const [searchVal,setsearchVal] =useState("");
-  const products = useSelector((state:any)=>state.Products);
-  const fuse = products&& new Fuse(products.products,{keys:["name"],threshold:0.5,minMatchCharLength:2});
+  const products = useSelector((state:RootState)=>state.Products);
+  function getProduct() {
+    return fetch("https://stile-backend.vercel.app/allproducts")
+        .then((res) => res.json()) // Convert response to JSON
+        .then((data) => {
+           setAllProducts(data) // Process the data
+           // Return data from the Promise
+        }).catch((err)=>console.log(err))
+}
+   console.log(products)
+  const fuse:any = allProducts.length>0 && new Fuse(allProducts,{keys:["name"],threshold:0.5,minMatchCharLength:2});
   const searchProducts = (query:any) => {
-    const products = fuse.search(query).map((result:any) => result.item).slice(0,4)
+   const products = fuse.search(query).map((result:any) => result.item).slice(0,4)
     return products ;
   };
   async function isUser() {
@@ -46,6 +57,10 @@ export default function Header() {
       setisAuthenticated(false);
     }
   }
+  useEffect(() => 
+    {
+      getProduct();
+    },[])
   useEffect(() => {
       isUser();
     }, [isAuthenticated]);
