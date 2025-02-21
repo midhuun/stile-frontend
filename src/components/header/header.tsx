@@ -129,10 +129,10 @@ export default function Header() {
     <Favorites />
     <div className="fixed select-none bg-white top-[45px] w-full z-[200]">
       <button
-        className="fixed bg-green-500 p-2 rounded-full bottom-8 z-[999] right-3"
+        className="fixed bg-green-500 p-2 rounded-full bottom-8 z-[999] right-7"
         onClick={sendMessage}
       >
-        <FaWhatsapp className="text-xl md:text-3xl text-white bg-green-500" />
+        <FaWhatsapp className="text-2xl  md:text-3xl text-white bg-green-500" />
       </button>
       <header className="border-b relative flex items-center justify-between shadow-sm px-3 py-2  md:h-auto md:px-3">
         <RxHamburgerMenu
