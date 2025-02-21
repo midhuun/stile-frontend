@@ -273,7 +273,7 @@ const handleDotClick = (index:any) => {
                     <IoCloseSharp className="text-2xl" />
                   </button>
                   <div className="flex w-full justify-center items-center">
-                  <img src={productdata?.subcategory.sizeurl} className="min-w-[300px]  h-[60vh]" alt="Size Chart Icon" />
+                  <img src={productdata?.subcategory?.sizeurl} className="min-w-[300px]  h-[60vh]" alt="Size Chart Icon" />
                   </div>
                 </div>
               </div>
@@ -299,7 +299,7 @@ const handleDotClick = (index:any) => {
                       : "bg-white text-black border-gray-500"
                   }`}
                 >
-                  {size.size}
+                  {size?.size}
                 </div>
               ))}
             </div>
@@ -317,7 +317,7 @@ const handleDotClick = (index:any) => {
               >
                 -
               </button>
-              <p className="flex-1 text-center">{thisProduct && thisProduct.quantity || 1}</p>
+              <p className="flex-1 text-center">{thisProduct && thisProduct?.quantity || 1}</p>
               <button
                 onClick={() => handleCart('addToCart')}
                 className="md:px-3 px-2 py-1 md:py-2 hover:bg-gray-200"
@@ -384,13 +384,13 @@ const handleDotClick = (index:any) => {
                       productdata?.description &&
                       <>
                      <ul className="space-y-3 transition-all duration-700 list-disc mx-3">
-                      {productdata.attributes && 
-                        Object.keys(productdata.attributes)?.map((key)=>
+                      {productdata?.attributes && 
+                        Object.keys(productdata?.attributes)?.map((key)=>
                           <li className=""> <span className="font-semibold text-black">{key}</span> : {productdata.attributes[key]}</li>
                         )
                       }
                      </ul>
-                     <p className="p-2 "> {productdata.description} </p>
+                     <p className="p-2 "> {productdata?.description} </p>
                      </>}
                     {key === "shipping" && (
                       <div className="p-4 bg-gray-100 rounded-lg shadow-md">
