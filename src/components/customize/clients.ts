@@ -6,7 +6,7 @@ export const clients:clientType[] = [
     { name: "JSW", logo: "https://equippp.in/wp-content/uploads/2023/08/jsw-600.png" },
     { name: "Triumph", logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkSnPGG4xqW1h-6SuyVLBPYtgbqQR9O4DquQ&s" },
     { name: "Crew", logo: "https://static.vecteezy.com/system/resources/previews/027/804/245/non_2x/rew-logo-design-inspiration-for-a-unique-identity-modern-elegance-and-creative-design-watermark-your-success-with-the-striking-this-logo-vector.jpg" },
-    { name: "Velammal Group", logo: "https://upload.wikimedia.org/wikipedia/commons/5/57/Velammal_engineering_college_logo.png" },
+    { name: "Velammal Group", logo: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.facebook.com%2Fvelamites.mdu%2F&psig=AOvVaw3oNJFOJ_jb5smE1iceTGvn&ust=1740190663799000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCIC3tcvZ04sDFQAAAAAdAAAAABAJ" },
     { name: "L&T", logo: "https://ipfonline.com/assets/uploads/s3/data/industry_updates/news/f47537bef826abe4582fe27560baccc9.png" },
     { name: "Popular Applam", logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG8R1FYe0NMTvQeczPgnHaEyn4d4fWgavPMA&s" },
     { name: "Joy Allukas", logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA9iCAKhN8R6b3-5poQDAJrIbCzFXqKDuk4g&s" },
