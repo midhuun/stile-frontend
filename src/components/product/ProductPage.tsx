@@ -28,21 +28,19 @@ const ProductPage = () => {
     shipping: false,
     manufacturer: false,
   });
-  const thisProduct = cart?.find((item:any)=>item.product._id === productdata?._id && item.selectedSize === activeSize);
+  const thisProduct = productdata?cart?.find((item:any)=>item.product._id === productdata?._id && item.selectedSize === activeSize):null;
   console.log(thisProduct);
   const swipeHandlers = useSwipeable({
-   onSwipedLeft: () => {
-    if(active < productdata?.images?.length-1){
-      console.log(productdata?.images?.length)
-      console.log(active)
-    setActive((prevActive) => prevActive + 1);
+    onSwipedLeft: () => {
+      if (productdata?.images && active < productdata.images.length - 1) {
+        setActive((prevActive) => prevActive + 1);
+      }
+    },
+    onSwipedRight: () => {
+      if (active > 0) {
+        setActive((prevActive) => prevActive - 1);
+      }
     }
-   },
-   onSwipedRight:()=>{
-    if(active > 0){
-    setActive((prevActive) => prevActive - 1);
-    }
-   }
   })
   // const [startX, setStartX] = useState(0);
 
@@ -85,6 +83,7 @@ const handleDotClick = (index:any) => {
     setisFavouriteOpen(true);
   }
   const handleCart = async(value:any) => {
+    if (!productdata) return;
     if(!isAuthenticated){
       setisUserOpen(true)
       return
@@ -120,23 +119,25 @@ const handleDotClick = (index:any) => {
   const toggleDropdown = (key: string) => {
     setDropdowns((prev:any) => ({ ...prev, [key]: !prev[key] }));
   };
-  const getProduct = async () => {
-    try {
-      const response = await fetch(`https://stile-backend.vercel.app/product/${product}`);
-      const data = await response.json();
-      setproductdata(data[0]);
-    } catch (err) {
-      console.log(err);
-    }
-  };
   useEffect(()=>{
     setisLoading(true);
     setTimeout(() => {
       setisLoading(false);
       
      }, 800);
-  },[])
+  },[params])
   useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const response = await fetch(`https://stile-backend.vercel.app/product/${product}`);
+        const data = await response?.json();
+        if(data.length>0){
+        setproductdata(data[0]);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
      getProduct();
     getCart().then((data) => dispatch(setcart(data))).catch((err) => console.log(err));
   }, [dispatch,activeSize,params]);

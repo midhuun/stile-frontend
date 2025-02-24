@@ -1,7 +1,12 @@
 export async function getCart(){
+    try{
     const response = await fetch('https://stile-backend.vercel.app/user/cart',{credentials:'include'});
     const data = await response.json(); 
     return data.cart;
+    }
+    catch(err){
+      return err
+    }
   }
 export async function getFavourites(){
     const response = await fetch('https://stile-backend.vercel.app/user/favourites',{credentials:'include'});

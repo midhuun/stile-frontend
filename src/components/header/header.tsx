@@ -129,7 +129,7 @@ export default function Header() {
     <Favorites />
     <div className="fixed select-none bg-white top-[45px] w-full z-[200]">
       <button
-        className="fixed bg-green-500 p-2 rounded-full bottom-8 z-[999] right-7"
+        className="fixed bg-green-500 p-2 rounded-full bottom-8 z-[999] right-6"
         onClick={sendMessage}
       >
         <FaWhatsapp className="text-2xl  md:text-3xl text-white bg-green-500" />
