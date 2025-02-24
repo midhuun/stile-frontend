@@ -37,7 +37,7 @@ const ProductPage = () => {
       }
     },
     onSwipedRight: () => {
-      if (active > 0) {
+      if (productdata?.images && active > 0) {
         setActive((prevActive) => prevActive - 1);
       }
     }
@@ -78,8 +78,9 @@ const handleDotClick = (index:any) => {
       });
     const data = await res.json();
     const favouriteItems = await getFavourites();
+    if(favouriteItems){
     setFavourites(favouriteItems);
-    console.log(data);
+    }
     setisFavouriteOpen(true);
   }
   const handleCart = async(value:any) => {
@@ -90,15 +91,12 @@ const handleDotClick = (index:any) => {
    }
    setiscartOpen(true);
    if(value === 'addToCart'){
-      
            dispatch(addtoCart({product:productdata,selectedSize:activeSize}))
       }
       if(value === 'removeFromCart'){
-        
          dispatch(removeFromCart({product:productdata,selectedSize:activeSize}))
       }
       if(value === 'deleteFromCart'){
-    
         dispatch(deleteFromCart({product:productdata,selectedSize:activeSize}))
       }
     const res= await fetch(`https://stile-backend.vercel.app/user/${value}`,{
@@ -110,8 +108,7 @@ const handleDotClick = (index:any) => {
       body: JSON.stringify({productdata,selectedSize:activeSize})
     })
     const data = await res.json();
-    console.log(data)
-    getCart().then((item:any)=>dispatch(setcart(item)));
+    getCart().then((item:any)=>dispatch(setcart(item))).catch((err:any)=>console.log(err));
 
   
   }
@@ -293,9 +290,9 @@ const handleDotClick = (index:any) => {
               {productdata?.sizes?.map((size:any) => (
                 <div
                   key={size?._id}
-                  onClick={() => setActiveSize(size.size)}
+                  onClick={() => setActiveSize(size?.size)}
                   className={`cursor-pointer uppercase text-semibold text-xs md:text-md py-2 px-3 md:px-4 md:py-2 border ${
-                    activeSize === size.size
+                    activeSize === size?.size
                       ? "bg-black text-white"
                       : "bg-white text-black border-gray-500"
                   }`}
@@ -387,7 +384,7 @@ const handleDotClick = (index:any) => {
                      <ul className="space-y-3 transition-all duration-700 list-disc mx-3">
                       {productdata?.attributes && 
                         Object.keys(productdata?.attributes)?.map((key)=>
-                          <li className=""> <span className="font-semibold text-black">{key}</span> : {productdata.attributes[key]}</li>
+                          <li className=""> <span className="font-semibold text-black">{key}</span> : {productdata?.attributes[key]}</li>
                         )
                       }
                      </ul>
@@ -440,7 +437,7 @@ const handleDotClick = (index:any) => {
 
     {/* You May Also Like */}
     <Link  to={`/product/${productdata?.slug}`}>
-    <Suggestion subid={productdata?.subcategory._id} id={productdata?._id} />
+    <Suggestion subid={productdata?.subcategory?._id} id={productdata?._id} />
     </Link>
     </>
   );
