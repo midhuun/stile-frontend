@@ -68,7 +68,8 @@ const handleDotClick = (index:any) => {
        setisUserOpen(true)
        return
     }
-    const res= await fetch(`https://stile-backend.vercel.app/user/addtoFavourites`,{
+    try{
+    await fetch(`https://stile-backend.vercel.app/user/addtoFavourites`,{
       method: 'POST',
       credentials:'include',
       headers: {
@@ -76,12 +77,15 @@ const handleDotClick = (index:any) => {
       },
       body: JSON.stringify({id:productdata?._id})
       });
-    const data = await res.json();
     const favouriteItems = await getFavourites();
     if(favouriteItems){
     setFavourites(favouriteItems);
     }
     setisFavouriteOpen(true);
+  }
+  catch(err){
+    console.log(err)
+  }
   }
   const handleCart = async(value:any) => {
     if (!productdata) return;
