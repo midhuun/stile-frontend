@@ -99,7 +99,8 @@ const handleDotClick = (index:any) => {
       if(value === 'deleteFromCart'){
         dispatch(deleteFromCart({product:productdata,selectedSize:activeSize}))
       }
-    const res= await fetch(`https://stile-backend.vercel.app/user/${value}`,{
+      try{
+    await fetch(`https://stile-backend.vercel.app/user/${value}`,{
       method: 'POST',
       credentials:'include',
       headers: {
@@ -107,9 +108,11 @@ const handleDotClick = (index:any) => {
       },
       body: JSON.stringify({productdata,selectedSize:activeSize})
     })
-    const data = await res.json();
     getCart().then((item:any)=>dispatch(setcart(item))).catch((err:any)=>console.log(err));
-
+  }
+  catch(err){
+    console.log(err)
+  }
   
   }
   
