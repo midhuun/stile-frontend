@@ -28,7 +28,7 @@ const ProductPage = () => {
     shipping: false,
     manufacturer: false,
   });
-  const thisProduct = productdata?cart?.find((item:any)=>item.product._id === productdata?._id && item.selectedSize === activeSize):null;
+  const thisProduct = productdata &&cart?cart?.find((item:any)=>item.product._id === productdata?._id && item.selectedSize === activeSize):null;
   console.log(thisProduct);
   const swipeHandlers = useSwipeable({
     onSwipedLeft: () => {
@@ -144,7 +144,7 @@ const handleDotClick = (index:any) => {
     };
      getProduct();
     getCart().then((data) => dispatch(setcart(data))).catch((err) => console.log(err));
-  }, [dispatch,activeSize,params]);
+  }, [dispatch,params]);
   function handleChangeImage(data: string) {
     if (data === "prev") {
       if (active === 0) return;
