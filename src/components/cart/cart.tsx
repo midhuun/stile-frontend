@@ -286,12 +286,14 @@ async function verifyPayment(orderId: string) {
       {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row justify-between items-center mt-8 gap-4">
         <button
+         name="Confirm Order" value="Confirm Order" aria-label="Confirm Order"
           onClick={()=>handleOrder()}
           className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white   font-semibold text-sm sm:text-base hover:bg-blue-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
         >
           Yes, Confirm Order
         </button>
         <button
+          name="Cancel Order" value="Cancel Order" aria-label="Cancel Order"
           onClick={() => setVerifyOrder(false)}
           className="w-full sm:w-auto px-6 py-3 bg-gray-200 text-gray-700   font-semibold text-sm sm:text-base hover:bg-gray-300 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2"
         >

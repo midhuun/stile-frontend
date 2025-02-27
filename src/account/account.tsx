@@ -74,6 +74,7 @@ const Account = () => {
                 <div className="w-full h-[2px] bg-black"></div>
                 </div>
                 <button 
+                 name="logout" value="logout" aria-label="logout"
                     onClick={handleLogout} 
                     className="bg-blue-500 text-sm md:text-md text-white px-3 py-1 md:px-4 md:py-2 rounded-md hover:bg-blue-600 transition duration-200 mb-6"
                 >
@@ -130,9 +131,11 @@ const Account = () => {
                                      </div>
                                      <div className="flex mt-4 justify-between ">
                                         <Link to={`/order/${order.orderId}`}>
-                                        <button className='w-28 px-3 md:text-sm text-[12px] py-2 hover:bg-black hover:text-white border bg-white text-black duration-500 transition-all'>View Order</button>
+                                        <button  name="order view" value="view order" aria-label="view order"
+                                         className='w-28 px-3 md:text-sm text-[12px] py-2 hover:bg-black hover:text-white border bg-white text-black duration-500 transition-all'>View Order</button>
                                         </Link>                                     
-                                    <button onClick={() => openCancelModal(order._id)}  className='w-28 px-3 py-2 text-[12px] md:text-sm hover:bg-black hover:text-white border bg-white text-black duration-500 transition-all'>Cancel Order</button>
+                                    <button  name="order cancel" value="cancel order" aria-label="Cancel order"
+                                     onClick={() => openCancelModal(order._id)}  className='w-28 px-3 py-2 text-[12px] md:text-sm hover:bg-black hover:text-white border bg-white text-black duration-500 transition-all'>Cancel Order</button>
 
                                      </div>
 
@@ -161,13 +164,13 @@ const Account = () => {
                         ></textarea>
 
                         <div className="flex justify-between mt-4">
-                            <button 
+                            <button   name="keep it open" value="keep it open" aria-label="keep it open"
                                 onClick={closeCancelModal}
                                 className="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg text-sm"
                             >
                                 No, Keep It
                             </button>
-                            <button 
+                            <button name="close" value="close" aria-label="close"
                                 onClick={handleCancelOrder}
                                 className="px-4 py-2 bg-red-600 text-white rounded-lg text-sm"
                             >

@@ -128,7 +128,9 @@ export default function Header() {
     <Bag />
     <Favorites />
     <div className="fixed select-none bg-white top-[45px] w-full z-[200]">
-      <button
+      <button aria-label="whatsapp"
+      value="whatsapp click button"
+        name="whatsapp-logo"
         className="fixed bg-green-500 p-2 rounded-full bottom-8 z-[999] right-6"
         onClick={sendMessage}
       >
@@ -264,13 +266,13 @@ export default function Header() {
           <div className="flex relative justify-end md:justify-center mr-3 h-full items-center">
            <div className="relative flex items-center justify-center w-[85%] md:w-1/2 ">
           
-           <button  onClick={()=>setsearchOpen(false)} className="md:hidden absolute -left-8">
+           <button name="go-back" value="go-back" aria-label="go back"  onClick={()=>setsearchOpen(false)} className="md:hidden absolute -left-8">
            <IoMdArrowBack className="text-2xl" />
            </button>
-            <button className="absolute  md:pr-10 right-2 top-1/2 transform -translate-y-1/2">
+            <button name="search" value="search" aria-label="search" className="absolute  md:pr-10 right-2 top-1/2 transform -translate-y-1/2">
             <BiSearchAlt  className="text-xl" />
             </button>
-            <button className="absolute hidden md:block right-3 top-1/2 transform -translate-y-1/2">
+            <button  name="Close" value="Close" aria-label="Close" className="absolute hidden md:block right-3 top-1/2 transform -translate-y-1/2">
             <IoMdClose onClick={handleClose}  className="text-xl text-red-600" />
             </button>
             <input value={searchVal} onChange={(e:any)=>searchvalue(e)} placeholder="Try Searching Polos.." ref={inputref} className="w-full h-8 placeholder:text-xs placeholder:text-gray-500 md:h-10 p-3 border" type="text" name="" id="" />
