@@ -83,7 +83,7 @@ const Carousel = () => {
                  src={`${item.image}?q=30&format=webp`}
                   alt={item.title}
                   decoding="async"
-                  className="object-cover object-top rounded-lg w-full h-full"
+                  className="object-cover object-top rounded-lg w-full md:h-[400px] sm:h-[450px]"
                 />
                 {/* "Shop Now" Button */}
                 <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
