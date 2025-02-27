@@ -55,7 +55,7 @@ const CustomizeOrder = () => {
         </div>
       </div>
       <div className="py-5 relative">
-      <img src="/customizenow.png" alt="" className="object-contain" />
+      <img src="/customizenow.png" alt="Customize-img" className="object-contain" />
       <Link to="/customize/quote">
             <button className="bg-black absolute hover:text-black bottom-10 tranform left-[50%] translate-x-[-50%]  hover:bg-white text-white font-semibold px-4 py-3 md:px-8 rounded-lg shadow-lg text-sm md:text-lg transition duration-300">
               Start Customizing

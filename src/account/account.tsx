@@ -105,7 +105,7 @@ const Account = () => {
                     <div className='my-5 border shadow-sm' key={order._id}>
                         <div className="flex p-3  justify-between">
                             <div className="flex items-center space-x-4">
-                                <img src="/received.png" className='h-10 w-10 object-contain' alt="" />
+                                <img src="/received.png" className='h-10 w-10 object-contain' alt="order received" />
                                 <div>
                                 <p className='text-[12px] md:text-sm'>Order Received</p>
                                <span className='text-gray-800 text-[12px] md:text-sm'> {new Date(order.createdAt).toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })} </span> 
@@ -122,7 +122,7 @@ const Account = () => {
                                       {/* <div className="absolute text-[12px] font-bold text-gray-500 md:text-sm -right-2 -top-2 h-6 w-6 rounded-full bg-white border flex justify-center items-center">
                                            {order.products.length}
                                        </div> */}
-                                       <img src={order.products[0].product.images[0]} alt="" className='w-16  h-20 object-cover' />
+                                       <img src={order.products[0].product.images[0]} alt="src={order.products[0].product.name}" className='w-16  h-20 object-cover' />
                                        <div className='py-2'>
                                        <p className='text-[12px] md:text-sm'>{order.products[0].product.name}</p>
                                        <p className='text-[12px] font-semibold md:text-sm text-black'><span className='font-semibold text-gray-500 pr-1'> Size:</span>{order.products[0].selectedSize}</p>

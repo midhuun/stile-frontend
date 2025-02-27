@@ -465,7 +465,7 @@ async function verifyPayment(orderId: string) {
       />
       <div className="flex items-center space-x-3">
         <div className="h-8 w-8 border text-white flex items-center justify-center rounded-full">
-         <img className="h-6 w-6 object-contain" src="/upi.svg" alt="" />
+         <img className="h-6 w-6 object-contain" src="/upi.svg" alt="upi" />
         </div>
         <span className="text-sm md:text-lg font-medium">UPI</span>
       </div>
@@ -484,7 +484,7 @@ async function verifyPayment(orderId: string) {
       />
       <div className="flex items-center space-x-3">
         <div className="h-8 w-8 border text-white flex items-center justify-center rounded-full">
-        <img className="h-6 w-6 object-contain" src="/card.png" alt="" />
+        <img className="h-6 w-6 object-contain" src="/card.png" alt="Credit Card" />
         </div>
         <span className="text-sm md:text-lg font-medium">Credit / Debit Card</span>
       </div>
@@ -503,7 +503,7 @@ async function verifyPayment(orderId: string) {
       />
       <div className="flex items-center space-x-3">
         <div className="h-8 w-8 border text-white flex items-center justify-center rounded-full">
-        <img className="h-6 w-6 object-contain" src="/net.png" alt="" />
+        <img className="h-6 w-6 object-contain" src="/net.png" alt="Net Banking" />
         </div>
         <span className="text-sm md:text-lg font-medium">Net Banking</span>
       </div>
@@ -520,7 +520,7 @@ async function verifyPayment(orderId: string) {
       />
       <div className="flex items-center space-x-3">
         <div className="w-8 h-8 border text-white flex items-center justify-center rounded-full">
-        <img className="h-6 w-6 object-contain" src="/cash.png" alt="" />
+        <img className="h-6 w-6 object-contain" src="/cash.png" alt="Cash" />
         </div>
         <span className="text-sm md:text-lg font-medium">Cash on Delivery</span>
       </div>

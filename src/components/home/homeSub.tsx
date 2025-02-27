@@ -66,7 +66,7 @@ const HomeSub = () => {
   return (
     <>
     <div className="md:w-full hidden md:block md:h-full">
-      <img src="/story.jpg" className="w-full h-full object-contain" alt="" />
+      <img src="/story.jpg" className="w-full h-full object-contain" alt="Stile Sagio Story" />
     </div>
     
     <div className="w-full mt-2">

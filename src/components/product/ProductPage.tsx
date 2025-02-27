@@ -197,7 +197,7 @@ const handleDotClick = (index:any) => {
               <img
                 className="w-full h-[90vh] object-top object-cover border"
                 src={productdata?.images?.[active]}
-                alt="Main Product"
+                alt={productdata?.name}
               />
               <div className="absolute z-[-100] h-[90vh] w-full inset-0 overflow-hidden bg-gray-400 animate-pulse"></div>
             </div>
@@ -220,7 +220,7 @@ const handleDotClick = (index:any) => {
         src={productdata?.images?.[active]}
         loading="lazy"
         onLoad={() => setisLoading(false)}
-        alt="Mobile Product View"
+        alt={productdata?.name}
       />
       <button
         onClick={() => handleChangeImage("prev")}
@@ -349,19 +349,19 @@ const handleDotClick = (index:any) => {
           <div className="flex w-full border border-gray-300 divide-x divide-gray-300 bg-white shadow-lg rounded-lg">
   {/** First Section */}
   <div className="flex flex-col gap-2 items-center text-center p-4 w-1/3 transform transition-transform hover:scale-105 duration-300">
-  <img className=" h-6 w-6 object-contain md:h-10 md:w-10" src="/quality.png" alt="" />
+  <img className=" h-6 w-6 object-contain md:h-10 md:w-10" src="/quality.png" alt="Quality" />
     <p className="text-gray-600 text-xs md:text-base font-medium">Quality Checked</p>
   </div>
 
   {/** Second Section */}
   <div className="flex flex-col gap-2 items-center text-center p-4 w-1/3 transform transition-transform hover:scale-105 duration-300">
-   <img className=" h-6 w-6 object-contain md:h-10 md:w-10" src="/original.png" alt="" />
+   <img className=" h-6 w-6 object-contain md:h-10 md:w-10" src="/original.png" alt="Original" />
     <p className="text-gray-600 text-xs md:text-base font-medium">Genuine Product</p>
   </div>
 
   {/** Third Section */}
   <div className="flex flex-col gap-2 items-center text-center p-4 w-1/3 transform transition-transform hover:scale-105 duration-300">
-  <img className="h-6 w-6 object-contain md:h-10 md:w-10" src="/return.png" alt="" />
+  <img className="h-6 w-6 object-contain md:h-10 md:w-10" src="/return.png" alt="Return" />
     <p className="text-gray-600 text-xs md:text-base font-medium">
      7 Days Return Policy
     </p>

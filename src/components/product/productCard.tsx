@@ -35,7 +35,7 @@ const ProductCard = ({product}:any) => {
     <div className={`h-[300px]  flex flex-col ${product.type === 'home' ? 'w-[140px]' :"w-[49%] xs:w-[32%] sm:w-[30%]" } h-[310px]  md:h-[520px] md:w-[300px]`} key={product?._id}>
        <Link to={`/product/${product.slug}`}>
       <div className='overflow-hidden relative '>       
-        <img onMouseEnter={handleMouseEnter} loading='lazy' onMouseLeave={handleMouseLeave} className="w-full rounded-md object-top tranition-all duration-[1.5s]  h-[250px] md:h-[450px] object-cover hover:scale-[1.01] " src={`${currentImage}?w=380&h=450&q=75`} alt="" />
+        <img onMouseEnter={handleMouseEnter} loading='lazy' onMouseLeave={handleMouseLeave} className="w-full rounded-md object-top tranition-all duration-[1.5s]  h-[250px] md:h-[450px] object-cover hover:scale-[1.01] " src={`${currentImage}?w=380&h=450&q=75`} alt={product.name} />
         </div>
         <div className="md:p-2 p-2">  
           <div className='h-5 overflow-hidden '>

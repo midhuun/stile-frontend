@@ -283,7 +283,7 @@ export default function Header() {
             {query.map((product:any)=>
             <Link  onClick={handleClose} to={`/product/${product.slug}`} className="w-full" key={product._id}>
              <div className="flex p-3 items-center space-x-4 w-full">
-             <img src={product.images[0]} alt="Product" className="w-12 h-16 object-top object-cover" />
+             <img src={product.images[0]} alt={product.name} className="w-12 h-16 object-top object-cover" />
              <div className="flex-1">
                <div className="text-sm text-gray-800 sm:text-sm lg:text-md">{product.name}</div>
                {/* <div className="text-xs sm:text-sm md:text-md text-gray-500">{product.description.split(" ").slice(0,10).join(" ")}{product.description.length>50 && "..."}</div>
