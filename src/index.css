@@ -1,7 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@font-face {
+  font-family: "Josefin-sans";
+  src: url("/Josefin_Sans/JosefinSans-Italic-VariableFont_wght.ttf") format("woff2"),
+       url("/Josefin_Sans/JosefinSans-VariableFont_wght.ttf") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 body{
     font-family: "Josefin Sans", serif;
     padding-top: 20px;
