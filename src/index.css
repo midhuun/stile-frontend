@@ -6,16 +6,16 @@
   src: url("/Josefin_Sans/JosefinSans-Italic-VariableFont_wght.ttf") format("woff2"),
        url("/Josefin_Sans/JosefinSans-VariableFont_wght.ttf") format("woff");
   font-weight: 400;
-  font-style: normal;
+  font-style:normal;
   font-display: swap;
 }
 body{
-    font-family: "Josefin Sans", serif;
+    font-family: "Josefin-Sans", serif;
     padding-top: 20px;
 }
 
 .custom-btn{
-    font-family: "Josefin Sans", serif;
+    font-family: "Josefin-Sans", serif;
 
 }
 @media (max-width: 640px) { /* Tailwind's sm breakpoint */
