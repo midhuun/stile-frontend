@@ -53,7 +53,7 @@ async function paymentCheck(orderid:any) {
   return data;
 }
 async function verifyPayment(orderId: string) {
-  console.log(orderId);
+  
   let pollCount = 0;
   const pollInterval = 5000;
   // Function to poll payment status
@@ -204,8 +204,7 @@ async function verifyPayment(orderId: string) {
     if(paymentMethod === 'cod'){
     const orderId = `ORDER_${new Date().getTime()}`;
     const res = await fetch("https://stile-backend.vercel.app/user/order",{credentials:'include',method:'POST',headers:{ "Content-Type": "application/json"},body:JSON.stringify({orderId,products:cart,totalAmount:total,paymentMethod,address:address,pincode:pincode,email})});
-    const data = await res.json();
-    console.log(data);
+    await res.json();
     navigate(`/checkout/${orderId}`);
     }
     

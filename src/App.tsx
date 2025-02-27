@@ -32,7 +32,6 @@ function App() {
   async function isUser() {
     const response = await fetch("https://stile-backend.vercel.app/user", { credentials: 'include' });
     const data = await response.json();
-    console.log(data);
     if (data) {
       setUser(data?.user);
     }

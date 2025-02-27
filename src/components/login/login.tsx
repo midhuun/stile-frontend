@@ -52,7 +52,7 @@ const OtpLoginPopup = () => {
     // console.log("verifying")
     try{
        const res =await verify(phone,otp);
-       console.log(res);
+     
   //   const res = await fetch('https://stile-backend.vercel.app/verify-otp',{method:'POST',headers:{
   //     'Content-Type': 'application/json',
   //   },
@@ -148,7 +148,7 @@ const OtpLoginPopup = () => {
         //     throw new Error("Enter a valid Email Address");
         // }
          const res = await initiate(phone);
-         console.log(res);    
+ 
         // const res = await fetch("https://stile-backend.vercel.app/send-otp", {
         //     method: "POST",
         //     headers: {

@@ -26,7 +26,7 @@ export default function PaymentStatusPage() {
       const data = await res.json();
   
       if (data.paymentStatus === 'SUCCESS') {
-        console.log(data);
+       
         setStatus(true);
       } else {
         setStatus(false);

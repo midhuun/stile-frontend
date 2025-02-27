@@ -38,7 +38,7 @@ export default function Header() {
            // Return data from the Promise
         }).catch((err)=>console.log(err))
 }
-   console.log(products)
+  
   const fuse:any = allProducts.length>0 && new Fuse(allProducts,{keys:["name"],threshold:0.5,minMatchCharLength:2});
   const searchProducts = (query:any) => {
    const products = fuse.search(query).map((result:any) => result.item).slice(0,4)
@@ -47,7 +47,7 @@ export default function Header() {
   async function isUser() {
     const response = await fetch("https://stile-backend.vercel.app/user", { credentials: 'include' });
     const data = await response.json();
-    console.log(data);
+   
     if (data) {
       setUser(data?.user);
     }
@@ -114,7 +114,7 @@ export default function Header() {
    timeout = setTimeout(() => {
       const results = searchProducts(e.target.value);
       setQuery(results);
-      console.log(results)
+    
     }, 800);
     
   }
