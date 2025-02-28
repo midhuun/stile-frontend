@@ -11,11 +11,17 @@ import  { RootState } from "../../store/store";
 import { addtoCart, deleteFromCart, removeFromCart, setcart } from "../../store/reducers/cartReducer";
 import { BiSolidHeart } from "react-icons/bi";
 import { useSwipeable } from "react-swipeable";
+import { FaStar } from "react-icons/fa";
 const ProductPage = () => {
   const params: any = useParams();
   const { product } = params;
   const [productdata, setproductdata] = useState<any>(null);
-  // const [isimageLoading, setisImageLoading] = useState(true);
+  const [reviewsList, setReviewsList] = useState([
+    { username: "John Doe", title: "Amazing Product!", rating: 5, text: "Loved it! Highly recommend." },
+    { username: "Jane Smith", title: "Good Quality", rating: 4, text: "Satisfied with my purchase." },
+    { username: "John Doe", title: "Amazing Product!", rating: 5, text: "Loved it! Highly recommend." },
+    { username: "John Doe", title: "Amazing Product!", rating: 5, text: "Loved it! Highly recommend." },
+  ]);
   const cart = useSelector((state:RootState)=>state.Cart);
   const {setiscartOpen,setisFavouriteOpen,setFavourites,isAuthenticated,setisUserOpen} = useContext<any>(HeaderContext);
   const dispatch = useDispatch<any>();
@@ -28,6 +34,16 @@ const ProductPage = () => {
     shipping: false,
     manufacturer: false,
   });
+  const [rating, setRating] = useState<number>(0);
+  const [hover, setHover] = useState<any>(null);
+  const [review, setReview] = useState<string>("");
+
+  const handleSubmit = (e:any) => {
+    e.preventDefault();
+    alert(`Submitted Review: ${review}, Rating: ${rating} stars`);
+    setReview("");
+    setRating(0);
+  };
   const thisProduct = productdata &&cart?cart?.find((item:any)=>item.product._id === productdata?._id && item.selectedSize === activeSize):null;
   console.log(thisProduct);
   const swipeHandlers = useSwipeable({
@@ -42,24 +58,6 @@ const ProductPage = () => {
       }
     }
   })
-  // const [startX, setStartX] = useState(0);
-
-// function handleTouchStart(event: React.TouchEvent) {
-//   setStartX(event.touches[0].clientX);
-// }
-
-// function handleTouchMove(event: React.TouchEvent) {
-//   const endX = event.touches[0].clientX;
-//   const difference = startX - endX;
-
-//   if (difference > 100) {
-//     handleChangeImage("next");
-//     setStartX(0); 
-//   } else if (difference < -100) {
-//     handleChangeImage("prev");
-//     setStartX(0); 
-//   }
-// } console.log("product",productdata)
 const handleDotClick = (index:any) => {
   setActive(index);
 };
@@ -131,6 +129,18 @@ const handleDotClick = (index:any) => {
      }, 800);
   },[params])
   useEffect(() => {
+    const fetchReviews = async()=>{
+      try{
+        const response = await fetch(`https://stile-backend.vercel.app/reviews/${params.id}`)
+        const data = await response.json()
+        setReview(data)
+        }
+      catch(err){
+          console.log(err)
+      }
+    }
+    fetchReviews();
+  },[])
     const getProduct = async () => {
       try {
         const response = await fetch(`https://stile-backend.vercel.app/product/${product}`);
@@ -252,10 +262,14 @@ const handleDotClick = (index:any) => {
     </div>
    </div>
         {/* Right Side - Product Info */}
-        <div className="md:space-y-4 space-y-2 p-2 md:w-[50%]">
+        <div className="space-y-2 p-2 md:w-[50%]">
           <h1 className="text-md md:text-4xl">{productdata?.name}</h1>
+          <div className="flex items-center gap-3">
+          <p className="rating p-1 md:p-2 text-[12px] select-none md:text-xs w-14 rounded-md flex text-white font-bold justify-center items-center gap-1 bg-green-500"><FaStar className="text-white" /><span className="tracking-widest">4.3</span></p>
+           <p className="text-sm text-gray-500 font-bold">(34 Reviews)</p>
+          </div>
           <h2 className="text-md md:text-xl font-bold">₹ {productdata?.price}.00 <span className=" font-normal text-[11px] md:text-xs text-gray-400">Inclusive of all Taxes</span></h2>
-          <p className="text-gray-600 text-xs md:text-sm">
+          <p className="text-gray-600 select-none text-xs md:text-sm">
             Tax included. Shipping calculated at checkout.
           </p>
           
@@ -440,8 +454,71 @@ const handleDotClick = (index:any) => {
         </div>
       </div>
     </div>
-
-
+   {/* Reviews */}
+   <div className="reviews h-auto w-full flex flex-col items-center p-6 bg-gradient-to-r  text-white">
+      <div className="box h-auto w-full p-6 shadow-lg rounded-lg md:w-[80%] bg-white text-gray-900">
+        <h2 className="md:text-2xl text-xl font-bold text-center">Customer Reviews</h2>
+        
+        <div className="rating my-4 p-4 flex flex-col md:flex-row items-center bg-gray-100 rounded-lg w-full shadow-sm">
+          <div className="total p-6 flex justify-center items-center gap-4 flex-col md:w-1/3">
+            <h1 className="md:text-[70px] text-5xl text-gray-600 font-extrabold">4.8</h1>
+            <p className="text-sm font-semibold text-gray-500 md:text-base">123 Reviews</p>
+            <div className="flex gap-2">
+              {[...Array(5)].map((_, index) => (
+                <FaStar key={index} className="text-yellow-400 text-xl md:text-3xl" />
+              ))}
+            </div>
+          </div>
+          <div className="w-full md:w-[1px] md:h-full h-[1px] bg-gray-300 my-3 md:my-0"></div>
+          
+          <form onSubmit={handleSubmit} className="w-full md:w-2/3 p-4 flex flex-col gap-4">
+            <div className="flex gap-1 justify-center md:justify-start">
+              {[...Array(5)].map((_, index) => {
+                const starValue = index + 1;
+                return (
+                  <FaStar
+                    key={index}
+                    className={`cursor-pointer text-xl md:text-2xl transition-colors duration-200 ${
+                      starValue <= (hover || rating) ? "text-yellow-400" : "text-gray-400"
+                    }`}
+                    onClick={() => setRating(starValue)}
+                    onMouseEnter={() => setHover(starValue)}
+                    onMouseLeave={() => setHover(null)}
+                  />
+                );
+              })}
+            </div>
+            <textarea
+              className="p-3 rounded-lg border border-gray-300 w-full text-gray-900 text-sm md:text-base focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="Write your review here..."
+              value={review}
+              onChange={(e) => setReview(e.target.value)}
+              required
+            ></textarea>
+            <button
+              type="submit"
+              className="p-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all duration-200 text-sm md:text-base font-semibold"
+            >
+              Submit Review
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {/* Review Card */}
+    <div className="reviews-list px-2 md:px-6 mt-6 w-full grid grid-cols-2 md:grid-cols-4 gap-1 md:gap-4">
+          {reviewsList.map((rev, index) => (
+            <div key={index} className="md:p-4 p-2 min-h-28 flex flex-col bg-gray-50 rounded-lg shadow-md">
+              <h3 className="text-sm md:text-lg font-semibold text-indigo-600">{rev.username}</h3>
+              <div className="flex gap-1 my-1">
+                {[...Array(5)].map((_, i) => (
+                  <FaStar key={i} className={`${i < rev.rating ? "text-yellow-400" : "text-gray-300"} text-sm md:text-md`} />
+                ))}
+              </div>
+              <p className="text-gray-600 mt-2 text-[12px] md:text-sm">{rev.text}</p>
+            </div>
+          ))}
+        </div>
     {/* You May Also Like */}
     <Link  to={`/product/${productdata?.slug}`}>
     <Suggestion subid={productdata?.subcategory?._id} id={productdata?._id} />
