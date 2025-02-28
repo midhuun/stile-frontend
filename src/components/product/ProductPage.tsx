@@ -122,13 +122,6 @@ const handleDotClick = (index:any) => {
     setDropdowns((prev:any) => ({ ...prev, [key]: !prev[key] }));
   };
   useEffect(()=>{
-    setisLoading(true);
-    setTimeout(() => {
-      setisLoading(false);
-      
-     }, 800);
-  },[params])
-  useEffect(() => {
     const fetchReviews = async()=>{
       try{
         const response = await fetch(`https://stile-backend.vercel.app/reviews/${params.id}`)
@@ -140,7 +133,12 @@ const handleDotClick = (index:any) => {
       }
     }
     fetchReviews();
-  },[])
+    setisLoading(true);
+    setTimeout(() => {
+      setisLoading(false);  
+     }, 800);
+  },[params])
+  useEffect(() => {
     const getProduct = async () => {
       try {
         const response = await fetch(`https://stile-backend.vercel.app/product/${product}`);
