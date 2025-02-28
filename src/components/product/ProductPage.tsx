@@ -1,5 +1,7 @@
+
 import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import gender from 'gender-detection-from-name';
 import { IoCloseSharp } from "react-icons/io5";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { HeaderContext } from "../../context/appContext";
@@ -12,16 +14,46 @@ import { addtoCart, deleteFromCart, removeFromCart, setcart } from "../../store/
 import { BiSolidHeart } from "react-icons/bi";
 import { useSwipeable } from "react-swipeable";
 import { FaStar } from "react-icons/fa";
+import { toast, ToastContainer } from "react-toastify";
 const ProductPage = () => {
   const params: any = useParams();
   const { product } = params;
   const [productdata, setproductdata] = useState<any>(null);
+  // const [sex,setsex] = useState("");
+  const  [isreviewed,setisreviewed] = useState(false);
   const [reviewsList, setReviewsList] = useState([
-    { username: "John Doe", title: "Amazing Product!", rating: 5, text: "Loved it! Highly recommend." },
-    { username: "Jane Smith", title: "Good Quality", rating: 4, text: "Satisfied with my purchase." },
-    { username: "John Doe", title: "Amazing Product!", rating: 5, text: "Loved it! Highly recommend." },
-    { username: "John Doe", title: "Amazing Product!", rating: 5, text: "Loved it! Highly recommend." },
+    { 
+      name: "Prasath", 
+      title: "Excellent Quality!", 
+      rating: 5, 
+      text: "The quality is good and I like it" 
+    },
+    { 
+      name: "Aisha Iyer", 
+      title: "Very Satisfied!", 
+      rating: 4.5, 
+      content: "The material is really good, and it feels comfortable. Delivery was quick too. Would definitely buy again!" 
+    },
+    { 
+      username: "Saran", 
+      title: "Worth Every Penny!", 
+      rating: 4.8, 
+      text: "I was skeptical at first, but this product is fantastic! Using it for a week now, and it's been perfect." 
+    },
+    { 
+      username: "Praveen", 
+      title: "Great Purchase!", 
+      rating: 4.7, 
+      text: "Loved the design and finish. It’s stylish and durable. Also, customer service was very helpful!" 
+    },
+    { 
+      username: "Midhun Kumar", 
+      title: "Impressive!", 
+      rating: 5, 
+      text: "The best product I’ve bought in a long time! Works exactly as described. Highly recommend to everyone." 
+    }
   ]);
+  
   const cart = useSelector((state:RootState)=>state.Cart);
   const {setiscartOpen,setisFavouriteOpen,setFavourites,isAuthenticated,setisUserOpen} = useContext<any>(HeaderContext);
   const dispatch = useDispatch<any>();
@@ -36,13 +68,32 @@ const ProductPage = () => {
   });
   const [rating, setRating] = useState<number>(0);
   const [hover, setHover] = useState<any>(null);
-  const [review, setReview] = useState<string>("");
-
-  const handleSubmit = (e:any) => {
+  const [review, setReview] = useState<any>({
+    name:"",
+    title:"",
+    content:"",
+  });
+  function handleReview(e:any){
     e.preventDefault();
-    alert(`Submitted Review: ${review}, Rating: ${rating} stars`);
-    setReview("");
+    setReview({
+      ...review,
+      [e.target.name]:e.target.value
+  })
+}  
+  const handleSubmit = (e:any) => {
+    const detectGender = gender.getGender("Praveena",'en');
+    console.log(review.name)
+    console.log(detectGender);
+    e.preventDefault();
+    alert(`Submitted Review: ${review.content}, Rating: ${rating} stars`);
+    setReview({
+      name:"",
+      title:"",
+      content:"",
+    })
     setRating(0);
+    setisreviewed(true);
+    toast.success("Review Submitted Successfully")
   };
   const thisProduct = productdata &&cart?cart?.find((item:any)=>item.product._id === productdata?._id && item.selectedSize === activeSize):null;
   console.log(thisProduct);
@@ -83,6 +134,7 @@ const handleDotClick = (index:any) => {
   }
   catch(err){
     console.log(err)
+    console.log(isreviewed)
   }
   }
   const handleCart = async(value:any) => {
@@ -106,7 +158,7 @@ const handleDotClick = (index:any) => {
       method: 'POST',
       credentials:'include',
       headers: {
-        'Content-Type': 'application/json' 
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({productdata,selectedSize:activeSize})
     })
@@ -114,6 +166,7 @@ const handleDotClick = (index:any) => {
   }
   catch(err){
     console.log(err)
+    
   }
   
   }
@@ -124,9 +177,47 @@ const handleDotClick = (index:any) => {
   useEffect(()=>{
     const fetchReviews = async()=>{
       try{
-        const response = await fetch(`https://stile-backend.vercel.app/reviews/${params.id}`)
-        const data = await response.json()
-        setReviewsList(data)
+        if(productdata){
+          const response = await fetch(`https://stile-backend.vercel.app/reviews/${productdata._id}`)
+          const data = await response.json();
+          if(data?.length>0){
+            setReviewsList(data);
+          }
+          else{
+            setReviewsList([
+              { 
+                name: "Prasath", 
+                title: "Excellent Quality!", 
+                rating: 5, 
+                text: "The quality is good and I like it" 
+              },
+              { 
+                name: "Aisha Iyer", 
+                title: "Very Satisfied!", 
+                rating: 4.5, 
+                content: "The material is really good, and it feels comfortable. Delivery was quick too. Would definitely buy again!" 
+              },
+              { 
+                name: "Saran", 
+                title: "Worth Every Penny!", 
+                rating: 4.8, 
+                content: "I was skeptical at first, but this product is fantastic! Using it for a week now, and it's been perfect." 
+              },
+              { 
+                name: "Praveen", 
+                title: "Great Purchase!", 
+                rating: 4.7, 
+                text: "Loved the design and finish. It’s stylish and durable. Also, customer service was very helpful!" 
+              },
+              { 
+                name: "Midhun Kumar", 
+                title: "Impressive!", 
+                rating: 5, 
+                content: "The best product I’ve bought in a long time! Works exactly as described. Highly recommend to everyone." 
+              }
+            ])
+          }
+        }
         }
       catch(err){
           console.log(err)
@@ -137,7 +228,7 @@ const handleDotClick = (index:any) => {
     setTimeout(() => {
       setisLoading(false);  
      }, 800);
-  },[params])
+  },[params,productdata])
   useEffect(() => {
     const getProduct = async () => {
       try {
@@ -180,6 +271,7 @@ const handleDotClick = (index:any) => {
     <>
     {/* {isLoading && <Loading />} */}
     <div className="w-full p-3 flex justify-center">
+      <ToastContainer  />
       <div className="flex flex-col md:flex-row justify-center md:justify-start pt-10 md:gap-10  md:pt-10">
         {/* Left Side - Thumbnails and Main Image */}
         <div className="w-full md:w-[50%] flex flex-col">
@@ -486,14 +578,16 @@ const handleDotClick = (index:any) => {
                 );
               })}
             </div>
-            <textarea
+            <input value={review.name} onChange={(e) => handleReview(e)} type="text" autoComplete="name" name="name" placeholder="Enter your name" id="" className="p-2 text-sm border-gray-300 md:text-md w-full border rounded-lg" />
+            <input value={review.title}  onChange={(e) => handleReview(e)} type="text"  name="title" placeholder="Comment" id="" className="p-2 text-sm border-gray-300 md:text-md w-full border rounded-lg" />
+            <textarea name="content" 
               className="p-3 rounded-lg border border-gray-300 w-full text-gray-900 text-sm md:text-base focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Write your review here..."
-              value={review}
-              onChange={(e) => setReview(e.target.value)}
+              value={review.content}
+              onChange={(e) => handleReview(e)}
               required
             ></textarea>
-            <button
+            <button 
               type="submit"
               className="p-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all duration-200 text-sm md:text-base font-semibold"
             >
@@ -504,17 +598,34 @@ const handleDotClick = (index:any) => {
       </div>
     </div>
     {/* Review Card */}
-    <div className="reviews-list px-2 md:px-6 mt-6 w-full grid grid-cols-2 md:grid-cols-4 gap-1 md:gap-4">
+    <div className="reviews-list px-6 md:px-6 mt-6 w-full grid grid-cols-1 md:grid-cols-4 gap-3 md:gap-4">
           {reviewsList.map((rev, index) => (
-            <div key={index} className="md:p-4 p-2 min-h-28 flex flex-col bg-gray-50 rounded-lg shadow-md">
-              <h3 className="text-sm md:text-lg font-semibold text-indigo-600">{rev.username}</h3>
-              <div className="flex gap-1 my-1">
-                {[...Array(5)].map((_, i) => (
-                  <FaStar key={i} className={`${i < rev.rating ? "text-yellow-400" : "text-gray-300"} text-sm md:text-md`} />
-                ))}
-              </div>
-              <p className="text-gray-600 mt-2 text-[12px] md:text-sm">{rev.text}</p>
-            </div>
+           <div key={index} className="p-4 bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col md:flex-row items-start gap-4">
+           {/* User Avatar */}
+           <div className="w-12 h-12 flex-shrink-0">
+             <img 
+               src="/boy.png"
+               alt={rev.username} 
+               className="w-12 h-12 rounded-full border border-gray-300 object-cover"
+             />
+           </div>
+         
+           {/* Review Content */}
+           <div className="flex flex-col w-full flex-1">
+             {/* User Info & Rating */}
+             <div className="flex items-center  justify-between">
+               <h3 className="text-lg font-semibold text-indigo-600">{rev.name}</h3>
+               <div className="flex gap-1">
+                 {[...Array(5)].map((_, i) => (
+                   <FaStar key={i} className={`${i < rev.rating ? "text-yellow-400" : "text-gray-300"} text-md`} />
+                 ))}
+               </div>
+             </div>
+             <h4 className="text-gray-800 font-medium mt-1">{rev.title}</h4>
+             <p className="text-gray-600 mt-2 text-sm leading-relaxed">{rev.content}</p>
+           </div>
+         </div>
+         
           ))}
         </div>
     {/* You May Also Like */}

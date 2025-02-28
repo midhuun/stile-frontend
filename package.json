@@ -17,6 +17,8 @@
     "firebase": "^11.1.0",
     "framer-motion": "^11.15.0",
     "fuse.js": "^7.1.0",
+    "gender-detection": "^0.1.0",
+    "gender-detection-from-name": "^1.11.2",
     "heroicons": "^2.2.0",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.475.0",

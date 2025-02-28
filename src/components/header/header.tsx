@@ -182,7 +182,7 @@ export default function Header() {
               <Link to="/customize">
                 <li>Customize </li>
               </Link>
-              <a href="/">
+              <Link to="/">
                 <h1 className="flex justify-center font-bold items-center">
                   <div className=" justify-center items-center flex">
                     <img
@@ -194,7 +194,7 @@ export default function Header() {
                   </div>
                 
                 </h1>
-              </a>
+              </Link>
               <li>Track Order</li>
               <Link to="/contact">
                 <li>About Us</li>
