@@ -126,7 +126,7 @@ const handleDotClick = (index:any) => {
       try{
         const response = await fetch(`https://stile-backend.vercel.app/reviews/${params.id}`)
         const data = await response.json()
-        setReview(data)
+        setReviewsList(data)
         }
       catch(err){
           console.log(err)
