@@ -1,7 +1,6 @@
 
 import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import gender from 'gender-detection-from-name';
 import { IoCloseSharp } from "react-icons/io5";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { HeaderContext } from "../../context/appContext";
@@ -21,41 +20,11 @@ const ProductPage = () => {
   const [productdata, setproductdata] = useState<any>(null);
   // const [sex,setsex] = useState("");
   const  [isreviewed,setisreviewed] = useState(false);
-  const [reviewsList, setReviewsList] = useState([
-    { 
-      name: "Prasath", 
-      title: "Excellent Quality!", 
-      rating: 5, 
-      text: "The quality is good and I like it" 
-    },
-    { 
-      name: "Aisha Iyer", 
-      title: "Very Satisfied!", 
-      rating: 4.5, 
-      content: "The material is really good, and it feels comfortable. Delivery was quick too. Would definitely buy again!" 
-    },
-    { 
-      username: "Saran", 
-      title: "Worth Every Penny!", 
-      rating: 4.8, 
-      text: "I was skeptical at first, but this product is fantastic! Using it for a week now, and it's been perfect." 
-    },
-    { 
-      username: "Praveen", 
-      title: "Great Purchase!", 
-      rating: 4.7, 
-      text: "Loved the design and finish. It’s stylish and durable. Also, customer service was very helpful!" 
-    },
-    { 
-      username: "Midhun Kumar", 
-      title: "Impressive!", 
-      rating: 5, 
-      text: "The best product I’ve bought in a long time! Works exactly as described. Highly recommend to everyone." 
-    }
-  ]);
-  
+  const [reviewCount,setreviewCount] = useState(0);
+  const [avg, setavg] = useState(0);
+  const [reviewsList, setReviewsList] = useState<any>([]);
   const cart = useSelector((state:RootState)=>state.Cart);
-  const {setiscartOpen,setisFavouriteOpen,setFavourites,isAuthenticated,setisUserOpen} = useContext<any>(HeaderContext);
+  const {setiscartOpen,setisFavouriteOpen,setFavourites,isAuthenticated,setisUserOpen,user} = useContext(HeaderContext);
   const dispatch = useDispatch<any>();
   const [activeSize, setActiveSize] = useState<string>("M");
   const [active, setActive] = useState<number>(0);
@@ -80,12 +49,29 @@ const ProductPage = () => {
       [e.target.name]:e.target.value
   })
 }  
-  const handleSubmit = (e:any) => {
-    const detectGender = gender.getGender("Praveena",'en');
-    console.log(review.name)
-    console.log(detectGender);
+  const handleSubmit = async(e:any) => {
     e.preventDefault();
-    alert(`Submitted Review: ${review.content}, Rating: ${rating} stars`);
+    if(!user){
+      toast.warning("Please login to Review")
+      return
+    }
+    try{
+    const data = await fetch("https://stile-backend.vercel.app/reviews",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+      },
+      body:JSON.stringify({rating:rating,product:productdata._id,user:user,name:review.name,title:review.title,content:review.content}),
+    });
+    const res = await data.json();
+    console.log(res);
+    if(data.status === 200){
+      toast.success("Review Added Successfully");
+    }
+  }
+   catch(err:any){
+    toast.error(err)
+   }
     setReview({
       name:"",
       title:"",
@@ -94,6 +80,7 @@ const ProductPage = () => {
     setRating(0);
     setisreviewed(true);
     toast.success("Review Submitted Successfully")
+
   };
   const thisProduct = productdata &&cart?cart?.find((item:any)=>item.product._id === productdata?._id && item.selectedSize === activeSize):null;
   console.log(thisProduct);
@@ -180,8 +167,13 @@ const handleDotClick = (index:any) => {
         if(productdata){
           const response = await fetch(`https://stile-backend.vercel.app/reviews/${productdata._id}`)
           const data = await response.json();
-          if(data?.length>0){
-            setReviewsList(data);
+          console.log(data)
+          if(data?.reviews.length>0){
+             setReviewsList(data.reviews)
+             setreviewCount(data.reviewCount)
+          }
+          if(data?.averageRating){
+            setavg(data.averageRating)
           }
           else{
             setReviewsList([
@@ -355,8 +347,8 @@ const handleDotClick = (index:any) => {
         <div className="space-y-2 p-2 md:w-[50%]">
           <h1 className="text-md md:text-4xl">{productdata?.name}</h1>
           <div className="flex items-center gap-3">
-          <p className="rating p-1 md:p-2 text-[12px] select-none md:text-xs w-14 rounded-md flex text-white font-bold justify-center items-center gap-1 bg-green-500"><FaStar className="text-white" /><span className="tracking-widest">4.3</span></p>
-           <p className="text-sm text-gray-500 font-bold">(34 Reviews)</p>
+          <p className="rating p-1 md:p-2 text-[12px] select-none md:text-xs w-14 rounded-md flex text-white font-bold justify-center items-center gap-1 bg-green-500"><FaStar className="text-white" /><span className="tracking-widest">{Math.floor(avg*10)/10}</span></p>
+           <p className="text-sm text-gray-500 font-bold">({reviewCount} Reviews)</p>
           </div>
           <h2 className="text-md md:text-xl font-bold">₹ {productdata?.price}.00 <span className=" font-normal text-[11px] md:text-xs text-gray-400">Inclusive of all Taxes</span></h2>
           <p className="text-gray-600 select-none text-xs md:text-sm">
@@ -551,8 +543,8 @@ const handleDotClick = (index:any) => {
         
         <div className="rating my-4 p-4 flex flex-col md:flex-row items-center bg-gray-100 rounded-lg w-full shadow-sm">
           <div className="total p-6 flex justify-center items-center gap-4 flex-col md:w-1/3">
-            <h1 className="md:text-[70px] text-5xl text-gray-600 font-extrabold">4.8</h1>
-            <p className="text-sm font-semibold text-gray-500 md:text-base">123 Reviews</p>
+            <h1 className="md:text-[70px] text-5xl text-gray-600 font-extrabold">{Math.floor(avg*10)/10}</h1>
+            <p className="text-sm font-semibold text-gray-500 md:text-base">{reviewCount} Reviews</p>
             <div className="flex gap-2">
               {[...Array(5)].map((_, index) => (
                 <FaStar key={index} className="text-yellow-400 text-xl md:text-3xl" />
