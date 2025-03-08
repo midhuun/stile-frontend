@@ -35,7 +35,7 @@ const ProductPage = () => {
     shipping: false,
     manufacturer: false,
   });
-  const [rating, setRating] = useState<number>(0);
+  const [rating, setRating] = useState<number>(5);
   const [hover, setHover] = useState<any>(null);
   const [review, setReview] = useState<any>({
     name:"",
