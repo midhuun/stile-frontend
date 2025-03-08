@@ -165,6 +165,7 @@ async function verifyPayment(orderId: string) {
       return
     }
     if(paymentMethod === 'cod'){
+    setprocessing(true);
      setVerifyOrder(true);
      return
     }
