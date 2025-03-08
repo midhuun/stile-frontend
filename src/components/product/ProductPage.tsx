@@ -546,7 +546,7 @@ const handleDotClick = (index:any) => {
             <h1 className="md:text-[70px] text-5xl text-gray-600 font-extrabold">{Math.floor(avg*10)/10}</h1>
             <p className="text-sm font-semibold text-gray-500 md:text-base">{reviewCount} Reviews</p>
             <div className="flex gap-2">
-              {[...Array(5)].map((_, index) => (
+              {[...Array(5)].map((_, index:any) => (
                 <FaStar key={index} className="text-yellow-400 text-xl md:text-3xl" />
               ))}
             </div>
@@ -591,7 +591,7 @@ const handleDotClick = (index:any) => {
     </div>
     {/* Review Card */}
     <div className="reviews-list px-6 md:px-6 mt-6 w-full grid grid-cols-1 md:grid-cols-4 gap-3 md:gap-4">
-          {reviewsList.map((rev, index) => (
+          {reviewsList.map((rev:any, index:number) => (
            <div key={index} className="p-4 bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col md:flex-row items-start gap-4">
            {/* User Avatar */}
            <div className="w-12 h-12 flex-shrink-0">

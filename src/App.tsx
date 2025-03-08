@@ -1,4 +1,5 @@
 import './App.css';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Header from './components/header/header';
 import HeaderProvider, { HeaderContext } from './context/appContext';
@@ -49,6 +50,7 @@ function App() {
     <>
       <Router>
         <HeaderProvider>
+          <SpeedInsights />
           <OtpLoginPopup />
           <ScrollToTop />
           <Offer />
