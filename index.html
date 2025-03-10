@@ -2,9 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/fav/favicon-16x16.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Stile Sagio | Affordable & Stylish Men's T-Shirts - TVT Textiles</title>
     <meta
       name="description"
@@ -15,8 +14,15 @@
       content="men's t-shirts, affordable t-shirts, stylish tees, Stile Sagio, TVT Textiles, premium cotton t-shirts, casual wear, trendy t-shirts, best men's fashion, buy t-shirts online"
     />
     <meta name="author" content="Stile Sagio - TVT Textiles" />
-    <link rel="stylesheet" href="./src/index.css" />
-    <!-- Open Graph Meta Tags (For Facebook, LinkedIn) -->
+
+    <!-- Favicon -->
+    <link rel="icon" href="/fav/favicon-16x16.png" type="image/x-icon" />
+
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Open Graph (Facebook, LinkedIn) -->
     <meta
       property="og:title"
       content="Stile Sagio | Affordable & Stylish Men's T-Shirts - TVT Textiles"
@@ -28,6 +34,7 @@
     <meta property="og:image" content="https://stilesagio.com/poster.png" />
     <meta property="og:url" content="https://stilesagio.com" />
     <meta property="og:type" content="website" />
+
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta
@@ -38,15 +45,18 @@
       name="twitter:description"
       content="Shop premium men's t-shirts from Stile Sagio by TVT Textiles – stylish, comfortable, and affordable. Made with high-quality fabrics for a perfect fit. Fast shipping & great deals!"
     />
-    <meta name="twitter:image" content="/poster.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Canonical Tag (Avoids Duplicate Content Issues) -->
+    <meta name="twitter:image" content="https://stilesagio.com/poster.png" />
+
+    <!-- Canonical URL (Avoid Duplicate Content Issues) -->
     <link rel="canonical" href="https://stilesagio.com" />
 
-    <!-- Favicon (Ensure Branding in Browser Tabs) -->
-    <link rel="icon" href="/fav/favicon-16x16.png" type="image/x-icon" />
+    <!-- SEO: Robots Meta -->
+    <meta
+      name="robots"
+      content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    />
 
-    <!-- Schema Markup (For Google Rich Results) -->
+    <!-- Schema Markup for SEO -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -62,8 +72,8 @@
         ]
       }
     </script>
-    <meta name="robots" content="index, follow" />
-    <!-- Meta Pixel Code -->
+
+    <!-- Meta Pixel Code (Facebook Tracking) -->
     <script>
       !(function (f, b, e, v, n, t, s) {
         if (f.fbq) return;
@@ -81,18 +91,27 @@
         s = b.getElementsByTagName(e)[0];
         s.parentNode.insertBefore(t, s);
       })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+
+      window.fbq =
+        window.fbq ||
+        function () {
+          (window.fbq.q = window.fbq.q || []).push(arguments);
+        };
+
       fbq('init', '1129263745877776');
       fbq('track', 'PageView');
     </script>
-    <noscript
-      ><img
+    <noscript>
+      <img
         height="1"
         width="1"
         style="display: none"
         src="https://www.facebook.com/tr?id=1129263745877776&ev=PageView&noscript=1"
-    /></noscript>
+      />
+    </noscript>
     <!-- End Meta Pixel Code -->
   </head>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
