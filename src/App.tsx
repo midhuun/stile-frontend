@@ -4,6 +4,7 @@ import Header from './components/header/header';
 import HeaderProvider, { HeaderContext } from './context/appContext';
 import OtpLoginPopup from './components/login/login';
 import Offer from './components/offer';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Suspense, lazy, useContext, useEffect } from 'react';
 import ReactGA from 'react-ga';
 import Loading from './components/loading/loading';
@@ -54,6 +55,7 @@ function App() {
     <>
       <Router>
         <HeaderProvider>
+          <SpeedInsights />
           <OtpLoginPopup />
           <ScrollToTop />
           <Offer />
