@@ -29,7 +29,7 @@ const ReturnAndExchanges = lazy(() => import('./components/FooterDetails/returnE
 const TermsAndConditions = lazy(() => import('./components/FooterDetails/terms'));
 import ReactPixel from 'react-facebook-pixel';
 const Account = lazy(() => import('./account/account'));
-const pixelid = '1129263745877776';
+const pixelid = '1129263745877766';
 ReactPixel.init(pixelid);
 ReactPixel.pageView();
 function App() {
