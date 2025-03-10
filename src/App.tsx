@@ -27,7 +27,11 @@ const CustomizeNowForm = lazy(() => import('./components/customize/customizeForm
 const ShippingPolicy = lazy(() => import('./components/FooterDetails/shippingPolicy'));
 const ReturnAndExchanges = lazy(() => import('./components/FooterDetails/returnExchange'));
 const TermsAndConditions = lazy(() => import('./components/FooterDetails/terms'));
+import ReactPixel from 'react-facebook-pixel';
 const Account = lazy(() => import('./account/account'));
+const pixelid = '1129263745877776';
+ReactPixel.init(pixelid);
+ReactPixel.pageView();
 function App() {
   const dispatch = useDispatch<any>();
   const { setUser, user, setisAuthenticated, isAuthenticated } = useContext(HeaderContext);
