@@ -5,6 +5,7 @@ import HeaderProvider, { HeaderContext } from './context/appContext';
 import OtpLoginPopup from './components/login/login';
 import Offer from './components/offer';
 import { Suspense, lazy, useContext, useEffect } from 'react';
+import ReactGA from 'react-ga';
 import Loading from './components/loading/loading';
 import ScrollToTop from './components/home/scrollTop';
 import PaymentStatus from './components/cart/paymentStatus';
@@ -15,7 +16,7 @@ const PrivacyPolicy = lazy(() => import('./components/FooterDetails/privacyPolic
 const OrderDetails = lazy(() => import('./account/order'));
 const HomeSub = lazy(() => import('./components/home/homeSub'));
 const Home = lazy(() => import('./components/home/home'));
-const Footer = lazy(()=>import('./components/footer/footer'))
+const Footer = lazy(() => import('./components/footer/footer'));
 const About = lazy(() => import('./components/about/about'));
 const CategoryPage = lazy(() => import('./components/categoryPage/categoryPage'));
 const ProductPage = lazy(() => import('./components/product/ProductPage'));
@@ -28,9 +29,11 @@ const TermsAndConditions = lazy(() => import('./components/FooterDetails/terms')
 const Account = lazy(() => import('./account/account'));
 function App() {
   const dispatch = useDispatch<any>();
-  const {setUser,user,setisAuthenticated,isAuthenticated } = useContext(HeaderContext);
+  const { setUser, user, setisAuthenticated, isAuthenticated } = useContext(HeaderContext);
   async function isUser() {
-    const response = await fetch("https://stile-backend.vercel.app/user", { credentials: 'include' });
+    const response = await fetch('https://stile-backend.vercel.app/user', {
+      credentials: 'include',
+    });
     const data = await response.json();
     if (data) {
       setUser(data?.user);
@@ -41,10 +44,12 @@ function App() {
       setisAuthenticated(false);
     }
   }
+  let trackingId = 'G-FJFP10WS9F';
+  ReactGA.initialize(trackingId);
   useEffect(() => {
     dispatch(fetchProducts());
     isUser();
-  }, [dispatch,user,isAuthenticated]);
+  }, [dispatch, user, isAuthenticated]);
   return (
     <>
       <Router>
@@ -54,7 +59,7 @@ function App() {
           <Offer />
           <div className="md:pt-[90px] pt-[40px]">
             <Header />
-            <Suspense fallback={<Loading/>}>
+            <Suspense fallback={<Loading />}>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/product/:product" element={<ProductPage />} />

@@ -85,7 +85,6 @@ const HomeSub = () => {
               <h1 className="text-xs md:text-lg underline px-2">View All</h1>
             </Link>
           </div>
-
           <div className="flex min-h-[350px] rounded-md md:justify-start hide-scroll overflow-x-scroll gap-2 md:gap-4 will-change-transform">
             {subcategory.products.map((product, i) => (
               <div key={i}>

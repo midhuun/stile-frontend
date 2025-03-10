@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /checkout/
+Disallow: /user/account/
+Disallow: /order/
+Disallow: /checkout/
+Disallow: /payment/status/
+
+Allow: /
+
+Sitemap: https://stile-backend.vercel.app/sitemap.xml

@@ -33,7 +33,6 @@ const CustomizeNowForm = () => {
       *Message*: ${formData.message}%0A
       Please check the attached designs.
     `;
-
     const whatsappURL:any = `https://wa.me/+918220856333?text=${encodeURIComponent(
       whatsappMessage
     )}`;
