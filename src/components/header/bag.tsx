@@ -187,7 +187,7 @@ const Bag = () => {
         )}
         {cart && cart?.length > 0 && (
           <div
-            className={`fixed h-[130px]  text-gray-500 bottom-2 w-full bg-white shadow-lg rounded-lg p-3`}
+            className={`fixed h-[130px]  text-gray-500 bottom-3 w-full bg-white shadow-lg rounded-lg px-3`}
           >
             <hr />
             <div className="flex pt-2 justify-between text-black">
