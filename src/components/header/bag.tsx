@@ -209,7 +209,7 @@ const Bag = () => {
           </div>
         )}
       </div>
-      {cart && cart?.length > 0 && (
+      {cart && iscartOpen && cart?.length > 0 && (
         <Link to="/checkout">
           <button
             onClick={() => setiscartOpen(false)}
