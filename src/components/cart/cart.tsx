@@ -160,11 +160,10 @@ const CartPage = () => {
       toast.warning('Please Enter your address to proceed!!');
       return;
     }
-    // if(paymentMethod === 'cod'){
-    // setprocessing(true);
-    //  setVerifyOrder(true);
-    //  return
-    // }
+    if (paymentMethod === 'cod') {
+      setVerifyOrder(true);
+      return;
+    }
     setprocessing(true);
     const res = await fetch('https://stile-backend.vercel.app/user/payment', {
       credentials: 'include',
