@@ -208,6 +208,7 @@ const CartPage = () => {
       return;
     }
     if (paymentMethod === 'cod') {
+      setprocessing(true);
       const orderId = `ORDER_${new Date().getTime()}`;
       const res = await fetch('https://stile-backend.vercel.app/user/order', {
         credentials: 'include',
@@ -266,7 +267,9 @@ const CartPage = () => {
 
           {/* Processing Message */}
           <p className="text-lg md:text-xl font-semibold text-gray-700 text-center">
-            Processing your payment, please wait...
+            {paymentMethod === 'cod'
+              ? 'Confirming your order,Please wait'
+              : 'Processing your payment, please wait...'}
           </p>
 
           {/* Additional Info */}
