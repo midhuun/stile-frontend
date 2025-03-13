@@ -92,7 +92,10 @@ const Carousel = () => {
                     </picture>
                     <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
                       <Link to={`/subcategory/${generateSlug(item.title)}`}>
-                        <button className="hover:bg-black border hover:text-white text-[12px] text-black md:text-sm py-1 px-3 md:py-3 md:font-semibold md:px-6 rounded bg-white transition duration-300">
+                        <button
+                          name="shop"
+                          className="hover:bg-black border hover:text-white text-[12px] text-black md:text-sm py-1 px-3 md:py-3 md:font-semibold md:px-6 rounded bg-white transition duration-300"
+                        >
                           Shop Now
                         </button>
                       </Link>
@@ -104,6 +107,7 @@ const Carousel = () => {
           {/* Previous Button */}
           {currentIndex > 0 && (
             <button
+              name="previous"
               className="absolute text-sm min-h-5 flex justify-center items-center w-5 md:min-h-10 md:w-10 bg-black text-white top-1/2 left-2 transform -translate-y-1/2 rounded-full"
               onClick={goPrev}
             >
@@ -114,6 +118,7 @@ const Carousel = () => {
           {/* Next Button */}
           {banner && currentIndex < banner.length - 1 && (
             <button
+              name="next"
               className="absolute flex justify-center items-center min-h-5 min-w-5 md:min-h-10 md:min-w-10 bg-black text-white top-1/2 right-2 transform -translate-y-1/2 rounded-full"
               onClick={goNext}
             >
@@ -126,6 +131,7 @@ const Carousel = () => {
             {banner &&
               banner.map((__: any, index: any) => (
                 <button
+                  name="next"
                   key={index}
                   className={`h-2 w-2 rounded-full mx-1 ${
                     currentIndex === index ? 'bg-gray-800' : 'bg-gray-400'
@@ -147,7 +153,10 @@ const Carousel = () => {
         {/* Button */}
         <div className="absolute bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2">
           <Link to="/customize">
-            <button className="bg-green-600 font-semibold text-white text-[12px] md:text-sm py-1 px-3 md:py-3 md:font-semibold md:px-6 rounded hover:bg-green-700 transition duration-300">
+            <button
+              name="customize"
+              className="bg-green-600 font-semibold text-white text-[12px] md:text-sm py-1 px-3 md:py-3 md:font-semibold md:px-6 rounded hover:bg-green-700 transition duration-300"
+            >
               Customize
             </button>
           </Link>

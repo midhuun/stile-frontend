@@ -386,12 +386,12 @@ export default function Header() {
           <div className="flex  items-center justify-end space-x-1 md:space-x-2 px-3">
             <div className={`${searchOpen ? 'hidden' : 'block'}`}>
               <button onClick={() => handlesearch()}>
-                <CiSearch className="text-2xl" />
+                <CiSearch name="search" className="text-2xl" />
               </button>
             </div>
             <div>
               <button onClick={() => setisFavouriteOpen(!isFavouriteOpen)}>
-                <CiHeart className="text-2xl" />
+                <CiHeart name="favourites" className="text-2xl" />
               </button>
             </div>
             {isAuthenticated ? (
@@ -407,14 +407,14 @@ export default function Header() {
                       className="flex gap-1 p-2 cursor-pointer"
                       to="/user/account"
                     >
-                      <FiShoppingBag className="text-xl" />
+                      <FiShoppingBag name="cart" className="text-xl" />
                       <p className="px-2 text-sm">Order History</p>
                     </Link>
                     <button
                       onClick={handlelogout}
                       className="flex gap-1 p-2 mt-3 border cursor-pointer"
                     >
-                      <IoMdLogOut className="text-xl" />
+                      <IoMdLogOut name="logout" className="text-xl" />
                       <p className="px-2 text-sm">Logout</p>
                     </button>
                   </div>
