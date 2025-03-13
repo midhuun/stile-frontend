@@ -11,6 +11,7 @@ import Loading from './components/loading/loading';
 import ScrollToTop from './components/home/scrollTop';
 import PaymentStatus from './components/cart/paymentStatus';
 import { useDispatch } from 'react-redux';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { fetchProducts } from './store/reducers/productReducer';
 const PaymentStatusPage = lazy(() => import('./components/cart/orderStatus'));
 const PrivacyPolicy = lazy(() => import('./components/FooterDetails/privacyPolicy'));
@@ -28,11 +29,13 @@ const ShippingPolicy = lazy(() => import('./components/FooterDetails/shippingPol
 const ReturnAndExchanges = lazy(() => import('./components/FooterDetails/returnExchange'));
 const TermsAndConditions = lazy(() => import('./components/FooterDetails/terms'));
 import ReactPixel from 'react-facebook-pixel';
+import ProductList from './store/useQuery/QueryProducts';
 const Account = lazy(() => import('./account/account'));
 const pixelid = '1129263745877766';
 ReactPixel.init(pixelid);
 ReactPixel.pageView();
 function App() {
+  const queryclient = new QueryClient();
   const dispatch = useDispatch<any>();
   const { setUser, user, setisAuthenticated, isAuthenticated } = useContext(HeaderContext);
   async function isUser() {
@@ -66,37 +69,40 @@ function App() {
   return (
     <>
       <Router>
-        <HeaderProvider>
-          <SpeedInsights />
-          <OtpLoginPopup />
-          <ScrollToTop />
-          <Offer />
-          <div className="md:pt-[90px] pt-[40px]">
-            <Header />
-            <Suspense fallback={<Loading />}>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/product/:product" element={<ProductPage />} />
-                <Route path="/subcategory/:subcategoryName" element={<CategoryPage />} />
-                <Route path="/contact" element={<About />} />
-                <Route path="/customize" element={<CustomizeOrder />} />
-                <Route path="/customize/quote" element={<CustomizeNowForm />} />
-                <Route path="/shipping" element={<ShippingPolicy />} />
-                <Route path="/returns" element={<ReturnAndExchanges />} />
-                <Route path="/terms" element={<TermsAndConditions />} />
-                <Route path="/checkout" element={<CartPage />} />
-                <Route path="/privacy" element={<PrivacyPolicy />} />
-                <Route path="/user/account" element={<Account />} />
-                <Route path="/payment/status" element={<PaymentStatus />} />
-                <Route path="/products/all" element={<HomeSub />} />
-                <Route path="/order/:orderid" element={<OrderDetails />} />
-                <Route path="/checkout/:orderid" element={<PaymentStatusPage />} />
-              </Routes>
-            </Suspense>
+        <QueryClientProvider client={queryclient}>
+          <HeaderProvider>
+            <SpeedInsights />
+            <OtpLoginPopup />
+            <ScrollToTop />
+            <Offer />
+            <ProductList />
+            <div className="md:pt-[90px] pt-[40px]">
+              <Header />
+              <Suspense fallback={<Loading />}>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/product/:product" element={<ProductPage />} />
+                  <Route path="/subcategory/:subcategoryName" element={<CategoryPage />} />
+                  <Route path="/contact" element={<About />} />
+                  <Route path="/customize" element={<CustomizeOrder />} />
+                  <Route path="/customize/quote" element={<CustomizeNowForm />} />
+                  <Route path="/shipping" element={<ShippingPolicy />} />
+                  <Route path="/returns" element={<ReturnAndExchanges />} />
+                  <Route path="/terms" element={<TermsAndConditions />} />
+                  <Route path="/checkout" element={<CartPage />} />
+                  <Route path="/privacy" element={<PrivacyPolicy />} />
+                  <Route path="/user/account" element={<Account />} />
+                  <Route path="/payment/status" element={<PaymentStatus />} />
+                  <Route path="/products/all" element={<HomeSub />} />
+                  <Route path="/order/:orderid" element={<OrderDetails />} />
+                  <Route path="/checkout/:orderid" element={<PaymentStatusPage />} />
+                </Routes>
+              </Suspense>
 
-            <Footer />
-          </div>
-        </HeaderProvider>
+              <Footer />
+            </div>
+          </HeaderProvider>
+        </QueryClientProvider>
       </Router>
     </>
   );

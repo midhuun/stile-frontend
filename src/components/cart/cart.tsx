@@ -10,6 +10,8 @@ import { load } from '@cashfreepayments/cashfree-js';
 import { Slide, ToastContainer, toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import './cart.css';
+import { useQuery } from '@tanstack/react-query';
+import { fetchProducts } from '../../store/useQuery/QueryProducts';
 const CartPage = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.Cart);
@@ -27,6 +29,15 @@ const CartPage = () => {
   const [paymentStatus, setpaymentStatus] = useState('');
   const [processing, setprocessing] = useState(false);
   const [response, setresponse] = useState(false);
+  const {
+    data: product,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ['product'],
+    queryFn: fetchProducts,
+  });
+  console.log('cart', product);
   useEffect(() => {
     getCart().then((data) => dispatch(setcart(data)));
   }, [isAuthenticated]);
@@ -383,7 +394,7 @@ const CartPage = () => {
             <input
               disabled={isupdated}
               type="text"
-              autocomplete="address-level2"
+              autoComplete="address-level2"
               placeholder="Enter your City Name"
               onChange={(e: any) => setAddress((prev: any) => ({ ...prev, city: e.target.value }))}
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
@@ -395,7 +406,7 @@ const CartPage = () => {
             <input
               disabled={isupdated}
               type="text"
-              autocomplete="address-level1"
+              autoComplete="address-level1"
               onChange={(e: any) => setAddress((prev: any) => ({ ...prev, city: e.target.value }))}
               placeholder="Enter your State Name"
               className="w-full md:my-3 my-2 md:p-3 p-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-300"
