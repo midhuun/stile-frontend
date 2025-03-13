@@ -12,8 +12,13 @@ const Account = () => {
   const [cancelReason, setCancelReason] = useState('');
 
   async function getOrders() {
+    const token = localStorage.getItem('token');
     const res = await fetch(`https://stile-backend.vercel.app/user/orders`, {
       credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`, // Send token in header
+      },
     });
     const data = await res.json();
     setOrders(data.orders);

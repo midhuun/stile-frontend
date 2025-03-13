@@ -72,11 +72,13 @@ const OtpLoginPopup = () => {
           progress: undefined,
           theme: 'light',
         });
+        const token = localStorage.getItem('token');
         const data = await fetch('https://stile-backend.vercel.app/user/login', {
           method: 'POST',
           credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`, // Send token in header
           },
           body: JSON.stringify({ phone: phone }),
         });

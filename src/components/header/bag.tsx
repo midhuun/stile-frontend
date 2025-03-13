@@ -40,11 +40,13 @@ const Bag = () => {
     if (value.value === 'deleteFromCart') {
       dispatch(deleteFromCart({ ...value.item, selectedSize: value.size }));
     }
+    const token = localStorage.getItem('token');
     const res = await fetch(`https://stile-backend.vercel.app/user/${value.value}`, {
       method: 'POST',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`, // Send token in header
       },
       body: JSON.stringify({ productdata: value.item, selectedSize: value.size }),
     });
