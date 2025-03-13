@@ -1,5 +1,6 @@
 export async function getCart() {
   const token = localStorage.getItem('token');
+  console.log('carttone', token);
   try {
     const response = await fetch('https://stile-backend.vercel.app/user/cart', {
       credentials: 'include',
