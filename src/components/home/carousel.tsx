@@ -77,13 +77,19 @@ const Carousel = () => {
                   className="w-full h-[180px] md:h-[450px] flex-shrink-0 flex items-center justify-center"
                 >
                   <div className="relative md:h-[400px] rounded-lg sm:h-[450px] h-full min-w-full">
-                    {/* Image */}
-                    <img
-                      src={`${item.image}?q=30&format=webp`}
-                      alt={item.title}
-                      className="object-cover object-top rounded-lg w-full md:h-[400px] sm:h-[450px]"
-                    />
-                    {/* "Shop Now" Button */}
+                    <picture>
+                      <source srcSet={`${item.image}?q=50&format=avif`} type="image/avif" />
+                      <source srcSet={`${item.image}?q=50&format=webp`} type="image/webp" />
+                      <img
+                        src={`${item.image}?q=50&format=jpeg`}
+                        alt={item.title}
+                        className="object-cover object-top rounded-lg w-full md:h-[400px] sm:h-[450px]"
+                        width={800}
+                        height={400}
+                        loading="eager"
+                        decoding="async"
+                      />
+                    </picture>
                     <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
                       <Link to={`/subcategory/${generateSlug(item.title)}`}>
                         <button className="hover:bg-black border hover:text-white text-[12px] text-black md:text-sm py-1 px-3 md:py-3 md:font-semibold md:px-6 rounded bg-white transition duration-300">
