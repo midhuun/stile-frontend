@@ -1,13 +1,13 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-export const fetchProducts = createAsyncThunk("products/fetchProducts", async () => {
-  const res = await fetch("https://stile-backend.vercel.app/products");
+export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
+  const res = await fetch('https://stile-backend.vercel.app/products');
   const data = await res.json();
   return data;
 });
 
 const ProductSlice = createSlice({
-  name: "products",
+  name: 'products',
   initialState: {},
   reducers: {},
   extraReducers: (builder) => {

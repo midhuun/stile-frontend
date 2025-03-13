@@ -10,9 +10,7 @@ import ReactGA from 'react-ga';
 import Loading from './components/loading/loading';
 import ScrollToTop from './components/home/scrollTop';
 import PaymentStatus from './components/cart/paymentStatus';
-import { useDispatch } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { fetchProducts } from './store/reducers/productReducer';
 const PaymentStatusPage = lazy(() => import('./components/cart/orderStatus'));
 const PrivacyPolicy = lazy(() => import('./components/FooterDetails/privacyPolicy'));
 const OrderDetails = lazy(() => import('./account/order'));
@@ -36,7 +34,6 @@ ReactPixel.init(pixelid);
 ReactPixel.pageView();
 function App() {
   const queryclient = new QueryClient();
-  const dispatch = useDispatch<any>();
   const { setUser, user, setisAuthenticated, isAuthenticated } = useContext(HeaderContext);
   async function isUser() {
     const token = localStorage.getItem('token');
@@ -63,9 +60,8 @@ function App() {
   let trackingId = 'G-FJFP10WS9F';
   ReactGA.initialize(trackingId);
   useEffect(() => {
-    dispatch(fetchProducts());
     isUser();
-  }, [dispatch, user, isAuthenticated]);
+  }, [user, isAuthenticated]);
   return (
     <>
       <Router>
