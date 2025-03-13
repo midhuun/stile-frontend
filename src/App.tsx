@@ -36,17 +36,25 @@ function App() {
   const dispatch = useDispatch<any>();
   const { setUser, user, setisAuthenticated, isAuthenticated } = useContext(HeaderContext);
   async function isUser() {
-    const response = await fetch('https://stile-backend.vercel.app/user', {
-      credentials: 'include',
-    });
-    const data = await response.json();
-    if (data) {
-      setUser(data?.user);
-    }
-    if (response.status === 200) {
-      setisAuthenticated(true);
-    } else {
-      setisAuthenticated(false);
+    const token = localStorage.getItem('token');
+    console.dir(token);
+    if (token) {
+      const response = await fetch('https://stile-backend.vercel.app/user', {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Send token in header
+        },
+      });
+      const data = await response.json();
+      if (data) {
+        setUser(data?.user);
+      }
+      if (response.status === 200) {
+        setisAuthenticated(true);
+      } else {
+        setisAuthenticated(false);
+      }
     }
   }
   let trackingId = 'G-FJFP10WS9F';
