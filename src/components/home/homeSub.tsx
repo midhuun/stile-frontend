@@ -41,7 +41,7 @@ const HomeSub = () => {
 
   if (isLoading) {
     return (
-      <div className="loading-container h-full w-full ">
+      <div className="loading-container h-full w-full overflow-x-hidden">
         {Array(5)
           .fill(null)
           .map((_, index) => (
