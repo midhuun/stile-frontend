@@ -18,6 +18,8 @@ import Bag from './bag';
 import Favorites from './favourite';
 import { BiSearchAlt } from 'react-icons/bi';
 import { RootState } from '../../store/store';
+import { useQuery } from '@tanstack/react-query';
+import { fetchProducts } from '../../store/useQuery/QueryProducts';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -40,7 +42,10 @@ export default function Header() {
   const [query, setQuery] = useState<any>([]);
   const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
   const [searchVal, setsearchVal] = useState('');
-  const products: any = useSelector((state: RootState) => state.Products);
+  const { data: product } = useQuery({
+    queryKey: ['product'],
+    queryFn: fetchProducts,
+  });
   function getProduct() {
     return fetch('https://stile-backend.vercel.app/allproducts')
       .then((res) => res.json()) // Convert response to JSON
@@ -184,8 +189,8 @@ export default function Header() {
                       onMouseLeave={handleDropdownClose}
                     >
                       <div className="flex flex-col flex-wrap px-[10%] py-6 justify-center gap-4">
-                        {products &&
-                          products.subCategories.map((subcategory: SubCategory) => (
+                        {product &&
+                          product.subCategories.map((subcategory: SubCategory) => (
                             <Link
                               key={subcategory.slug}
                               to={`/subcategory/${subcategory.slug}`}
@@ -246,8 +251,8 @@ export default function Header() {
               </li>
               {isdropDown && (
                 <>
-                  {products &&
-                    products.subCategories.map((subcategory: SubCategory) => (
+                  {product &&
+                    product.subCategories.map((subcategory: SubCategory) => (
                       <Link
                         onClick={() => setIsMenuOpen(false)}
                         key={subcategory.slug}

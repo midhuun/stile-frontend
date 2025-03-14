@@ -20,9 +20,11 @@ export default function TrackOrder() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-white p-6">
-      <div className="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-lg border border-gray-900">
-        <h2 className="text-3xl font-extrabold text-gray-900 text-center ">Track Your Order</h2>
-        <p className="text-gray-600 text-center mt-2">
+      <div className="bg-white shadow-2xl rounded-2xl p-4 md:p-8 w-full max-w-lg border border-gray-900">
+        <h2 className="md:text-3xl text-xl font-extrabold text-gray-900 text-center ">
+          Track Your Order
+        </h2>
+        <p className="text-gray-600 text-sm md:text-md text-center mt-2">
           Enter your tracking ID to see your order status
         </p>
         <div className="mt-6 flex gap-2 border-2 border-gray-900 rounded-lg overflow-hidden">
@@ -31,36 +33,40 @@ export default function TrackOrder() {
             placeholder="Enter Tracking ID"
             value={trackingId}
             onChange={(e) => setTrackingId(e.target.value)}
-            className="w-full p-3 focus:outline-none text-gray-900"
+            className="w-full p-2 text-sm md:text-md md:p-3 focus:outline-none text-gray-900"
           />
           <button
             onClick={handleTrackOrder}
             className="bg-gray-900 text-white px-6 flex items-center gap-2 hover:bg-gray-700 transition"
           >
-            <Search size={20} /> Track
+            <Search size={20} />
           </button>
         </div>
         {orderStatus && (
           <div className="mt-8">
-            <h3 className="text-lg font-semibold text-gray-900 text-center">
+            <h3 className="text-md md:text-lg font-semibold text-gray-900 text-center">
               Order Status: <span className="text-gray-700">{orderStatus}</span>
             </h3>
             <div className="mt-6 flex flex-col gap-4">
               {statusSteps.map((step, index) => (
                 <div
                   key={index}
-                  className={`flex items-center gap-4 p-4 rounded-lg transition-all border border-gray-900 ${
+                  className={`flex items-center gap-3 md:gap-4 p-2 md:p-4 rounded-lg transition-all border border-gray-900 ${
                     step.active ? 'bg-gray-900 text-white' : 'bg-gray-200 text-gray-800'
                   }`}
                 >
                   <div
-                    className={`p-3 rounded-full ${
+                    className={`p-3 text-sm md:text-md rounded-full ${
                       step.active ? 'bg-white text-gray-900' : 'bg-gray-800 text-white'
                     }`}
                   >
                     {step.icon}
                   </div>
-                  <p className={`font-medium ${step.active ? 'text-white' : 'text-gray-800'}`}>
+                  <p
+                    className={`text-sm md:text-md font-medium ${
+                      step.active ? 'text-white' : 'text-gray-800'
+                    }`}
+                  >
                     {step.status}
                   </p>
                 </div>
