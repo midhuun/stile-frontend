@@ -213,7 +213,9 @@ export default function Header() {
                     </div>
                   </h1>
                 </Link>
-                <li>Track Order</li>
+                <Link to="/track">
+                  <li>Track Order</li>
+                </Link>
                 <Link to="/contact">
                   <li>About Us</li>
                 </Link>

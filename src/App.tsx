@@ -28,6 +28,7 @@ const ReturnAndExchanges = lazy(() => import('./components/FooterDetails/returnE
 const TermsAndConditions = lazy(() => import('./components/FooterDetails/terms'));
 import ReactPixel from 'react-facebook-pixel';
 import ProductList from './store/useQuery/QueryProducts';
+import TrackOrder from './components/TrackOrder';
 const Account = lazy(() => import('./account/account'));
 const pixelid = '1129263745877766';
 ReactPixel.init(pixelid);
@@ -86,6 +87,7 @@ function App() {
                   <Route path="/returns" element={<ReturnAndExchanges />} />
                   <Route path="/terms" element={<TermsAndConditions />} />
                   <Route path="/checkout" element={<CartPage />} />
+                  <Route path="/track" element={<TrackOrder />} />
                   <Route path="/privacy" element={<PrivacyPolicy />} />
                   <Route path="/user/account" element={<Account />} />
                   <Route path="/payment/status" element={<PaymentStatus />} />
