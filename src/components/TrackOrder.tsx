@@ -3,7 +3,7 @@ import { CheckCircle, Clock, Package, Truck, Search } from 'lucide-react';
 
 export default function TrackOrder() {
   const [trackingId, setTrackingId] = useState('');
-  const [orderStatus, setOrderStatus] = useState(null);
+  const [orderStatus, setOrderStatus] = useState<any>(null);
 
   const handleTrackOrder = () => {
     const statuses = ['Order Placed', 'Shipped', 'Out for Delivery', 'Delivered'];
