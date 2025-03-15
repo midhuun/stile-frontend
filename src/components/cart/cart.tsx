@@ -153,6 +153,25 @@ const CartPage = () => {
       paymentSessionId: token,
       redirectTarget: '_self',
     };
+    const bearer = localStorage.getItem('token');
+    await fetch('https://stile-backend.vercel.app/user/order', {
+      credentials: 'include',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${bearer}`, // Send token in header
+      },
+      body: JSON.stringify({
+        products: cart,
+        totalAmount: total,
+        paymentMethod,
+        address,
+        pincode,
+        orderId: data.order_id,
+        email,
+      }),
+    });
+    await res.json();
     cashfree.checkout(checkoutOptions).then(function (result) {
       // console.log(result);
       if (result.error) {
@@ -194,25 +213,6 @@ const CartPage = () => {
     const data = await res.json();
     setOrderId(data.order_id);
     setsessionId(data.token);
-
-    await fetch('https://stile-backend.vercel.app/user/order', {
-      credentials: 'include',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`, // Send token in header
-      },
-      body: JSON.stringify({
-        products: cart,
-        totalAmount: total,
-        paymentMethod,
-        address,
-        pincode,
-        orderId: data.order_id,
-        email,
-      }),
-    });
-    await res.json();
     doPayment(data.token, data.order_id);
     // Await the response
     // console.log(orderdata);
