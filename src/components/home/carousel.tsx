@@ -145,7 +145,7 @@ const Carousel = () => {
       {/* Customize Section */}
       <div className="relative flex-1 h-[180px] md:h-[400px] w-full md:w-[50%] rounded-lg overflow-hidden bg-[#b5fc6b] flex flex-col justify-between items-center">
         <img
-          src="/customize.png"
+          src="https://dplytapuv1.ufs.sh/f/CEIFtxh9zBV8wlcYW0JCBR5lhQ7y6zqjDxKIXpAJkLf2Mvib"
           alt="Customize GIF"
           className="md:h-[450px] rounded-lg sm:h-[300px] h-[180px] min-w-full object-contain"
         />
