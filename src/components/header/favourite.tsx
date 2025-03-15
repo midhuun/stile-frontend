@@ -23,11 +23,13 @@ const Favorites = () => {
   }, []);
   const handleRemoveFavorite = async (item: any) => {
     try {
+      const token = localStorage.getItem('token');
       const res = await fetch(`https://stile-backend.vercel.app/user/removeFromFavourites`, {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Send token in header
         },
         body: JSON.stringify({ productId: item._id }),
       });

@@ -60,10 +60,14 @@ const Account = () => {
     if (!cancelOrderId || !cancelReason) return;
 
     try {
+      const token = localStorage.getItem('token');
       const res = await fetch(`https://stile-backend.vercel.app/order/delete/${cancelOrderId}`, {
         method: 'POST',
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Send token in header
+        },
         body: JSON.stringify({ reason: cancelReason, phone: user.phone }),
       });
 

@@ -176,11 +176,13 @@ const CartPage = () => {
       return;
     }
     setprocessing(true);
+    const token = localStorage.getItem('token');
     const res = await fetch('https://stile-backend.vercel.app/user/payment', {
       credentials: 'include',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`, // Send token in header
       },
       body: JSON.stringify({
         name: address.name,
@@ -192,10 +194,14 @@ const CartPage = () => {
     const data = await res.json();
     setOrderId(data.order_id);
     setsessionId(data.token);
+    const token = localStorage.getItem('token');
     await fetch('https://stile-backend.vercel.app/user/order', {
       credentials: 'include',
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`, // Send token in header
+      },
       body: JSON.stringify({
         products: cart,
         totalAmount: total,
@@ -220,11 +226,15 @@ const CartPage = () => {
     }
     if (paymentMethod === 'cod') {
       setprocessing(true);
+      const token = localStorage.getItem('token');
       const orderId = `ORDER_${new Date().getTime()}`;
       const res = await fetch('https://stile-backend.vercel.app/user/order', {
         credentials: 'include',
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Send token in header
+        },
         body: JSON.stringify({
           orderId,
           products: cart,
