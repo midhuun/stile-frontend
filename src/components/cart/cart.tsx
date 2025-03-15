@@ -194,7 +194,7 @@ const CartPage = () => {
     const data = await res.json();
     setOrderId(data.order_id);
     setsessionId(data.token);
-    const token = localStorage.getItem('token');
+
     await fetch('https://stile-backend.vercel.app/user/order', {
       credentials: 'include',
       method: 'POST',
