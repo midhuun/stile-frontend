@@ -77,10 +77,12 @@ export default function PaymentStatusPage() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
           >
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
+            <h2 className="text-lg md:text-2xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
               Verifying Payment
             </h2>
-            <p className="text-gray-500">Please wait while we process your transaction</p>
+            <p className="text-gray-500 text-sm md:text-md">
+              Please wait while we process your transaction
+            </p>
           </motion.div>
         </motion.div>
       ) : status ? (
@@ -108,7 +110,7 @@ export default function PaymentStatusPage() {
                 animate={{ scale: [1, 1.5, 1] }}
                 transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
               />
-              <CheckCircle className="w-20 h-20 text-green-500" />
+              <CheckCircle className="md:w-20 md:h-20 h-16 w-16 text-green-500" />
             </motion.div>
 
             <motion.div
@@ -122,7 +124,7 @@ export default function PaymentStatusPage() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.4 }}
               >
-                <h2 className="text-2xl font-bold text-gray-800">Payment Successful</h2>
+                <h2 className="md:text-2xl text-lg font-bold text-gray-800">Payment Successful</h2>
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: '100%' }}
@@ -131,7 +133,7 @@ export default function PaymentStatusPage() {
                 />
               </motion.div>
 
-              <p className="text-gray-600">
+              <p className="text-gray-600 text-sm md:text-md">
                 Thank you for shopping with <span className="font-semibold">Stile Sagio</span>! Your
                 order is being processed, and we'll send you a confirmation email shortly.
               </p>
@@ -147,14 +149,14 @@ export default function PaymentStatusPage() {
                   to="/"
                 >
                   <ShoppingBag className="w-4 h-4" />
-                  <span>Shop More</span>
+                  <span className="text-sm md:text-md">Shop </span>
                 </Link>
                 <Link
                   className="px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg flex items-center justify-center gap-2 hover:shadow-lg transition-all duration-300 font-medium"
                   to={`/order/${orderid}`}
                 >
                   <FileText className="w-4 h-4" />
-                  <span>View Order</span>
+                  <span className="text-sm md:text-md">View </span>
                 </Link>
               </motion.div>
             </motion.div>
@@ -180,7 +182,7 @@ export default function PaymentStatusPage() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="mb-6"
             >
-              <XCircle className="w-20 h-20 text-red-500" />
+              <XCircle className="md:w-20 md:h-20 h-16 w-16 text-red-500" />
             </motion.div>
 
             <motion.div
@@ -203,7 +205,7 @@ export default function PaymentStatusPage() {
                 />
               </motion.div>
 
-              <p className="text-gray-600">
+              <p className="text-gray-600 text-sm md:text-md">
                 Oops! Something went wrong with your payment. If the amount was deducted, it will be
                 refunded shortly. Please try again or use a different payment method.
               </p>
@@ -215,7 +217,7 @@ export default function PaymentStatusPage() {
                 transition={{ delay: 0.6 }}
               >
                 <Link
-                  className="px-6 py-3 bg-gradient-to-r from-gray-700 to-gray-900 text-white rounded-lg flex items-center justify-center gap-2 hover:shadow-lg transition-all duration-300 font-medium"
+                  className="px-6 md:text-md text-sm py-3 bg-gradient-to-r from-gray-700 to-gray-900 text-white rounded-lg flex items-center justify-center gap-2 hover:shadow-lg transition-all duration-300 font-medium"
                   to="/checkout"
                 >
                   Try Again
