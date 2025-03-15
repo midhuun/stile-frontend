@@ -192,7 +192,6 @@ const CartPage = () => {
     const data = await res.json();
     setOrderId(data.order_id);
     setsessionId(data.token);
-    doPayment(data.token, data.order_id);
     await fetch('https://stile-backend.vercel.app/user/order', {
       credentials: 'include',
       method: 'POST',
@@ -207,7 +206,9 @@ const CartPage = () => {
         email,
       }),
     });
-    await res.json(); // Await the response
+    await res.json();
+    doPayment(data.token, data.order_id);
+    // Await the response
     // console.log(orderdata);
   }
   async function handleOrder() {
