@@ -24,7 +24,6 @@ const Categories = () => {
             >
               <Link to={`/subcategory/${category.slug}`}>
                 <img
-                  loading="lazy"
                   className="rounded-md  h-[230px] xs:h-[300px] w-full md:h-[400px]  object-top object-cover "
                   src={`${category.image}?w=400&h=500&q=75`}
                   alt={category.name}

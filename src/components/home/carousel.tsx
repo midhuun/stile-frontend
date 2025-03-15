@@ -86,7 +86,7 @@ const Carousel = () => {
                         className="object-cover object-top rounded-lg w-full md:h-[400px] sm:h-[450px]"
                         width={800}
                         height={400}
-                        loading="eager"
+                        loading={currentIndex === 0 ? 'eager' : 'lazy'}
                         decoding="async"
                       />
                     </picture>
