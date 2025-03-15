@@ -1,17 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* @font-face {
-  font-family: "Josefin-sans";
-  src: url("/Josefin_Sans/JosefinSans-Italic-VariableFont_wght.ttf") format("woff2"),
-       url("/Josefin_Sans/JosefinSans-VariableFont_wght.ttf") format("woff");
-  font-weight: 400;
-  font-style:normal;
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url('/Josefin_Sans/JosefinSans-VariableFont_wght.woff2') format('woff2'),
+    url('/Josefin_Sans/JosefinSans-VariableFont_wght.woff') format('woff');
+  font-weight: 100 900;
+  font-style: normal;
   font-display: swap;
-} */
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url('/Josefin_Sans/JosefinSans-Italic-VariableFont_wght.woff2') format('woff2'),
+    url('/Josefin_Sans/JosefinSans-Italic-VariableFont_wght.woff') format('woff');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 body {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+  font-family: 'Josefin Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
+  padding-top: 20px;
 }
 
 .custom-btn {
