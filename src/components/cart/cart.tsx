@@ -171,7 +171,6 @@ const CartPage = () => {
         email,
       }),
     });
-    await res.json();
     cashfree.checkout(checkoutOptions).then(function (result) {
       // console.log(result);
       if (result.error) {
