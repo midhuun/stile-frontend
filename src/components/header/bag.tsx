@@ -206,14 +206,14 @@ const Bag = () => {
             <p className="text-[12px] md:text-sm py-2">
               Tax included. Shipping calculated at checkout.
             </p>
-            {/* <Link to="/checkout">
+            <Link to="/checkout">
               <button
                 onClick={() => setiscartOpen(false)}
                 className="bg-black mx-3 z-[999]  text-white w-[90%] transform  py-2 rounded-lg transition duration-200 hover:bg-gray-800"
               >
                 Checkout
               </button>
-            </Link> */}
+            </Link>
           </div>
         )}
       </div>
