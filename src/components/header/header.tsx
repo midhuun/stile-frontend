@@ -13,11 +13,9 @@ import { SubCategory } from '../../types/CategoryType';
 import { AiOutlineInstagram } from 'react-icons/ai';
 import { FiShoppingBag } from 'react-icons/fi';
 import { IoIosArrowDown, IoIosArrowUp, IoMdArrowBack, IoMdClose, IoMdLogOut } from 'react-icons/io';
-import { useSelector } from 'react-redux';
 import Bag from './bag';
 import Favorites from './favourite';
 import { BiSearchAlt } from 'react-icons/bi';
-import { RootState } from '../../store/store';
 import { useQuery } from '@tanstack/react-query';
 import { fetchProducts } from '../../store/useQuery/QueryProducts';
 
