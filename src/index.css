@@ -1,51 +1,52 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@font-face {
+/* @font-face {
   font-family: "Josefin-sans";
   src: url("/Josefin_Sans/JosefinSans-Italic-VariableFont_wght.ttf") format("woff2"),
        url("/Josefin_Sans/JosefinSans-VariableFont_wght.ttf") format("woff");
   font-weight: 400;
   font-style:normal;
   font-display: swap;
-}
-body{
-    font-family: "Josefin-Sans", serif;
-    padding-top: 20px;
+} */
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
 }
 
-.custom-btn{
-    font-family: "Josefin-Sans", serif;
-
+.custom-btn {
+  font-family: 'Josefin-Sans', serif;
 }
-@media (max-width: 640px) { /* Tailwind's sm breakpoint */
-    .search-autocomplete {
-      height: 35px !important; /* Mobile height */
-    }
+@media (max-width: 640px) {
+  /* Tailwind's sm breakpoint */
+  .search-autocomplete {
+    height: 35px !important; /* Mobile height */
   }
-  
-  @media (min-width: 641px) { /* Above mobile view */
-    .search-autocomplete {
-      height: 50px !important; /* Desktop height */
-    }
-  }
+}
 
-  @layer utilities {
-    .no-arrows::-webkit-inner-spin-button,
-    .no-arrows::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-    .no-arrows {
-      -moz-appearance: textfield; /* For Firefox */
-    }
+@media (min-width: 641px) {
+  /* Above mobile view */
+  .search-autocomplete {
+    height: 50px !important; /* Desktop height */
   }
-  .hide-scroll {
-    overflow: auto; /* Enables scrolling */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE & Edge */
+}
+
+@layer utilities {
+  .no-arrows::-webkit-inner-spin-button,
+  .no-arrows::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
-  
-  .hide-scroll::-webkit-scrollbar {
-    display: none; /* Chrome, Safari */
+  .no-arrows {
+    -moz-appearance: textfield; /* For Firefox */
   }
+}
+.hide-scroll {
+  overflow: auto; /* Enables scrolling */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE & Edge */
+}
+
+.hide-scroll::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}

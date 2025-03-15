@@ -62,7 +62,7 @@ function App() {
   ReactGA.initialize(trackingId);
   useEffect(() => {
     isUser();
-  }, [user, isAuthenticated]);
+  }, []);
   return (
     <>
       <Router>
