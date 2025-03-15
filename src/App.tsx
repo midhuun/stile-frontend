@@ -35,7 +35,7 @@ ReactPixel.init(pixelid);
 ReactPixel.pageView();
 function App() {
   const queryclient = new QueryClient();
-  const { setUser, user, setisAuthenticated, isAuthenticated } = useContext(HeaderContext);
+  const { setUser, setisAuthenticated } = useContext(HeaderContext);
   async function isUser() {
     const token = localStorage.getItem('token');
     console.dir(token);
