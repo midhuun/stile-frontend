@@ -167,7 +167,7 @@ const CartPage = () => {
         paymentMethod,
         address,
         pincode,
-        orderId: orderId,
+        orderId: orderid,
         email,
       }),
     });
