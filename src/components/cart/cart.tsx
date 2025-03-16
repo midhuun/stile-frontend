@@ -237,7 +237,7 @@ const CartPage = () => {
         body: JSON.stringify({
           orderId,
           products: cart,
-          totalAmount: total,
+          totalAmount: total + 100,
           paymentMethod,
           address: address,
           pincode: pincode,
