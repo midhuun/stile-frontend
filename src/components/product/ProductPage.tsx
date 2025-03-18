@@ -18,7 +18,7 @@ import { BiSolidHeart } from 'react-icons/bi';
 import { useSwipeable } from 'react-swipeable';
 import { FaStar } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
-import { RiShare2Fill, RiShareFill } from 'react-icons/ri';
+import { RiShare2Fill } from 'react-icons/ri';
 const ProductPage = () => {
   const params: any = useParams();
   const { product } = params;
