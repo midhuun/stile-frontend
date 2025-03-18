@@ -348,11 +348,12 @@ const ProductPage = () => {
                 className="absolute cursor-pointer top-4 left-4 text-red-500"
                 size={26}
               />
-              <GrShareOption
+              <div
                 onClick={() => shareContent()}
-                className="absolute cursor-pointer bottom-4 right-4 "
-                size={20}
-              />
+                className="absolute bottom-4 right-4 flex justify-center items-center w-10 h-10 rounded-full bg-white shadow-md hover:bg-gray-100 transition-all duration-200 cursor-pointer border border-gray-200"
+              >
+                <GrShareOption className="text-gray-600" size={20} />
+              </div>
 
               {isLoading && (
                 <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-md"></div>
