@@ -268,7 +268,7 @@ export default function Header() {
               <Link onClick={() => setIsMenuOpen(false)} to="/">
                 <li className="border-b py-3">Home</li>
               </Link>
-              <Link onClick={() => setIsMenuOpen(false)} to="/track-order">
+              <Link onClick={() => setIsMenuOpen(false)} to="/track">
                 <li className="border-b py-3">Track Order</li>
               </Link>
               <Link onClick={() => setIsMenuOpen(false)} to="/contact">
