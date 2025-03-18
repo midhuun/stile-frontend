@@ -226,7 +226,7 @@ const CartPage = () => {
     if (paymentMethod === 'cod') {
       setprocessing(true);
       const token = localStorage.getItem('token');
-      const orderId = `ORDER_${new Date().getTime()}`;
+      const orderId = new Date().getTime();
       const res = await fetch('https://stile-backend.vercel.app/user/order', {
         credentials: 'include',
         method: 'POST',
