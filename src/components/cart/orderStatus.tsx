@@ -78,7 +78,7 @@ export default function PaymentStatusPage() {
             transition={{ delay: 0.2 }}
           >
             <h2 className="text-lg md:text-2xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
-              Verifying Payment
+              Verifying Order
             </h2>
             <p className="text-gray-500 text-sm md:text-md">
               Please wait while we process your transaction
@@ -124,7 +124,9 @@ export default function PaymentStatusPage() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.4 }}
               >
-                <h2 className="md:text-2xl text-lg font-bold text-gray-800">Payment Successful</h2>
+                <h2 className="md:text-2xl text-lg font-bold text-gray-800">
+                  Order Placed Successfully
+                </h2>
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: '100%' }}
