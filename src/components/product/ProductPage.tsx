@@ -59,9 +59,9 @@ const ProductPage = () => {
     if (navigator.share) {
       navigator
         .share({
-          title: 'Check this out!',
-          text: 'Hey! I found something interesting for you.',
-          url: window.location.href, // Current page URL
+          title: `Discover ${productdata?.name} at Stile Sagio!`,
+          text: `Check out the latest ${productdata?.name} at Stile Sagio. Stylish, premium, and made just for you. Don't miss out!`,
+          url: window.location.href,
         })
         .then(() => console.log('Shared successfully'))
         .catch((error) => console.log('Error sharing:', error));
