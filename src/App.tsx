@@ -27,7 +27,6 @@ const ShippingPolicy = lazy(() => import('./components/FooterDetails/shippingPol
 const ReturnAndExchanges = lazy(() => import('./components/FooterDetails/returnExchange'));
 const TermsAndConditions = lazy(() => import('./components/FooterDetails/terms'));
 import ReactPixel from 'react-facebook-pixel';
-import ProductList from './store/useQuery/QueryProducts';
 import TrackOrder from './components/TrackOrder';
 const Account = lazy(() => import('./account/account'));
 const pixelid = '1129263745877766';
@@ -38,7 +37,6 @@ function App() {
   const { setUser, setisAuthenticated } = useContext(HeaderContext);
   async function isUser() {
     const token = localStorage.getItem('token');
-    console.dir(token);
     if (token) {
       const response = await fetch('https://stile-backend.vercel.app/user', {
         credentials: 'include',
@@ -72,7 +70,6 @@ function App() {
             <OtpLoginPopup />
             <ScrollToTop />
             <Offer />
-            <ProductList />
             <div className="md:pt-[90px] pt-[40px]">
               <Header />
               <Suspense fallback={<Loading />}>

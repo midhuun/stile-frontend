@@ -74,7 +74,7 @@ export default function Header() {
       },
     });
     const data = await response.json();
-    console.log(data);
+
     if (data) {
       setUser(data?.user);
     }

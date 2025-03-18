@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { IoCloseSharp } from 'react-icons/io5';
-import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
+import { GrFormNext, GrFormPrevious, GrShareOption } from 'react-icons/gr';
 import { HeaderContext } from '../../context/appContext';
 import Suggestion from './suggestion';
 import { getCart, getFavourites } from '../../utils/getItems';
@@ -18,6 +18,7 @@ import { BiSolidHeart } from 'react-icons/bi';
 import { useSwipeable } from 'react-swipeable';
 import { FaStar } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
+import { RiShare2Fill, RiShareFill } from 'react-icons/ri';
 const ProductPage = () => {
   const params: any = useParams();
   const { product } = params;
@@ -54,6 +55,20 @@ const ProductPage = () => {
       [e.target.name]: e.target.value,
     });
   }
+  const shareContent = () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: 'Check this out!',
+          text: 'Hey! I found something interesting for you.',
+          url: window.location.href, // Current page URL
+        })
+        .then(() => console.log('Shared successfully'))
+        .catch((error) => console.log('Error sharing:', error));
+    } else {
+      alert('Web Share API not supported in your browser.');
+    }
+  };
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (!user) {
@@ -307,9 +322,14 @@ const ProductPage = () => {
               </div>
               {/* Main Image */}
               <div className="w-4/5 relative">
+                <RiShare2Fill
+                  onClick={() => shareContent()}
+                  className="absolute cursor-pointer top-4  right-4 "
+                  size={26}
+                />
                 <BiSolidHeart
                   onClick={() => addToFavorite()}
-                  className="absolute cursor-pointer top-4 right-4 text-red-500"
+                  className="absolute cursor-pointer top-4 left-4 text-red-500"
                   size={26}
                 />
                 <img
@@ -325,9 +345,15 @@ const ProductPage = () => {
             <div className="md:hidden h-[70vh] flex overflow-hidden relative">
               <BiSolidHeart
                 onClick={() => addToFavorite()}
-                className="absolute cursor-pointer top-4 right-4 text-red-500"
+                className="absolute cursor-pointer top-4 left-4 text-red-500"
                 size={26}
               />
+              <GrShareOption
+                onClick={() => shareContent()}
+                className="absolute cursor-pointer bottom-4 right-4 "
+                size={20}
+              />
+
               {isLoading && (
                 <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-md"></div>
               )}

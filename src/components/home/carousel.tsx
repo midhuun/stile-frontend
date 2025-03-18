@@ -53,7 +53,6 @@ const Carousel = () => {
       clearInterval(autoswipe);
     };
   }, [currentIndex]);
-  console.log(banner);
   return (
     <div className="flex flex-col md:flex-row gap-2 items-center justify-center md:h-[450px] min-w-full p-2 md:p-4">
       {/* Carousel Section */}
