@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { SubCategory, Product } from '../../types/CategoryType';
 import ProductCard from '../product/productCard';
 import { Link } from 'react-router-dom';
@@ -17,7 +17,7 @@ const HomeSub = () => {
   });
 
   // Remove duplicate products by name
-  const removeDuplicateProducts = (products: Product[]) => {
+  const removeDuplicateProducts = useCallback((products: Product[]) => {
     const seenNames = new Set();
     return products.filter((product) => {
       if (!seenNames.has(product.name)) {
@@ -26,7 +26,7 @@ const HomeSub = () => {
       }
       return false;
     });
-  };
+  }, []);
 
   // Fetch categories when product data is available
   useEffect(() => {
