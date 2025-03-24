@@ -11,18 +11,16 @@ const CategoryPage = () => {
   const [isLoading, setisLoading] = useState(false);
 
   async function getcategories() {
+    setisLoading(true);
     const response = await fetch(`https://stile-backend.vercel.app/category/${subcategoryName}`);
     const data: any = await response.json();
     setCategory(data?.subcategory?.name);
     setProducts(data?.products);
+    setisLoading(false);
   }
   useEffect(() => {
     window.scrollTo(0, 0);
-    setisLoading(true);
     getcategories();
-    setTimeout(() => {
-      setisLoading(false);
-    }, 700);
   }, [subcategoryName]);
   if (isLoading) {
     return <Loading />;
