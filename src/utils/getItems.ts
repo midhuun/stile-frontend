@@ -32,7 +32,7 @@ export async function getFavourites() {
 }
 export async function getProducts() {
   try {
-    const response = await fetch('https://stile-backendd.vercel.app/products');
+    const response = await fetch('https://stile-backendd.vercel.app/allproducts');
     const data = await response.json();
     return data.products;
   } catch (err) {

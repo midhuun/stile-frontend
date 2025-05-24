@@ -7,7 +7,7 @@ import axios from 'axios';
  * - Implements caching headers
  */
 export const fetchProducts = async () => {
-  const { data } = await axios.get('https://stile-backendd.vercel.app/products', {
+  const { data } = await axios.get('https://stile-backendd.vercel.app/allproducts', {
     headers: {
       'Cache-Control': 'max-age=300', // Cache for 5 minutes
     },
@@ -32,21 +32,24 @@ export const fetchPaginatedProducts = async (
   const params = new URLSearchParams();
   params.append('page', page.toString());
   params.append('limit', limit.toString());
-  
+
   if (category) {
     params.append('category', category);
   }
-  
+
   if (sort) {
     params.append('sort', sort);
   }
-  
-  const { data } = await axios.get(`https://stile-backendd.vercel.app/products/paginated?${params}`, {
-    headers: {
-      'Cache-Control': 'max-age=300', // Cache for 5 minutes
-    },
-  });
-  
+
+  const { data } = await axios.get(
+    `https://stile-backendd.vercel.app/products/paginated?${params}`,
+    {
+      headers: {
+        'Cache-Control': 'max-age=300', // Cache for 5 minutes
+      },
+    }
+  );
+
   return data;
 };
 
@@ -61,7 +64,7 @@ export const fetchProductBySlug = async (slug: string) => {
       'Cache-Control': 'max-age=600', // Cache for 10 minutes
     },
   });
-  
+
   return data;
 };
 
