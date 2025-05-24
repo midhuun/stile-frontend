@@ -4,7 +4,6 @@ import { CiHeart, CiSearch } from 'react-icons/ci';
 import { PiShoppingBagLight } from 'react-icons/pi';
 import { LiaUser } from 'react-icons/lia';
 import { HeaderContext } from '../../context/appContext';
-import Fuse from 'fuse.js';
 // import Logo from '../../assets/logo.png';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { FaFacebookSquare, FaMapMarkerAlt, FaWhatsapp, FaYoutube } from 'react-icons/fa';
