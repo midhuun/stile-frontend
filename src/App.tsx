@@ -50,16 +50,16 @@ const queryClient = new QueryClient({
 // Prefetch critical data
 queryClient.prefetchQuery({
   queryKey: ['categories'],
-  queryFn: prefetchCategories
+  queryFn: prefetchCategories,
 });
 
 function App() {
   const { setUser, setisAuthenticated } = useContext(HeaderContext);
-  
+
   async function isUser() {
     const token = localStorage.getItem('token');
     if (token) {
-      const response = await fetch('https://stile-backendd.vercel.app/user', {
+      const response = await fetch('https://stile-backend-api.vercel.app/user', {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',

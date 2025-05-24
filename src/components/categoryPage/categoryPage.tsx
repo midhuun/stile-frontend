@@ -20,28 +20,24 @@ const CategoryPage = () => {
   const ITEMS_PER_PAGE = 12;
 
   // Use React Query for efficient data fetching with caching
-  const { 
-    data, 
-    isLoading, 
-    isFetching
-  } = useQuery<CategoryData>({
+  const { data, isLoading, isFetching } = useQuery<CategoryData>({
     queryKey: ['categoryProducts', subcategoryName, page],
     queryFn: async () => {
       const response = await fetch(
-        `https://stile-backendd.vercel.app/category/${subcategoryName}?page=${page}&limit=${ITEMS_PER_PAGE}`
+        `https://stile-backend-api.vercel.app/category/${subcategoryName}?page=${page}&limit=${ITEMS_PER_PAGE}`
       );
       const data = await response.json();
-      
+
       // Update category name if it's not set yet
       if (!category && data?.subcategory?.name) {
         setCategory(data.subcategory.name);
       }
-      
+
       // Check if there are more products to load
       if (data.products.length < ITEMS_PER_PAGE) {
         setHasMore(false);
       }
-      
+
       return data;
     },
     refetchOnWindowFocus: false,
@@ -57,12 +53,12 @@ const CategoryPage = () => {
   // Infinite scroll handler
   const handleScroll = useCallback(() => {
     if (
-      window.innerHeight + document.documentElement.scrollTop >= 
-      document.documentElement.offsetHeight - 500 &&
-      hasMore && 
+      window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.offsetHeight - 500 &&
+      hasMore &&
       !isFetching
     ) {
-      setPage(prevPage => prevPage + 1);
+      setPage((prevPage) => prevPage + 1);
     }
   }, [hasMore, isFetching]);
 
@@ -87,21 +83,19 @@ const CategoryPage = () => {
           <ProductCard key={product._id} product={product} />
         ))}
       </div>
-      
+
       {/* Loading indicator for pagination */}
       {isFetching && page > 1 && (
         <div className="w-full flex justify-center py-4">
           <div className="w-8 h-8 border-4 border-gray-200 border-t-blue-600 rounded-full animate-spin"></div>
         </div>
       )}
-      
+
       {/* No more products message */}
       {!hasMore && products.length > 0 && (
-        <div className="w-full text-center py-8 text-gray-500">
-          No more products to load
-        </div>
+        <div className="w-full text-center py-8 text-gray-500">No more products to load</div>
       )}
-      
+
       {/* No products found message */}
       {products.length === 0 && !isLoading && (
         <div className="w-full text-center py-8 text-gray-500">

@@ -38,7 +38,7 @@ export default function Header() {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [searchVal, setsearchVal] = useState('');
   const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
-  
+
   // Use React Query for both category data and search data
   const { data: product } = useQuery({
     queryKey: ['product'],
@@ -50,7 +50,11 @@ export default function Header() {
     queryKey: ['searchProducts', searchVal],
     queryFn: async () => {
       if (!searchVal || searchVal.length < 2) return [];
-      const response = await fetch(`https://stile-backendd.vercel.app/products/search?query=${encodeURIComponent(searchVal)}&limit=4`);
+      const response = await fetch(
+        `https://stile-backend-api.vercel.app/products/search?query=${encodeURIComponent(
+          searchVal
+        )}&limit=4`
+      );
       const data = await response.json();
       return data;
     },
@@ -76,7 +80,7 @@ export default function Header() {
 
   async function isUser() {
     const token = localStorage.getItem('token');
-    const response = await fetch('https://stile-backendd.vercel.app/user', {
+    const response = await fetch('https://stile-backend-api.vercel.app/user', {
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
@@ -105,7 +109,7 @@ export default function Header() {
 
   async function handlelogout() {
     localStorage.clear();
-    // await fetch("https://stile-backendd.vercel.app/user/logout",{method:'POST',credentials:'include'});
+    // await fetch("https://stile-backend-api.vercel.app/user/logout",{method:'POST',credentials:'include'});
     setisAuthenticated(false);
     setisUserOpen(false);
     navigate('/');
@@ -161,7 +165,7 @@ export default function Header() {
       inputref.current.focus();
     }
   }, [searchOpen]);
-  
+
   return (
     <>
       <Bag />

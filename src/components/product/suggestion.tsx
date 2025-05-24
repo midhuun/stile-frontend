@@ -10,7 +10,7 @@ const Suggestion = ({ subid, id }: any) => {
     const fetchSuggestions = async () => {
       try {
         const result = await fetch(
-          `https://stile-backendd.vercel.app/subcategoryProducts/${subid}`
+          `https://stile-backend-api.vercel.app/subcategoryProducts/${subid}`
         );
         const data = await result.json();
         if (isMounted) {

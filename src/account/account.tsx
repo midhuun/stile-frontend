@@ -13,7 +13,7 @@ const Account = () => {
 
   async function getOrders() {
     const token = localStorage.getItem('token');
-    const res = await fetch(`https://stile-backendd.vercel.app/user/orders`, {
+    const res = await fetch(`https://stile-backend-api.vercel.app/user/orders`, {
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ const Account = () => {
 
   async function handleLogout() {
     localStorage.clear();
-    await fetch('https://stile-backendd.vercel.app/user/logout', {
+    await fetch('https://stile-backend-api.vercel.app/user/logout', {
       method: 'POST',
       credentials: 'include',
     });
@@ -61,15 +61,18 @@ const Account = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`https://stile-backendd.vercel.app/order/delete/${cancelOrderId}`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`, // Send token in header
-        },
-        body: JSON.stringify({ reason: cancelReason, phone: user.phone }),
-      });
+      const res = await fetch(
+        `https://stile-backend-api.vercel.app/order/delete/${cancelOrderId}`,
+        {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`, // Send token in header
+          },
+          body: JSON.stringify({ reason: cancelReason, phone: user.phone }),
+        }
+      );
 
       if (!res.ok) throw new Error('Failed to cancel order');
       closeCancelModal();
