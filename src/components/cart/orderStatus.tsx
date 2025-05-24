@@ -10,7 +10,7 @@ export default function PaymentStatusPage() {
     const timeout = setTimeout(() => controller.abort(), 7000); // 7 seconds timeout
 
     try {
-      const res = await fetch(`https://stilebackend.vercel.app/payment/status/${orderid}`, {
+      const res = await fetch(`https://stile-backendd.vercel.app/payment/status/${orderid}`, {
         method: 'POST',
         signal: controller.signal, // Attach signal to abort fetch if needed
       });

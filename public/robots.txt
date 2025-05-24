@@ -7,4 +7,4 @@ Disallow: /payment/status/
 
 Allow: /
 
-Sitemap: https://stilebackend.vercel.app/sitemap.xml
+Sitemap: https://stile-backendd.vercel.app/sitemap.xml

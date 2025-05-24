@@ -7,7 +7,7 @@ import axios from 'axios';
  * - Implements caching headers
  */
 export const fetchProducts = async () => {
-  const { data } = await axios.get('https://stilebackend.vercel.app/products', {
+  const { data } = await axios.get('https://stile-backendd.vercel.app/products', {
     headers: {
       'Cache-Control': 'max-age=300', // Cache for 5 minutes
     },
@@ -41,7 +41,7 @@ export const fetchPaginatedProducts = async (
     params.append('sort', sort);
   }
   
-  const { data } = await axios.get(`https://stilebackend.vercel.app/products/paginated?${params}`, {
+  const { data } = await axios.get(`https://stile-backendd.vercel.app/products/paginated?${params}`, {
     headers: {
       'Cache-Control': 'max-age=300', // Cache for 5 minutes
     },
@@ -56,7 +56,7 @@ export const fetchPaginatedProducts = async (
  * @returns Product data with related products
  */
 export const fetchProductBySlug = async (slug: string) => {
-  const { data } = await axios.get(`https://stilebackend.vercel.app/product/${slug}`, {
+  const { data } = await axios.get(`https://stile-backendd.vercel.app/product/${slug}`, {
     headers: {
       'Cache-Control': 'max-age=600', // Cache for 10 minutes
     },
@@ -69,7 +69,7 @@ export const fetchProductBySlug = async (slug: string) => {
  * Prefetches category data to improve initial load performance
  */
 export const prefetchCategories = async () => {
-  return axios.get('https://stilebackend.vercel.app/categories', {
+  return axios.get('https://stile-backendd.vercel.app/categories', {
     headers: {
       'Cache-Control': 'max-age=1800', // Cache for 30 minutes (categories change less often)
     },

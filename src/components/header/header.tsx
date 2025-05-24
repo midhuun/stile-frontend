@@ -50,7 +50,7 @@ export default function Header() {
     queryKey: ['searchProducts', searchVal],
     queryFn: async () => {
       if (!searchVal || searchVal.length < 2) return [];
-      const response = await fetch(`https://stilebackend.vercel.app/products/search?query=${encodeURIComponent(searchVal)}&limit=4`);
+      const response = await fetch(`https://stile-backendd.vercel.app/products/search?query=${encodeURIComponent(searchVal)}&limit=4`);
       const data = await response.json();
       return data;
     },
@@ -76,7 +76,7 @@ export default function Header() {
 
   async function isUser() {
     const token = localStorage.getItem('token');
-    const response = await fetch('https://stilebackend.vercel.app/user', {
+    const response = await fetch('https://stile-backendd.vercel.app/user', {
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ export default function Header() {
 
   async function handlelogout() {
     localStorage.clear();
-    // await fetch("https://stilebackend.vercel.app/user/logout",{method:'POST',credentials:'include'});
+    // await fetch("https://stile-backendd.vercel.app/user/logout",{method:'POST',credentials:'include'});
     setisAuthenticated(false);
     setisUserOpen(false);
     navigate('/');

@@ -28,7 +28,7 @@ const CategoryPage = () => {
     queryKey: ['categoryProducts', subcategoryName, page],
     queryFn: async () => {
       const response = await fetch(
-        `https://stilebackend.vercel.app/category/${subcategoryName}?page=${page}&limit=${ITEMS_PER_PAGE}`
+        `https://stile-backendd.vercel.app/category/${subcategoryName}?page=${page}&limit=${ITEMS_PER_PAGE}`
       );
       const data = await response.json();
       
