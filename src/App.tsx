@@ -11,6 +11,7 @@ import Loading from './components/loading/loading';
 import ScrollToTop from './components/home/scrollTop';
 import PaymentStatus from './components/cart/paymentStatus';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { prefetchCategories } from './store/useQuery/QueryProducts';
 const PaymentStatusPage = lazy(() => import('./components/cart/orderStatus'));
 const PrivacyPolicy = lazy(() => import('./components/FooterDetails/privacyPolicy'));
 const OrderDetails = lazy(() => import('./account/order'));
@@ -32,9 +33,29 @@ const Account = lazy(() => import('./account/account'));
 const pixelid = '1129263745877766';
 ReactPixel.init(pixelid);
 ReactPixel.pageView();
+
+// Create a client with optimized settings
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      gcTime: 10 * 60 * 1000, // 10 minutes (formerly cacheTime)
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      retry: 1,
+    },
+  },
+});
+
+// Prefetch critical data
+queryClient.prefetchQuery({
+  queryKey: ['categories'],
+  queryFn: prefetchCategories
+});
+
 function App() {
-  const queryclient = new QueryClient();
   const { setUser, setisAuthenticated } = useContext(HeaderContext);
+  
   async function isUser() {
     const token = localStorage.getItem('token');
     if (token) {
@@ -64,7 +85,7 @@ function App() {
   return (
     <>
       <Router>
-        <QueryClientProvider client={queryclient}>
+        <QueryClientProvider client={queryClient}>
           <HeaderProvider>
             <SpeedInsights />
             <OtpLoginPopup />

@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { Link } from 'react-router-dom';
 // import { HeaderContext } from '../../context/appContext';
 // import { getFavourites } from '../../utils/getItems';
 // import { PiHeartStraightFill } from "react-icons/pi";
+import OptimizedImage from '../common/OptimizedImage';
 
-const ProductCard = ({ product }: any) => {
+const ProductCard = memo(({ product }: any) => {
   const [currentImage, setCurrentImage] = useState<any>(product.images[0]);
   // const {setFavourites,setisFavouriteOpen} = useContext<any>(HeaderContext);
   // const addToFavorite = async() => {
@@ -39,14 +40,21 @@ const ProductCard = ({ product }: any) => {
       key={product?._id}
     >
       <Link to={`/product/${product.slug}`}>
-        <div className="overflow-hidden relative ">
-          <img
-            onMouseEnter={handleMouseEnter}
-            loading="lazy"
-            onMouseLeave={handleMouseLeave}
-            className="w-full rounded-md object-top tranition-all duration-[1.5s]  h-[250px] md:h-[450px] object-cover hover:scale-[1.01] "
-            src={`${currentImage}?w=380&h=450&q=75`}
+        <div 
+          className="overflow-hidden relative"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <OptimizedImage
+            src={currentImage}
             alt={product.name}
+            className="w-full rounded-md object-top transition-all duration-[1.5s] h-[250px] md:h-[450px] hover:scale-[1.01]"
+            width={380}
+            height={450}
+            objectFit="cover"
+            quality={75}
+            loading="lazy"
+            sizes="(max-width: 640px) 49vw, (max-width: 768px) 32vw, 300px"
           />
         </div>
         <div className="md:p-2 p-2">
@@ -73,6 +81,6 @@ const ProductCard = ({ product }: any) => {
       </Link>
     </div>
   );
-};
+});
 
 export default ProductCard;

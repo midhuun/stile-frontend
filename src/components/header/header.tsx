@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState, useCallback } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 import { CiHeart, CiSearch } from 'react-icons/ci';
 import { PiShoppingBagLight } from 'react-icons/pi';
@@ -36,34 +36,45 @@ export default function Header() {
     setsearchOpen,
   } = useContext(HeaderContext);
   const [isdropDown, setisdropDown] = useState(false);
-  const [allProducts, setAllProducts] = useState([]);
-  const [query, setQuery] = useState<any>([]);
-  const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
   const [searchVal, setsearchVal] = useState('');
+  const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
+  
+  // Use React Query for both category data and search data
   const { data: product } = useQuery({
     queryKey: ['product'],
     queryFn: fetchProducts,
   });
-  function getProduct() {
-    return fetch('https://stile-backendd.vercel.app/allproducts')
-      .then((res) => res.json()) // Convert response to JSON
-      .then((data) => {
-        setAllProducts(data); // Process the data
-        // Return data from the Promise
-      })
-      .catch((err) => console.log(err));
-  }
 
-  const fuse: any =
-    allProducts.length > 0 &&
-    new Fuse(allProducts, { keys: ['name'], threshold: 0.5, minMatchCharLength: 2 });
-  const searchProducts = (query: any) => {
-    const products = fuse
-      .search(query)
-      .map((result: any) => result.item)
-      .slice(0, 4);
-    return products;
-  };
+  // Use React Query for search products with lazy loading
+  const { data: searchProducts, isLoading: searchLoading } = useQuery({
+    queryKey: ['searchProducts', searchVal],
+    queryFn: async () => {
+      if (!searchVal || searchVal.length < 2) return [];
+      const response = await fetch(`https://stile-backendd.vercel.app/products/search?query=${encodeURIComponent(searchVal)}&limit=4`);
+      const data = await response.json();
+      return data;
+    },
+    enabled: searchVal.length >= 2, // Only run query when search term is at least 2 characters
+    staleTime: 60000, // Cache results for 1 minute
+  });
+
+  // Debounced search function
+  const debounce = useCallback((fn: Function, delay: number) => {
+    let timeoutId: NodeJS.Timeout;
+    return (...args: any[]) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => fn(...args), delay);
+    };
+  }, []);
+
+  // Update search results when query changes
+  useEffect(() => {
+    if (searchProducts && searchProducts.length > 0) {
+      setSearchResults(searchProducts);
+    }
+  }, [searchProducts]);
+
   async function isUser() {
     const token = localStorage.getItem('token');
     const response = await fetch('https://stile-backendd.vercel.app/user', {
@@ -84,15 +95,15 @@ export default function Header() {
       setisAuthenticated(false);
     }
   }
-  useEffect(() => {
-    getProduct();
-  }, []);
+
   useEffect(() => {
     isUser();
   }, [isAuthenticated]);
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
   async function handlelogout() {
     localStorage.clear();
     // await fetch("https://stile-backendd.vercel.app/user/logout",{method:'POST',credentials:'include'});
@@ -115,37 +126,43 @@ export default function Header() {
     }
     setisdropDown(true);
   };
+
   function handleClose() {
     setsearchOpen(false);
     setsearchVal('');
-    setQuery([]);
+    setSearchResults([]);
   }
+
   const handleDropdownClose = () => {
     const timeout = setTimeout(() => {
       setisdropDown(false);
     }, 600);
     setDropdownTimeout(timeout);
   };
+
   function handlesearch() {
     inputref.current.focus();
     setsearchOpen(true);
   }
+
+  // Debounced search input handler
+  const debouncedSearch = useCallback(
+    debounce((value: string) => {
+      setsearchVal(value);
+    }, 300),
+    []
+  );
+
   function searchvalue(e: any) {
-    setsearchVal(e.target.value);
-    let timeout;
-    if (timeout) {
-      clearTimeout(timeout);
-    }
-    timeout = setTimeout(() => {
-      const results = searchProducts(e.target.value);
-      setQuery(results);
-    }, 800);
+    debouncedSearch(e.target.value);
   }
+
   useEffect(() => {
     if (searchOpen && inputref.current) {
       inputref.current.focus();
     }
   }, [searchOpen]);
+  
   return (
     <>
       <Bag />
@@ -343,8 +360,7 @@ export default function Header() {
                   <IoMdClose onClick={handleClose} className="text-xl text-red-600" />
                 </button>
                 <input
-                  value={searchVal}
-                  onChange={(e: any) => searchvalue(e)}
+                  onChange={searchvalue}
                   placeholder="Try Searching Polos.."
                   ref={inputref}
                   className="w-full h-8 placeholder:text-xs placeholder:text-gray-500 md:h-10 p-3 border"
@@ -352,13 +368,12 @@ export default function Header() {
                   name=""
                   id=""
                 />
-                {/* <Auto items={products.products} /> */}
               </div>
-              {query.length > 0 && (
+              {searchResults.length > 0 && (
                 <div className="absolute md:top-[150%] top-full  w-full bg-white shadow-lg z-10 md:w-[50%]">
                   <h3 className=" text-gray-600 text-[12px] md:text-md p-2">PRODUCTS</h3>
                   <hr />
-                  {query.map((product: any) => (
+                  {searchResults.map((product: any) => (
                     <Link
                       onClick={handleClose}
                       to={`/product/${product.slug}`}
@@ -370,18 +385,21 @@ export default function Header() {
                           src={product.images[0]}
                           alt={product.name}
                           className="w-12 h-16 object-top object-cover"
+                          loading="lazy"
                         />
                         <div className="flex-1">
                           <div className="text-sm text-gray-800 sm:text-sm lg:text-md">
                             {product.name}
                           </div>
-                          {/* <div className="text-xs sm:text-sm md:text-md text-gray-500">{product.description.split(" ").slice(0,10).join(" ")}{product.description.length>50 && "..."}</div>
-               <div className="text-xs sm:text-sm md:text-md font-bold text-gray-900">₹{product.price}</div> */}
                         </div>
                       </div>
-                      {/* <div className="w-full h-[1px] my-[2px] bg-black"></div> */}
                     </Link>
                   ))}
+                </div>
+              )}
+              {searchLoading && (
+                <div className="absolute md:top-[150%] top-full w-full bg-white shadow-lg z-10 md:w-[50%] p-4 text-center">
+                  <p className="text-gray-500">Searching...</p>
                 </div>
               )}
             </div>
