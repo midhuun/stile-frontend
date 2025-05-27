@@ -58,7 +58,7 @@ const CartPage = () => {
   };
   const total = calculateTotal();
   async function paymentCheck(orderid: any) {
-    const res = await fetch(`https://stile-backend.vercel.app/payment/status/${orderid}`, {
+    const res = await fetch(`https://stile-backend-rvmk.vercel.app/payment/status/${orderid}`, {
       method: 'POST',
     });
     const data = await res.json();
@@ -85,7 +85,7 @@ const CartPage = () => {
             setTimeout(() => {
               toast.success('Order Successfull ✔️');
             }, 1500);
-            // const res = await fetch("https://stile-backend.vercel.app/user/order", {
+            // const res = await fetch("https://stile-backend-rvmk.vercel.app/user/order", {
             //       credentials: 'include',
             //       method: 'POST',
             //       headers: { "Content-Type": "application/json" },
@@ -124,7 +124,7 @@ const CartPage = () => {
     }, pollInterval);
 
     // try {
-    //   const res = await fetch("https://stile-backend.vercel.app/user/order", {
+    //   const res = await fetch("https://stile-backend-rvmk.vercel.app/user/order", {
     //     credentials: 'include',
     //     method: 'POST',
     //     headers: { "Content-Type": "application/json" },
@@ -154,7 +154,7 @@ const CartPage = () => {
       redirectTarget: '_self',
     };
     const bearer = localStorage.getItem('token');
-    await fetch('https://stile-backend.vercel.app/user/order', {
+    await fetch('https://stile-backend-rvmk.vercel.app/user/order', {
       credentials: 'include',
       method: 'POST',
       headers: {
@@ -195,7 +195,7 @@ const CartPage = () => {
     }
     setprocessing(true);
     const token = localStorage.getItem('token');
-    const res = await fetch('https://stile-backend.vercel.app/user/payment', {
+    const res = await fetch('https://stile-backend-rvmk.vercel.app/user/payment', {
       credentials: 'include',
       method: 'POST',
       headers: {
@@ -227,7 +227,7 @@ const CartPage = () => {
       setprocessing(true);
       const token = localStorage.getItem('token');
       const orderId = new Date().getTime();
-      const res = await fetch('https://stile-backend.vercel.app/user/order', {
+      const res = await fetch('https://stile-backend-rvmk.vercel.app/user/order', {
         credentials: 'include',
         method: 'POST',
         headers: {

@@ -54,7 +54,7 @@ const OtpLoginPopup = () => {
     try {
       const res = await verify(phone, otp);
 
-      //   const res = await fetch('https://stile-backend.vercel.app/verify-otp',{method:'POST',headers:{
+      //   const res = await fetch('https://stile-backend-rvmk.vercel.app/verify-otp',{method:'POST',headers:{
       //     'Content-Type': 'application/json',
       //   },
       //   body:JSON.stringify({otp:otp.join(""),email})
@@ -73,7 +73,7 @@ const OtpLoginPopup = () => {
           theme: 'light',
         });
         const token = localStorage.getItem('token');
-        const data = await fetch('https://stile-backend.vercel.app/user/login', {
+        const data = await fetch('https://stile-backend-rvmk.vercel.app/user/login', {
           method: 'POST',
           credentials: 'include',
           headers: {
@@ -157,7 +157,7 @@ const OtpLoginPopup = () => {
       // }
       const res = await initiate(phone);
 
-      // const res = await fetch("https://stile-backend.vercel.app/send-otp", {
+      // const res = await fetch("https://stile-backend-rvmk.vercel.app/send-otp", {
       //     method: "POST",
       //     headers: {
       //         "Content-Type": "application/json",
@@ -217,7 +217,7 @@ const OtpLoginPopup = () => {
       toast.error('Enter Valid Mobile Number');
       alert('Enter Valid Mobile Number');
     }
-    const res = await fetch('https://stile-backend.vercel.app/user/login', {
+    const res = await fetch('https://stile-backend-rvmk.vercel.app/user/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

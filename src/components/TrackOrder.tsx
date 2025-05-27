@@ -17,7 +17,7 @@ export default function TrackOrder() {
     setLoading(true);
     setOrderStatus(null);
     try {
-      const res = await fetch('https://stile-backend.vercel.app/track-order', {
+      const res = await fetch('https://stile-backend-rvmk.vercel.app/track-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ order_id: trackingId }),

@@ -9,7 +9,7 @@ const Suggestion = ({ subid, id }: any) => {
         let isMounted = true;
         const fetchSuggestions = async () => {
             try {
-                const result = await fetch(`https://stile-backend.vercel.app/subcategoryProducts/${subid}`);
+                const result = await fetch(`https://stile-backend-rvmk.vercel.app/subcategoryProducts/${subid}`);
                 const data = await result.json();
                 if (isMounted) {
                     setSuggestions(Array.isArray(data) ? data : []);

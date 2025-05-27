@@ -14,7 +14,7 @@ const Carousel = () => {
   };
   const fetchBanners = async () => {
     setIsLoading(true);
-    const { data } = await axios.get('https://stile-backend.vercel.app/banner');
+    const { data } = await axios.get('https://stile-backend-rvmk.vercel.app/banner');
     setIsLoading(false);
     return data;
   };

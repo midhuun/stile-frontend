@@ -11,7 +11,7 @@ const OrderSuccess = () => {
   const [isfailed, setisfailed] = useState(false);
   async function clearCart() {
     const token = localStorage.getItem('token');
-    await fetch('https://stile-backend.vercel.app/user/clearCart', {
+    await fetch('https://stile-backend-rvmk.vercel.app/user/clearCart', {
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',

@@ -8,7 +8,7 @@ const ProductCard = ({product}:any) => {
   const [currentImage, setCurrentImage] = useState<any>(product.images[0]);
   // const {setFavourites,setisFavouriteOpen} = useContext<any>(HeaderContext);
     // const addToFavorite = async() => {
-    //    const res= await fetch(`https://stile-backend.vercel.app/user/addtoFavourites`,{
+    //    const res= await fetch(`https://stile-backend-rvmk.vercel.app/user/addtoFavourites`,{
     //      method: 'POST',
     //      credentials:'include',
     //      headers: {

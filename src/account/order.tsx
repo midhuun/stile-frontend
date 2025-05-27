@@ -14,7 +14,7 @@ const OrderDetails = () => {
   async function getOrder() {
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch(`https://stile-backend.vercel.app/order/${params.orderid}`, {
+      const res = await fetch(`https://stile-backend-rvmk.vercel.app/order/${params.orderid}`, {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',

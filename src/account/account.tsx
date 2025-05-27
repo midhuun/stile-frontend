@@ -13,7 +13,7 @@ const Account = () => {
 
   async function getOrders() {
     const token = localStorage.getItem('token');
-    const res = await fetch(`https://stile-backend.vercel.app/user/orders`, {
+    const res = await fetch(`https://stile-backend-rvmk.vercel.app/user/orders`, {
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ const Account = () => {
 
   async function handleLogout() {
     localStorage.clear();
-    await fetch('https://stile-backend.vercel.app/user/logout', {
+    await fetch('https://stile-backend-rvmk.vercel.app/user/logout', {
       method: 'POST',
       credentials: 'include',
     });
@@ -61,7 +61,7 @@ const Account = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`https://stile-backend.vercel.app/order/delete/${cancelOrderId}`, {
+      const res = await fetch(`https://stile-backend-rvmk.vercel.app/order/delete/${cancelOrderId}`, {
         method: 'POST',
         credentials: 'include',
         headers: {

@@ -76,7 +76,7 @@ const ProductPage = () => {
       return;
     }
     try {
-      const data = await fetch('https://stile-backend.vercel.app/reviews', {
+      const data = await fetch('https://stile-backend-rvmk.vercel.app/reviews', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -136,7 +136,7 @@ const ProductPage = () => {
     }
     try {
       const token = localStorage.getItem('token');
-      await fetch(`https://stile-backend.vercel.app/user/addtoFavourites`, {
+      await fetch(`https://stile-backend-rvmk.vercel.app/user/addtoFavourites`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -173,7 +173,7 @@ const ProductPage = () => {
     }
     try {
       const token = localStorage.getItem('token');
-      await fetch(`https://stile-backend.vercel.app/user/${value}`, {
+      await fetch(`https://stile-backend-rvmk.vercel.app/user/${value}`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -198,7 +198,7 @@ const ProductPage = () => {
       try {
         if (productdata) {
           const response = await fetch(
-            `https://stile-backend.vercel.app/reviews/${productdata._id}`
+            `https://stile-backend-rvmk.vercel.app/reviews/${productdata._id}`
           );
           const data = await response.json();
           console.log(data);
@@ -259,7 +259,7 @@ const ProductPage = () => {
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const response = await fetch(`https://stile-backend.vercel.app/product/${product}`);
+        const response = await fetch(`https://stile-backend-rvmk.vercel.app/product/${product}`);
         const data = await response?.json();
         if (data.length > 0) {
           setproductdata(data[0]);
