@@ -1,7 +1,7 @@
 export async function getCart() {
   const token = localStorage.getItem('token');
   try {
-    const response = await fetch('https://stile-backend-rvmk.vercel.app/user/cart', {
+    const response = await fetch('https://stile-backend.vercel.app/user/cart', {
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
@@ -17,7 +17,7 @@ export async function getCart() {
 export async function getFavourites() {
   const token = localStorage.getItem('token');
   try {
-    const response = await fetch('https://stile-backend-rvmk.vercel.app/user/favourites', {
+    const response = await fetch('https://stile-backend.vercel.app/user/favourites', {
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export async function getFavourites() {
 }
 export async function getProducts() {
   try {
-    const response = await fetch('https://stile-backend-rvmk.vercel.app/products');
+    const response = await fetch('https://stile-backend.vercel.app/products');
     const data = await response.json();
     return data.products;
   } catch (err) {
@@ -42,7 +42,7 @@ export async function getProducts() {
 export const handleCart = async (item: any) => {
   const token = localStorage.getItem('token');
   try {
-    const res = await fetch(`https://stile-backend-rvmk.vercel.app/user/${item.value}`, {
+    const res = await fetch(`https://stile-backend.vercel.app/user/${item.value}`, {
       method: 'POST',
       credentials: 'include',
       headers: {

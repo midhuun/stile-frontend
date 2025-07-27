@@ -45,7 +45,7 @@ export default function Header() {
     queryFn: fetchProducts,
   });
   function getProduct() {
-    return fetch('https://stile-backend-rvmk.vercel.app/allproducts')
+    return fetch('https://stile-backend.vercel.app/allproducts')
       .then((res) => res.json()) // Convert response to JSON
       .then((data) => {
         setAllProducts(data); // Process the data
@@ -66,7 +66,7 @@ export default function Header() {
   };
   async function isUser() {
     const token = localStorage.getItem('token');
-    const response = await fetch('https://stile-backend-rvmk.vercel.app/user', {
+    const response = await fetch('https://stile-backend.vercel.app/user', {
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ export default function Header() {
   };
   async function handlelogout() {
     localStorage.clear();
-    // await fetch("https://stile-backend-rvmk.vercel.app/user/logout",{method:'POST',credentials:'include'});
+    // await fetch("https://stile-backend.vercel.app/user/logout",{method:'POST',credentials:'include'});
     setisAuthenticated(false);
     setisUserOpen(false);
     navigate('/');

@@ -41,7 +41,7 @@ const Bag = () => {
       dispatch(deleteFromCart({ ...value.item, selectedSize: value.size }));
     }
     const token = localStorage.getItem('token');
-    const res = await fetch(`https://stile-backend-rvmk.vercel.app/user/${value.value}`, {
+    const res = await fetch(`https://stile-backend.vercel.app/user/${value.value}`, {
       method: 'POST',
       credentials: 'include',
       headers: {

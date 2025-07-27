@@ -38,7 +38,7 @@ function App() {
   async function isUser() {
     const token = localStorage.getItem('token');
     if (token) {
-      const response = await fetch('https://stile-backend-rvmk.vercel.app/user', {
+      const response = await fetch('https://stile-backend.vercel.app/user', {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
