@@ -57,7 +57,7 @@ const CartPage = () => {
     );
   };
   const total = calculateTotal();
-  async function paymentCheck(orderid: any) {
+  async function paymentCheck(orderid: string) {
     const res = await fetch(`https://stile-backend.vercel.app/payment/status/${orderid}`, {
       method: 'POST',
     });
@@ -226,7 +226,7 @@ const CartPage = () => {
     if (paymentMethod === 'cod') {
       setprocessing(true);
       const token = localStorage.getItem('token');
-      const orderId = new Date().getTime();
+      const orderId = new Date().getTime().toString();
       const res = await fetch('https://stile-backend.vercel.app/user/order', {
         credentials: 'include',
         method: 'POST',
