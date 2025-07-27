@@ -65,6 +65,7 @@ const CartPage = () => {
     return data;
   }
   async function verifyPayment(orderId: string) {
+    console.log('verifyPayment called with orderId:', orderId);
     let pollCount = 0;
     const pollInterval = 5000;
     // Function to poll payment status
@@ -109,12 +110,14 @@ const CartPage = () => {
               navigate(`/checkout/${orderId}`);
               // window.location.href ='/payment/status/?&txStatus=FAILED';
             }, 1500);
+            clearInterval(pollTimeout);
+          } else {
+            toast.error('Payment Failed!! Try again');
+            navigate(`/checkout/${orderId}`);
+            // window.location.href ='/payment/status/?&txStatus=FAILED';
+            setisupdated(false);
+            clearInterval(pollTimeout);
           }
-          toast.error('Payment Failed!! Try again');
-          navigate(`/checkout/${orderId}`);
-          // window.location.href ='/payment/status/?&txStatus=FAILED';
-          setisupdated(false);
-          clearInterval(pollTimeout);
         }
         setpaymentStatus(status.message); // Assuming setPaymentStatus is a state setter function
         pollCount++;
@@ -149,6 +152,7 @@ const CartPage = () => {
     setPaymentMethod(e.target.value);
   };
   const doPayment = async (token, orderid) => {
+    console.log('doPayment called with:', { token, orderid });
     let checkoutOptions = {
       paymentSessionId: token,
       redirectTarget: '_self',
@@ -210,6 +214,15 @@ const CartPage = () => {
       }),
     });
     const data = await res.json();
+    console.log('Payment response:', data);
+    
+    if (!data.order_id || !data.token) {
+      console.error('Invalid payment response:', data);
+      toast.error('Payment initialization failed. Please try again.');
+      setprocessing(false);
+      return;
+    }
+    
     setOrderId(data.order_id);
     setsessionId(data.token);
     doPayment(data.token, data.order_id);
