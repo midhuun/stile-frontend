@@ -1,8 +1,16 @@
 import { Link } from 'react-router-dom';
+import SEO from '../seo/SEO';
 
 const TermsAndConditions = () => {
   return (
     <div className="container mx-auto px-4 pt-10 md:pt-5 py-6">
+      <SEO
+        title="Terms & Conditions | Stile Sagio"
+        description="Read the terms and conditions for using the Stile Sagio website and services."
+        canonical={typeof window !== 'undefined' ? `${window.location.origin}/terms` : undefined}
+        image="/logo.png"
+        type="website"
+      />
       <h1 className="text-2xl md:text-4xl text-center font-semibold mb-6">Terms and Conditions</h1>
 
       <div className="space-y-6">

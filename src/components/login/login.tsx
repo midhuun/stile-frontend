@@ -1,3 +1,4 @@
+import { apiUrl } from '../../utils/api';
 //@ts-nocheck
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { HeaderContext } from '../../context/appContext';
@@ -33,6 +34,11 @@ const OtpLoginPopup = () => {
       setOtpSent(false);
       setphone('');
       setisverifying(false);
+    }
+    // Prefill last used number when opening the popup
+    if (isUserOpen) {
+      const last = localStorage.getItem('last_phone');
+      if (last && !phone) setphone(last);
     }
   }, [isUserOpen]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,7 +79,7 @@ const OtpLoginPopup = () => {
           theme: 'light',
         });
         const token = localStorage.getItem('token');
-        const data = await fetch('https://stile-backend.vercel.app/user/login', {
+    const data = await fetch(apiUrl('/user/login'), {
           method: 'POST',
           credentials: 'include',
           headers: {
@@ -84,6 +90,7 @@ const OtpLoginPopup = () => {
         });
         const user = await data.json();
         if (user) {
+          localStorage.setItem('last_phone', phone);
           localStorage.setItem('token', user.message);
           setisAuthenticated(true);
           setisUserOpen(false);
@@ -170,6 +177,7 @@ const OtpLoginPopup = () => {
       // const data = await res.json();
       // console.log(data); // ✅ Now the UI updates properly
       if (res?.success) {
+        localStorage.setItem('last_phone', phone);
         setOtpSent(true);
         toast.success('OTP Sent Successfully ', {
           position: 'top-right',
@@ -217,7 +225,7 @@ const OtpLoginPopup = () => {
       toast.error('Enter Valid Mobile Number');
       alert('Enter Valid Mobile Number');
     }
-    const res = await fetch('https://stile-backend.vercel.app/user/login', {
+    const res = await fetch(apiUrl('/user/login'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -254,64 +262,58 @@ const OtpLoginPopup = () => {
       />
 
       {isUserOpen && !isAuthenticated && (
-        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/60">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
-            className="bg-white relative rounded-lg shadow-lg w-[90%] max-w-md flex flex-col h-auto overflow-hidden"
+            className="bg-white relative rounded-2xl shadow-xl w-[92%] max-w-md flex flex-col h-auto overflow-hidden"
           >
             <button
               onClick={() => setisUserOpen(false)}
-              className="absolute -top-3 right-2 hover:scale-105 text-black hover:text-red-500 text-[40px]"
+              className="absolute -top-3 right-2 hover:scale-105 text-black hover:text-gray-700 text-[40px]"
             >
               ×
             </button>
 
             {/* Header Section */}
-            <div className="bg-white text-black p-6 flex flex-col items-center">
-              <img src={Logo} alt="Stile Sagio Logo" className="w-24 h-24 object-contain" />
-              <h2 className="text-lg md:text-xl font-bold mt-4">Stile Sagio</h2>
-              <p className="text-gray-300 text-center text-sm mt-2">
-                Login to enjoy exclusive benefits:
-              </p>
+            <div className="bg-white text-black px-6 pt-8 pb-4 flex flex-col items-center">
+              <img src={Logo} alt="Stile Sagio Logo" className="w-16 h-16 object-contain" />
+              <h2 className="text-xl font-bold mt-3 tracking-tight">Sign in to Stile Sagio</h2>
+              <p className="text-gray-500 text-center text-sm mt-1">Fast checkout and order tracking</p>
             </div>
 
             {/* Mobile Number Form (Before OTP is sent) */}
             {!otpSent && (
-              <div className="p-6 flex flex-col">
-                <h2 className="text-md md:text-lg font-semibold text-gray-800 text-center mb-4">
-                  Login with your Mobile
-                </h2>
-                <p className="text-gray-600 text-sm md:text-lg text-center mb-4">
-                  Enter your Mobile Number to receive an OTP for verification.
-                </p>
+              <div className="px-6 pb-6 flex flex-col">
+                <h2 className="text-base md:text-lg font-semibold text-gray-900 text-center mb-1">Login with your Mobile</h2>
+                <p className="text-gray-600 text-sm text-center mb-4">Enter your number to receive an OTP.</p>
                 <form onSubmit={onSignup} className="space-y-4">
                   <div className="text-sm md:text-md">
-                    <input
-                      type="phone"
-                      id="phone"
-                      value={phone}
-                      maxLength={10}
-                      onChange={(e) => setphone(e.target.value)}
-                      placeholder="Enter your Mobile Number"
-                      className="w-full px-4 py-2 border  focus:border-black rounded-lg   focus:outline-none"
-                      autoComplete="tel"
-                      required
-                    />
+                    <label htmlFor="phone" className="block mb-1 text-xs text-gray-600">Mobile Number</label>
+                    <div className="flex items-center gap-2">
+                      <div className="px-3 py-3 rounded-lg border border-gray-300 bg-gray-50 text-gray-700 text-sm select-none">+91</div>
+                      <input
+                        type="tel"
+                        id="phone"
+                        value={phone}
+                        maxLength={10}
+                        onChange={(e) => setphone(e.target.value.replace(/\D/g, ''))}
+                        placeholder="Enter your Mobile Number"
+                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/10 focus:border-black placeholder:text-gray-400"
+                        autoComplete="tel"
+                        required
+                      />
+                    </div>
                   </div>
                   <button
                     type="submit"
-                    className="w-full py-[6px] md:py-3 bg-black text-white rounded-lg shadow-md"
+                    className="w-full py-[10px] md:py-3 bg-black text-white rounded-lg shadow-md hover:opacity-90"
                   >
                     {btnmsg}
                   </button>
                 </form>
-                <div className="mt-4 text-center">
-                  <p className="text-sm text-gray-500">
-                    We will send an OTP to your Mobile for verification.
-                  </p>
-                </div>
+                <p className="mt-4 text-center text-xs text-gray-500">We’ll send an OTP for verification.</p>
               </div>
             )}
 
@@ -321,17 +323,20 @@ const OtpLoginPopup = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
-                className="p-6 w-full flex flex-col space-y-4 max-w-sm mx-auto"
+                className="px-6 pb-6 w-full flex flex-col space-y-4 max-w-sm mx-auto"
               >
-                <h2 className="text-lg md:text-xl font-semibold text-gray-800 text-center mb-4">
-                  Enter OTP
-                </h2>
+                <div className="flex items-center justify-between">
+                  <h2 className="text-base md:text-lg font-semibold text-gray-900">Enter OTP</h2>
+                  <button onClick={() => setOtpSent(false)} className="text-xs underline text-gray-600 hover:text-gray-800">Change number</button>
+                </div>
+                <p className="text-xs text-gray-500">We’ve sent a 4‑digit code to +91 {phone?.slice(0,6)?.replace(/\d/g,'•')}{phone?.slice(-4)}</p>
 
                 {/* OTP Input */}
-                <div onClick={handleClick} className="w-full  flex flex-col items-center">
-                  {/* Hidden Input */}
+                <div onClick={handleClick} className="w-full flex flex-col items-center gap-3">
+                  {/* Hidden real input */}
                   <input
                     ref={inputRef}
+                    aria-label="One Time Password"
                     type="tel"
                     inputMode="numeric"
                     pattern="[0-9]*"
@@ -342,12 +347,23 @@ const OtpLoginPopup = () => {
                     maxLength={4}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
-                    className={`relative w-[70%] text-lg flex text-center items-center no-spinner justify-center p-2 rounded-md border ${
-                      isFocused ? 'border-blue-500 shadow-md' : 'border-gray-300'
-                    } transition-all duration-300`}
+                    className="sr-only"
                   />
 
-                  {/* Display OTP Boxes */}
+                  {/* Pretty OTP boxes */}
+                  <div className="flex gap-3">
+                    {[0, 1, 2, 3].map((i) => (
+                      <div
+                        key={i}
+                        className={`w-12 h-12 md:w-14 md:h-14 rounded-lg border text-xl md:text-2xl font-semibold flex items-center justify-center transition-all duration-200 ${
+                          isFocused ? 'border-black shadow-[0_1px_8px_rgba(0,0,0,0.08)]' : 'border-gray-300'
+                        }`}
+                      >
+                        {otp?.[i] || ''}
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-xs text-gray-500">Tap the boxes and type your 4‑digit code</p>
                 </div>
 
                 {/* Resend OTP */}

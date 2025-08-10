@@ -27,6 +27,7 @@ const ShippingPolicy = lazy(() => import('./components/FooterDetails/shippingPol
 const ReturnAndExchanges = lazy(() => import('./components/FooterDetails/returnExchange'));
 const TermsAndConditions = lazy(() => import('./components/FooterDetails/terms'));
 import ReactPixel from 'react-facebook-pixel';
+import { apiUrl } from './utils/api';
 import TrackOrder from './components/TrackOrder';
 const Account = lazy(() => import('./account/account'));
 const pixelid = '1129263745877766';
@@ -38,7 +39,7 @@ function App() {
   async function isUser() {
     const token = localStorage.getItem('token');
     if (token) {
-      const response = await fetch('https://stile-backend.vercel.app/user', {
+      const response = await fetch(apiUrl('/user'), {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',

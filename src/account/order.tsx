@@ -1,3 +1,4 @@
+import { apiUrl } from '../utils/api';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Loading from '../components/loading/loading';
@@ -14,7 +15,7 @@ const OrderDetails = () => {
   async function getOrder() {
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch(`https://stile-backend.vercel.app/order/${params.orderid}`, {
+    const res = await fetch(apiUrl(`/order/${params.orderid}`), {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',

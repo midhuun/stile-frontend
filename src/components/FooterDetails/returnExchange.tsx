@@ -1,6 +1,15 @@
+import SEO from '../seo/SEO';
+
 const ReturnAndExchangePolicy = () => {
   return (
     <div className="max-w-3xl mx-auto pt-12 p-6">
+      <SEO
+        title="Refund & Cancellation Policy | Stile Sagio"
+        description="Learn about Stile Sagio's refund and cancellation policy, including return eligibility and process."
+        canonical={typeof window !== 'undefined' ? `${window.location.origin}/returns` : undefined}
+        image="/logo.png"
+        type="website"
+      />
       <h1 className="md:text-3xl text-xl font-bold text-center mb-6">Refund & Cancellation</h1>
 
       <section className="mb-8">

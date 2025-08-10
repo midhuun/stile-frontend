@@ -4,6 +4,7 @@ import { GrFormPrevious } from 'react-icons/gr';
 import { Link } from 'react-router-dom';
 import { useSwipeable } from 'react-swipeable';
 import axios from 'axios';
+import { apiUrl } from '../../utils/api';
 import { useQuery } from '@tanstack/react-query';
 
 const Carousel = () => {
@@ -14,7 +15,7 @@ const Carousel = () => {
   };
   const fetchBanners = async () => {
     setIsLoading(true);
-    const { data } = await axios.get('https://stile-backend.vercel.app/banner');
+  const { data } = await axios.get(apiUrl('/banner'));
     setIsLoading(false);
     return data;
   };

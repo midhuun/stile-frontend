@@ -4,6 +4,7 @@ import ProductCard from '../product/productCard';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { fetchProducts } from '../../store/useQuery/QueryProducts';
+import SectionHeader from './SectionHeader';
 
 const HomeSub = () => {
   const [subcategories, setSubcategories] = useState<SubCategory[]>([]);
@@ -76,10 +77,15 @@ const HomeSub = () => {
       <div className="w-full mt-2">
         {subcategories.map((subcategory: SubCategory) => (
           <div key={subcategory._id} className="md:mt-5 w-full px-2 md:px-4">
-            <div className="flex justify-between items-center mb-5 md:pb-10">
-              <h1 className="font-semibold text-md md:text-xl">{subcategory.name}</h1>
+            <div className="flex justify-between items-end mb-3 md:mb-6">
+              <SectionHeader
+                title={subcategory.name}
+                eyebrow="Collection"
+                align="left"
+                className="m-0"
+              />
               <Link to={`/subcategory/${subcategory.slug}`}>
-                <h1 className="text-xs md:text-lg underline px-2">View All</h1>
+                <span className="text-xs md:text-sm font-semibold underline underline-offset-4">View all</span>
               </Link>
             </div>
             <div className="flex min-h-[350px] rounded-md md:justify-start hide-scroll overflow-x-scroll gap-2 md:gap-4">

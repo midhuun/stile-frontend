@@ -4,7 +4,6 @@ import { CiHeart, CiSearch } from 'react-icons/ci';
 import { PiShoppingBagLight } from 'react-icons/pi';
 import { LiaUser } from 'react-icons/lia';
 import { HeaderContext } from '../../context/appContext';
-import Fuse from 'fuse.js';
 // import Logo from '../../assets/logo.png';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { FaFacebookSquare, FaMapMarkerAlt, FaWhatsapp, FaYoutube } from 'react-icons/fa';
@@ -12,12 +11,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { SubCategory } from '../../types/CategoryType';
 import { AiOutlineInstagram } from 'react-icons/ai';
 import { FiShoppingBag } from 'react-icons/fi';
-import { IoIosArrowDown, IoIosArrowUp, IoMdArrowBack, IoMdClose, IoMdLogOut } from 'react-icons/io';
+import { IoIosArrowDown, IoIosArrowUp, IoMdArrowBack, IoMdClose, IoMdLogOut, IoIosArrowForward } from 'react-icons/io';
 import Bag from './bag';
 import Favorites from './favourite';
 import { BiSearchAlt } from 'react-icons/bi';
 import { useQuery } from '@tanstack/react-query';
 import { fetchProducts } from '../../store/useQuery/QueryProducts';
+import { apiUrl } from '../../utils/api';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,7 +36,6 @@ export default function Header() {
     setsearchOpen,
   } = useContext(HeaderContext);
   const [isdropDown, setisdropDown] = useState(false);
-  const [allProducts, setAllProducts] = useState([]);
   const [query, setQuery] = useState<any>([]);
   const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
   const [searchVal, setsearchVal] = useState('');
@@ -44,29 +43,24 @@ export default function Header() {
     queryKey: ['product'],
     queryFn: fetchProducts,
   });
-  function getProduct() {
-    return fetch('https://stile-backend.vercel.app/allproducts')
-      .then((res) => res.json()) // Convert response to JSON
-      .then((data) => {
-        setAllProducts(data); // Process the data
-        // Return data from the Promise
-      })
-      .catch((err) => console.log(err));
+  // remote search to avoid preloading all products on header mount
+  async function remoteSearch(q: string) {
+    try {
+      const resp = await fetch(apiUrl(`/search?q=${encodeURIComponent(q)}`));
+      const data = await resp.json();
+      return data;
+    } catch (e) {
+      return [];
+    }
   }
-
-  const fuse: any =
-    allProducts.length > 0 &&
-    new Fuse(allProducts, { keys: ['name'], threshold: 0.5, minMatchCharLength: 2 });
-  const searchProducts = (query: any) => {
-    const products = fuse
-      .search(query)
-      .map((result: any) => result.item)
-      .slice(0, 4);
-    return products;
-  };
   async function isUser() {
     const token = localStorage.getItem('token');
-    const response = await fetch('https://stile-backend.vercel.app/user', {
+    if (!token) {
+      setisAuthenticated(false);
+      setUser(null as any);
+      return;
+    }
+    const response = await fetch(apiUrl('/user'), {
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
@@ -84,12 +78,10 @@ export default function Header() {
       setisAuthenticated(false);
     }
   }
-  useEffect(() => {
-    getProduct();
-  }, []);
+  // removed eager allproducts fetch
   useEffect(() => {
     isUser();
-  }, [isAuthenticated]);
+  }, []);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -130,16 +122,19 @@ export default function Header() {
     inputref.current.focus();
     setsearchOpen(true);
   }
+  const debounceRef = useRef<any>();
   function searchvalue(e: any) {
-    setsearchVal(e.target.value);
-    let timeout;
-    if (timeout) {
-      clearTimeout(timeout);
-    }
-    timeout = setTimeout(() => {
-      const results = searchProducts(e.target.value);
-      setQuery(results);
-    }, 800);
+    const val = e.target.value as string;
+    setsearchVal(val);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(async () => {
+      if ((val || '').trim().length < 2) {
+        setQuery([]);
+        return;
+      }
+      const results = await remoteSearch(val.trim());
+      setQuery(results.slice(0, 10));
+    }, 400);
   }
   useEffect(() => {
     if (searchOpen && inputref.current) {
@@ -182,21 +177,28 @@ export default function Header() {
                   Shop All
                   {isdropDown && (
                     <div
-                      className="absolute bg-white shadow-lg border rounded-lg p-2 w-[100vw] left-0 h-[300px] top-14"
+                      className="absolute left-0 right-0 top-14"
                       onMouseEnter={handleDropdownOpen}
                       onMouseLeave={handleDropdownClose}
                     >
-                      <div className="flex flex-col flex-wrap px-[10%] py-6 justify-center gap-4">
-                        {product &&
-                          product.subCategories.map((subcategory: SubCategory) => (
-                            <Link
-                              key={subcategory.slug}
-                              to={`/subcategory/${subcategory.slug}`}
-                              className=""
-                            >
-                              {subcategory.name}
-                            </Link>
-                          ))}
+                      <div className="mx-auto max-w-6xl bg-white/95 backdrop-blur-sm shadow-2xl border rounded-xl p-4 md:p-6 ring-1 ring-black/5">
+                        <div className="mb-2 text-[10px] md:text-xs uppercase tracking-[0.2em] text-gray-500">Shop by category</div>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 md:gap-3 max-h-[260px] overflow-y-auto pr-2">
+                          {product &&
+                            product.subCategories.map((subcategory: SubCategory) => (
+                              <Link
+                                key={subcategory.slug}
+                                to={`/subcategory/${subcategory.slug}`}
+                                className="flex items-center justify-between p-2 rounded-md hover:bg-gray-50 text-[12px] md:text-sm text-gray-800"
+                              >
+                                <span className="truncate">{subcategory.name}</span>
+                                <IoIosArrowForward className="text-gray-400" />
+                              </Link>
+                            ))}
+                        </div>
+                        <div className="mt-3 text-right">
+                          <Link to="/products/all" className="text-xs md:text-sm font-semibold underline underline-offset-4">View all products</Link>
+                        </div>
                       </div>
                     </div>
                   )}
@@ -363,11 +365,11 @@ export default function Header() {
                       onClick={handleClose}
                       to={`/product/${product.slug}`}
                       className="w-full"
-                      key={product._id}
+                      key={product._id || product.slug}
                     >
                       <div className="flex p-3 items-center space-x-4 w-full">
                         <img
-                          src={product.images[0]}
+                          src={product.images?.[0]}
                           alt={product.name}
                           className="w-12 h-16 object-top object-cover"
                         />

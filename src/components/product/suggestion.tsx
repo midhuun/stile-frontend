@@ -1,3 +1,4 @@
+import { apiUrl } from '../../utils/api';
 import { useEffect, useState } from "react";
 import { Product } from "../../types/CategoryType";
 import ProductCard from "./productCard";
@@ -9,7 +10,7 @@ const Suggestion = ({ subid, id }: any) => {
         let isMounted = true;
         const fetchSuggestions = async () => {
             try {
-                const result = await fetch(`https://stile-backend.vercel.app/subcategoryProducts/${subid}`);
+    const result = await fetch(apiUrl(`/subcategoryProducts/${subid}`));
                 const data = await result.json();
                 if (isMounted) {
                     setSuggestions(Array.isArray(data) ? data : []);

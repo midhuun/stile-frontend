@@ -1,6 +1,15 @@
+import SEO from '../seo/SEO';
+
 const PrivacyPolicy = () => {
   return (
     <div className="max-w-3xl mx-auto p-6 pt-8 ">
+      <SEO
+        title="Privacy Policy | Stile Sagio"
+        description="Read Stile Sagio's privacy policy to learn how we collect, use, and protect your personal information."
+        canonical={typeof window !== 'undefined' ? `${window.location.origin}/privacy` : undefined}
+        image="/logo.png"
+        type="website"
+      />
       <header className="text-center mb-8">
         <h1 className="md:text-3xl md:text-md text-base font-semibold text-gray-800">Privacy Policy</h1>
         <p className="text-gray-500 text-sm">Last updated: January 23, 2025</p>

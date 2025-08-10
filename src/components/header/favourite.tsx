@@ -1,3 +1,4 @@
+import { apiUrl } from '../../utils/api';
 import { useContext, useEffect } from 'react';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
@@ -8,7 +9,8 @@ const Favorites = () => {
     useContext(HeaderContext);
   async function getFavorites() {
     const token = localStorage.getItem('token');
-    const res = await fetch('https://stile-backend.vercel.app/user/favourites', {
+    if (!token) return;
+    const res = await fetch(apiUrl('/user/favourites'), {
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
@@ -24,7 +26,7 @@ const Favorites = () => {
   const handleRemoveFavorite = async (item: any) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`https://stile-backend.vercel.app/user/removeFromFavourites`, {
+    const res = await fetch(apiUrl(`/user/removeFromFavourites`), {
         method: 'POST',
         credentials: 'include',
         headers: {
