@@ -1,5 +1,5 @@
 import { apiUrl } from '../utils/api';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { HeaderContext } from '../context/appContext';
 import { Link } from 'react-router-dom';
 
