@@ -1,3 +1,4 @@
+import { apiUrl } from '../../utils/api';
 import { useContext, useEffect } from 'react';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
@@ -22,9 +23,11 @@ const Bag = () => {
     dispatch(setcart(cartItems));
   }
   useEffect(() => {
-    // console.log("Bag mounted");
-    fetchCart();
-  }, [dispatch]);
+    // Only fetch cart if authenticated
+    if (isAuthenticated) {
+      fetchCart();
+    }
+  }, [dispatch, isAuthenticated]);
   function handlelogin() {
     setisUserOpen(true);
     setiscartOpen(false);
@@ -41,7 +44,11 @@ const Bag = () => {
       dispatch(deleteFromCart({ ...value.item, selectedSize: value.size }));
     }
     const token = localStorage.getItem('token');
-    const res = await fetch(`https://stile-backend.vercel.app/user/${value.value}`, {
+    if (!token) {
+      setisUserOpen(true);
+      return;
+    }
+    const res = await fetch(apiUrl(`/user/${value.value}`), {
       method: 'POST',
       credentials: 'include',
       headers: {

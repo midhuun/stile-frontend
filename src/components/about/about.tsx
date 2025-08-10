@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import SEO from '../seo/SEO';
 import './about.css';
 const About = () => {
     useEffect(() => {
@@ -20,6 +21,13 @@ const About = () => {
 
     return (
         <div className="max-w-7xl  mx-auto px-4 py-2 md:py-8 overflow-x-hidden">
+            <SEO
+              title="About Stile Sagio | Premium Apparel by TVT Textiles"
+              description="Learn about Stile Sagio by TVT Textiles – our commitment to quality, comfort, and sustainable apparel from Tirupur."
+              canonical={typeof window !== 'undefined' ? `${window.location.origin}/contact` : undefined}
+              image="/logo.png"
+              type="website"
+            />
             <h1 className="md:text-4xl text-xl font-bold mb-6 fade-in">About Us</h1>
             <p className="mb-4 text-[13px] md:text-lg fade-in">
                 Welcome to <strong>STILE SAGIO</strong>, our premium brand dedicated to providing high-quality fashion that combines style, comfort, and sustainability. Located in the heart of Tirupur, a city renowned for its exceptional cotton production, we are proud to offer a diverse range of garments tailored to meet the needs of our clients. Our collection includes over 20 unique styles, from cotton vests to French terry joggers and hoodies.

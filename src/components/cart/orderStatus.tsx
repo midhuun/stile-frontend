@@ -1,3 +1,4 @@
+import { apiUrl } from '../../utils/api';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useParams } from 'react-router-dom';
@@ -10,7 +11,7 @@ export default function PaymentStatusPage() {
     const timeout = setTimeout(() => controller.abort(), 7000); // 7 seconds timeout
 
     try {
-      const res = await fetch(`https://stile-backend.vercel.app/payment/status/${orderid}`, {
+    const res = await fetch(apiUrl(`/payment/status/${orderid}`), {
         method: 'POST',
         signal: controller.signal, // Attach signal to abort fetch if needed
       });

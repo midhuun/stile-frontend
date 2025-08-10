@@ -1,3 +1,4 @@
+import { apiUrl } from '../../utils/api';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
@@ -11,7 +12,7 @@ const OrderSuccess = () => {
   const [isfailed, setisfailed] = useState(false);
   async function clearCart() {
     const token = localStorage.getItem('token');
-    await fetch('https://stile-backend.vercel.app/user/clearCart', {
+  await fetch(apiUrl('/user/clearCart'), {
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',

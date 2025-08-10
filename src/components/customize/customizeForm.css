@@ -1,6 +1,6 @@
-.work-bg{
+/* .work-bg{
     background-image: url('/customizenow.png');
-}
+} */
 @keyframes scroll {
     0% {
       transform: translateX(0%);

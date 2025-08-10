@@ -1,3 +1,4 @@
+import { apiUrl } from '../utils/api';
 import { useState } from 'react';
 import { Search, XCircle } from 'lucide-react';
 import { toast, ToastContainer } from 'react-toastify';
@@ -17,7 +18,7 @@ export default function TrackOrder() {
     setLoading(true);
     setOrderStatus(null);
     try {
-      const res = await fetch('https://stile-backend.vercel.app/track-order', {
+    const res = await fetch(apiUrl('/track-order'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ order_id: trackingId }),
