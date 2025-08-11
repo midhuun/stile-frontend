@@ -75,7 +75,7 @@ const HomeSub = () => {
       </div>
 
       <div className="w-full mt-2">
-        {subcategories.map((subcategory: SubCategory, index: number) => (
+        {subcategories.map((subcategory: SubCategory) => (
           <div 
             key={subcategory._id} 
             className="md:mt-5 w-full px-2 md:px-4"

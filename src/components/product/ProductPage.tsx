@@ -20,7 +20,6 @@ import { FaStar } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 import { RiShare2Fill } from 'react-icons/ri';
 import { apiUrl } from '../../utils/api';
-import SmartImage from '../common/SmartImage';
 const ProductPage = () => {
   const params: any = useParams();
   const { product } = params;
