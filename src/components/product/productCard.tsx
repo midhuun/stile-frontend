@@ -33,7 +33,7 @@ const ProductCard = ({product}:any) => {
         setCurrentImage(product.images[0]);
       };
   return (
-    <div className={`h-[300px]  flex flex-col ${product.type === 'home' ? 'w-[140px]' :"w-[49%] xs:w-[32%] sm:w-[30%]" } h-[310px]  md:h-[520px] md:w-[300px]`} key={product?._id}>
+    <div className={`h-[300px] flex flex-col ${product.type === 'home' ? 'w-[140px]' :"w-[49%] xs:w-[32%] sm:w-[30%]" } h-[310px] md:h-[520px] md:w-[300px]`} key={product?._id}>
        <Link to={`/product/${product.slug}`} className="group">
       <div className='overflow-hidden relative h-[250px] md:h-[450px]' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
         <SmartImage

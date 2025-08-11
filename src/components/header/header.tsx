@@ -175,12 +175,15 @@ export default function Header() {
                   className="cursor-pointer "
                 >
                   Shop All
-                  {isdropDown && (
-                    <div
-                      className="absolute left-0 right-0 top-14"
-                      onMouseEnter={handleDropdownOpen}
-                      onMouseLeave={handleDropdownClose}
-                    >
+                  <div
+                    className={`absolute left-0 right-0 top-14 transition-all duration-300 ease-in-out ${
+                      isdropDown 
+                        ? 'opacity-100 visible transform translate-y-0' 
+                        : 'opacity-0 invisible transform -translate-y-2'
+                    }`}
+                    onMouseEnter={handleDropdownOpen}
+                    onMouseLeave={handleDropdownClose}
+                  >
                       <div className="mx-auto max-w-6xl bg-white/95 backdrop-blur-sm shadow-2xl border rounded-xl p-4 md:p-6 ring-1 ring-black/5">
                         <div className="mb-2 text-[10px] md:text-xs uppercase tracking-[0.2em] text-gray-500">Shop by category</div>
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 md:gap-3 max-h-[260px] overflow-y-auto pr-2">
@@ -201,7 +204,7 @@ export default function Header() {
                         </div>
                       </div>
                     </div>
-                  )}
+                  
                 </li>
                 <Link to="/customize">
                   <li>Customize </li>
@@ -249,21 +252,26 @@ export default function Header() {
                 <IoIosArrowDown className={`${isdropDown ? 'hidden' : 'block'}`} />
                 <IoIosArrowUp className={`${isdropDown ? 'block' : 'hidden'}`} />
               </li>
-              {isdropDown && (
-                <>
-                  {product &&
-                    product.subCategories.map((subcategory: SubCategory) => (
-                      <Link
-                        onClick={() => setIsMenuOpen(false)}
-                        key={subcategory.slug}
-                        to={`/subcategory/${subcategory.slug}`}
-                        className="border-b font-light text-xs py-3"
-                      >
-                        {subcategory.name}
-                      </Link>
-                    ))}
-                </>
-              )}
+              <div className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                isdropDown ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+              }`}>
+                {product &&
+                  product.subCategories.map((subcategory: SubCategory, index: number) => (
+                    <Link
+                      onClick={() => setIsMenuOpen(false)}
+                      key={subcategory.slug}
+                      to={`/subcategory/${subcategory.slug}`}
+                      className={`border-b font-light text-xs py-3 block transition-all duration-300 ease-in-out transform ${
+                        isdropDown 
+                          ? 'translate-x-0 opacity-100' 
+                          : 'translate-x-4 opacity-0'
+                      }`}
+                      style={{ transitionDelay: `${index * 50}ms` }}
+                    >
+                      {subcategory.name}
+                    </Link>
+                  ))}
+              </div>
               <Link onClick={() => setIsMenuOpen(false)} to="/customize">
                 <li className="border-b py-3">Customize Now</li>
               </Link>

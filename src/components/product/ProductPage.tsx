@@ -38,6 +38,7 @@ const ProductPage = () => {
   const [active, setActive] = useState<number>(0);
   const [chartOpen, setchartOpen] = useState<Boolean>(false);
   const [isLoading, setisLoading] = useState<Boolean>(false);
+  const [imageLoading, setImageLoading] = useState<boolean>(false);
   const [dropdowns, setDropdowns] = useState<any>({
     description: false,
     shipping: false,
@@ -129,6 +130,7 @@ const ProductPage = () => {
     },
   });
   const handleDotClick = (index: any) => {
+    setImageLoading(true);
     setActive(index);
   };
   const addToFavorite = async () => {
@@ -278,12 +280,14 @@ const ProductPage = () => {
   function handleChangeImage(data: string) {
     if (data === 'prev') {
       if (active === 0) return;
+      setImageLoading(true);
       setActive(active - 1);
     }
     if (data === 'next') {
       if (active === (productdata?.images && productdata?.images.length - 1)) {
         return;
       }
+      setImageLoading(true);
       setActive((prev) => prev + 1);
     }
   }
@@ -295,6 +299,7 @@ const ProductPage = () => {
   //   dispatch(addtoCart(productdata))
   //  }
   function handleThumbnailClick(index: number) {
+    setImageLoading(true);
     setActive(index);
   }
 
@@ -334,16 +339,18 @@ const ProductPage = () => {
                   className="absolute cursor-pointer top-4 left-4 text-red-500"
                   size={26}
                 />
-                <div className="w-full h-[90vh]">
-                  <SmartImage
-                    src={productdata?.images?.[active]}
-                    alt={productdata?.name}
-                    width={900}
-                    height={1200}
-                    className="w-full h-full border"
-                  />
-                </div>
-                <div className="absolute z-[-100] h-[90vh] w-full inset-0 overflow-hidden bg-gray-400 animate-pulse"></div>
+                {imageLoading && (
+                  <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-md" />
+                )}
+                <img
+                  src={productdata?.images?.[active]}
+                  alt={productdata?.name}
+                  className={`w-full h-[90vh] object-contain transition-opacity duration-300 ${
+                    imageLoading ? 'opacity-0' : 'opacity-100'
+                  }`}
+                  loading="lazy"
+                  onLoad={() => setImageLoading(false)}
+                />
               </div>
             </div>
 
@@ -361,15 +368,17 @@ const ProductPage = () => {
                 <GrShareOption className="text-gray-600" size={20} />
               </div>
 
-              {isLoading && (
+              {imageLoading && (
                 <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-md"></div>
               )}
               <img
                 {...swipeHandlers}
-                className="w-full h-full object-cover object-top transition-transform duration-500"
+                className={`w-full h-full object-cover object-top transition-opacity duration-300 ${
+                  imageLoading ? 'opacity-0' : 'opacity-100'
+                }`}
                 src={productdata?.images?.[active]}
                 loading="lazy"
-                onLoad={() => setisLoading(false)}
+                onLoad={() => setImageLoading(false)}
                 alt={productdata?.name}
               />
               <button
@@ -569,8 +578,12 @@ const ProductPage = () => {
                     <p className="font-medium">{label}</p>
                     <p>{dropdowns[key] ? '-' : '+'}</p>
                   </div>
-                  {dropdowns[key] && (
-                    <div className="mt-2 text-sm text-gray-600">
+                  <div
+                    className={`overflow-hidden transition-[max-height,opacity,margin] duration-300 ease-in-out ${
+                      dropdowns[key] ? 'max-h-96 opacity-100 mt-2' : 'max-h-0 opacity-0 mt-0'
+                    }`}
+                  >
+                    <div className="text-sm text-gray-600">
                       {key === 'description' && productdata?.description && (
                         <>
                           <ul className="space-y-3 transition-all duration-700 list-disc mx-3">
@@ -643,7 +656,7 @@ const ProductPage = () => {
                         <p className="py-2">Manufactured by TVT Textiles</p>
                       )}
                     </div>
-                  )}
+                  </div>
                 </div>
               ))}
             </div>

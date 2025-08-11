@@ -39,11 +39,21 @@ export async function getFavourites() {
 }
 export async function getProducts() {
   try {
-  const response = await fetch(apiUrl('/products'));
+    const response = await fetch(apiUrl('/products'), {
+      headers: {
+        'Cache-Control': 'max-age=900', // 15 minutes cache
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
     const data = await response.json();
     return data.products;
   } catch (err) {
-    console.log(err);
+    console.error('Error fetching products:', err);
+    return [];
   }
 }
 export const handleCart = async (item: any) => {

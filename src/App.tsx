@@ -34,7 +34,20 @@ const pixelid = '1129263745877766';
 ReactPixel.init(pixelid);
 ReactPixel.pageView();
 function App() {
-  const queryclient = new QueryClient();
+  const queryclient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 1000 * 60 * 60 * 72, // 72 hours
+        gcTime: 1000 * 60 * 60 * 72, // 72 hours
+        retry: 1,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+      },
+      mutations: {
+        retry: 1,
+      },
+    },
+  });
   const { setUser, setisAuthenticated } = useContext(HeaderContext);
   async function isUser() {
     const token = localStorage.getItem('token');

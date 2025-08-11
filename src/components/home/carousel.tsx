@@ -9,22 +9,35 @@ import { useQuery } from '@tanstack/react-query';
 
 const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const generateSlug = (name: string) => {
     return name.trim().toLowerCase().replace(/\s+/g, '-');
   };
+  
   const fetchBanners = async () => {
-    setIsLoading(true);
-  const { data } = await axios.get(apiUrl('/banner'));
-    setIsLoading(false);
-    return data;
+    try {
+      const { data } = await axios.get(apiUrl('/banner'), {
+        timeout: 5000, // 5 second timeout
+        headers: {
+          'Cache-Control': 'max-age=300', // 5 minutes cache
+        }
+      });
+      return data;
+    } catch (error) {
+      console.error('Error fetching banners:', error);
+      return [];
+    }
   };
-  const { data: banner } = useQuery({
+  
+  const { data: banner = [], isLoading: bannerLoading, error } = useQuery({
     queryKey: ['banner'],
     queryFn: fetchBanners,
+    staleTime: 1000 * 60 * 60 * 72, // 72 hours
+    gcTime: 1000 * 60 * 60 * 72, // 72 hours
+    retry: 1,
   });
   const goNext = () => {
-    if (currentIndex < banner.length - 1) {
+    if (banner && currentIndex < banner.length - 1) {
       setCurrentIndex(currentIndex + 1);
     }
   };
@@ -41,23 +54,44 @@ const Carousel = () => {
     preventScrollOnSwipe: true,
     trackMouse: true,
   });
+  
   useEffect(() => {
     let autoswipe = setInterval(() => {
-      if (banner) {
-        setCurrentIndex((prev) => prev + 1);
-        if (currentIndex > banner.length - 2) {
-          setCurrentIndex(0);
-        }
+      if (banner && banner.length > 0) {
+        setCurrentIndex((prev) => {
+          if (prev >= banner.length - 1) {
+            return 0;
+          }
+          return prev + 1;
+        });
       }
     }, 2500);
     return () => {
       clearInterval(autoswipe);
     };
-  }, [currentIndex]);
+  }, [banner]);
+
+  // Show loading state
+  if (bannerLoading) {
+    return (
+      <div className="w-full h-[180px] md:h-[450px] flex items-center justify-center bg-gray-100">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error || !banner || banner.length === 0) {
+    return (
+      <div className="w-full h-[180px] md:h-[450px] flex items-center justify-center bg-gray-100">
+        <p className="text-gray-500">Unable to load banners</p>
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col md:flex-row gap-2 items-center justify-center md:h-[450px] min-w-full p-2 md:p-4">
       {/* Carousel Section */}
-      {isLoading ? (
+      {bannerLoading ? (
         <div className="md:w-[50%] w-full h-[180px] sm:h-[450px] md:h-[400px] animate-pulse bg-gray-200 border rounded-lg"></div>
       ) : (
         <div
@@ -66,7 +100,7 @@ const Carousel = () => {
         >
           {/* Carousel Wrapper */}
           <div
-            className="flex transition-transform ease-in-out duration-300 max-h-[180px] sm:h-[450px] md:h-[400px]"
+            className="flex transition-all ease-in-out duration-500 max-h-[180px] sm:h-[450px] md:h-[400px]"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
             {banner &&

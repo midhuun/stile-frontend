@@ -224,16 +224,7 @@ const Bag = () => {
           </div>
         )}
       </div>
-      {cart && iscartOpen && cart?.length > 0 && (
-        <Link to="/checkout">
-          <button
-            onClick={() => setiscartOpen(false)}
-            className="bg-black md:hidden z-[999] fixed bottom-1 left-1/2 -translate-x-1/2 text-white w-[90%] transform  py-2 rounded-lg transition duration-200 hover:bg-gray-800"
-          >
-            Checkout
-          </button>
-        </Link>
-      )}
+      {/* Removed duplicate checkout button - the one inside the cart summary is sufficient */}
     </>
   );
 };

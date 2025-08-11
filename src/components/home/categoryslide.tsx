@@ -21,17 +21,17 @@ const Categories = () => {
         {product?.subCategories?.length > 0 ? (
           product?.subCategories.map((category: any) => (
             <div
-              className=" flex flex-col  min-w-[140px] md:w-[250px] sm:w-[32%] justify-center gap-1 md:gap-4"
+              className="flex flex-col min-w-[140px] md:w-[250px] sm:w-[32%] justify-center gap-1 md:gap-4"
               key={category._id}
             >
               <Link to={`/subcategory/${category.slug}`}>
                 <img
-                  className="rounded-md  h-[230px] xs:h-[300px] w-full md:h-[400px]  object-top object-cover "
+                  className="rounded-md h-[230px] xs:h-[300px] w-full md:h-[400px] object-top object-cover"
                   src={`${category.image}?w=400&h=500&q=75`}
                   alt={category.name}
                 />
               </Link>
-              <p className="text-[10px] overflow-hidden  break-words h-10 md:text-[14px] uppercase">
+              <p className="text-[10px] overflow-hidden break-words h-10 md:text-[14px] uppercase">
                 {category.name}
               </p>
             </div>
