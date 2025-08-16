@@ -54,10 +54,8 @@ const CartPage: React.FC = () => {
   const [pinError, setPinError] = useState('');
   const [errors, setErrors] = useState<any>(initialErrors);
   const [processing, setProcessing] = useState(false);
-  const [verifyOrderModal, setVerifyOrderModal] = useState(false);
   const [expandItems, setExpandItems] = useState(false);
-  const [orderId, setOrderId] = useState<string>('');
-  const [sessionId, setSessionId] = useState<string>('');
+
   const cashfreeRef = useRef<any>(null);
   const abortPinFetchRef = useRef<AbortController | null>(null);
 
@@ -364,8 +362,6 @@ const CartPage: React.FC = () => {
       if (!data?.order_id || !data?.token) {
         throw new Error('Invalid payment init response');
       }
-      setOrderId(data.order_id);
-      setSessionId(data.token);
       // create server-side order + begin cashfree checkout
       await beginCheckout(data.token, data.order_id);
     } catch (err) {
