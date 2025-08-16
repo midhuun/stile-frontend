@@ -90,3 +90,98 @@
   opacity: 0;
   transform: translateY(-10px);
 }
+
+/* Layout Shift Prevention */
+.layout-stable {
+  contain: layout;
+}
+
+.aspect-ratio-container {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%; /* 1:1 aspect ratio */
+}
+
+.aspect-ratio-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Prevent layout shifts for product cards */
+.product-card-container {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card-image {
+  aspect-ratio: 1;
+  flex-shrink: 0;
+}
+
+.product-card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Prevent layout shifts for carousel */
+.carousel-container {
+  min-height: 180px;
+  min-height: 450px;
+}
+
+/* Prevent layout shifts for category slides */
+.category-slide-container {
+  min-height: 320px;
+}
+
+/* Skeleton loading with exact dimensions */
+.skeleton-loader {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Ensure consistent spacing */
+.consistent-spacing {
+  margin: 0;
+  padding: 0;
+}
+
+/* Prevent text wrapping issues */
+.text-no-wrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Fixed dimensions for mobile */
+@media (max-width: 768px) {
+  .product-card-container {
+    min-height: 300px;
+  }
+  
+  .carousel-container {
+    min-height: 180px;
+  }
+  
+  .category-slide-container {
+    min-height: 320px;
+  }
+}

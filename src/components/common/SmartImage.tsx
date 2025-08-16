@@ -48,7 +48,7 @@ export default function SmartImage({
   url.searchParams.set('q', '70');
 
   return (
-    <div className={`relative overflow-hidden ${className}`}>
+    <div className={`relative overflow-hidden ${className}`} style={{ aspectRatio: width && height ? `${width}/${height}` : undefined }}>
       {!loaded && (
         <div
           className="absolute inset-0 animate-pulse"
@@ -67,6 +67,7 @@ export default function SmartImage({
         className={`block w-full h-full object-cover object-top transition-opacity duration-300 ${
           loaded ? 'opacity-100' : 'opacity-0'
         }`}
+        style={{ aspectRatio: width && height ? `${width}/${height}` : undefined }}
       />
     </div>
   );

@@ -74,8 +74,9 @@ const Carousel = () => {
   // Show loading state
   if (bannerLoading) {
     return (
-      <div className="w-full h-[180px] md:h-[450px] flex items-center justify-center bg-gray-100">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      <div className="flex flex-col md:flex-row gap-2 items-center justify-center md:h-[450px] min-w-full p-2 md:p-4">
+        <div className="md:w-[50%] w-full h-[180px] md:h-[450px] animate-pulse bg-gray-200 border rounded-lg"></div>
+        <div className="relative flex-1 h-[180px] md:h-[400px] w-full md:w-[50%] rounded-lg overflow-hidden bg-gray-200 animate-pulse"></div>
       </div>
     );
   }
@@ -83,17 +84,19 @@ const Carousel = () => {
   // Show error state
   if (error || !banner || banner.length === 0) {
     return (
-      <div className="w-full h-[180px] md:h-[450px] flex items-center justify-center bg-gray-100">
-        <p className="text-gray-500">Unable to load banners</p>
+      <div className="flex flex-col md:flex-row gap-2 items-center justify-center md:h-[450px] min-w-full p-2 md:p-4">
+        <div className="md:w-[50%] w-full h-[180px] md:h-[450px] flex items-center justify-center bg-gray-100 border rounded-lg">
+          <p className="text-gray-500">Unable to load banners</p>
+        </div>
+        <div className="relative flex-1 h-[180px] md:h-[400px] w-full md:w-[50%] rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
+          <p className="text-gray-500">Customize section</p>
+        </div>
       </div>
     );
   }
   return (
-    <div className="flex flex-col md:flex-row gap-2 items-center justify-center md:h-[450px] min-w-full p-2 md:p-4">
+    <div className="flex flex-col md:flex-row gap-2 items-center justify-center md:h-[450px] min-w-full p-2 md:p-4 carousel-container">
       {/* Carousel Section */}
-      {bannerLoading ? (
-        <div className="md:w-[50%] w-full h-[180px] sm:h-[450px] md:h-[400px] animate-pulse bg-gray-200 border rounded-lg"></div>
-      ) : (
         <div
           {...swipeHandlers} // Apply swipe here
           className="relative h-[180px] md:h-[450px] w-full md:w-[50%] overflow-hidden rounded-lg flex flex-col justify-between"
@@ -175,7 +178,6 @@ const Carousel = () => {
               ))}
           </div>
         </div>
-      )}
       {/* Customize Section */}
       <div className="relative flex-1 h-[180px] md:h-[400px] w-full md:w-[50%] rounded-lg overflow-hidden bg-[#b5fc6b] flex flex-col justify-between items-center">
         <img

@@ -13,10 +13,11 @@ const VideoGallery = () => {
         {videoUrls.map((url: string, index: number) => (
           <div
             key={index}
-            className="w-12 h-12 sm:h-20 sm:w-20 md:w-28 relative md:h-28   rounded-full object-top bg-black overflow-hidden shadow-lg flex items-center justify-center"
+            className="w-12 h-12 sm:h-20 sm:w-20 md:w-28 relative md:h-28 rounded-full object-top bg-black overflow-hidden shadow-lg flex items-center justify-center"
+            style={{ minHeight: '48px', minWidth: '48px' }}
           >
             {/* Skeleton Loader */}
-            <div className="absolute w-full h-full bg-black animate-pulse"></div>
+            <div className="absolute w-full h-full bg-black animate-pulse rounded-full"></div>
             {/* Video Player */}
             <ReactPlayer
               url={url}

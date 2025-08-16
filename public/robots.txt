@@ -1,10 +1,32 @@
 User-agent: *
+Allow: /
+
+# Disallow private/user pages
 Disallow: /checkout/
 Disallow: /user/account/
 Disallow: /order/
-Disallow: /checkout/
 Disallow: /payment/status/
+Disallow: /track/
+Disallow: /login/
+Disallow: /admin/
 
-Allow: /
+# Allow important pages
+Allow: /product/
+Allow: /subcategory/
+Allow: /customize/
+Allow: /contact/
+Allow: /about/
+Allow: /terms/
+Allow: /privacy/
+Allow: /shipping/
+Allow: /returns/
 
-Sitemap: https://stile-backend.vercel.app/sitemap.xml
+# Crawl delay for better performance
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://stilesagio.com/sitemap.xml
+
+# Additional sitemaps
+Sitemap: https://stilesagio.com/products-sitemap.xml
+Sitemap: https://stilesagio.com/categories-sitemap.xml

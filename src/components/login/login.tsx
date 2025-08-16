@@ -5,15 +5,16 @@ import { HeaderContext } from '../../context/appContext';
 import { motion } from 'framer-motion';
 import Logo from '../../assets/logo.png';
 import './login.css';
-
+import validator from 'validator';
+import { auth } from '../../firestore/store';
+import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import 'react-toastify/dist/ReactToastify.css';
 import { Slide, toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../toastStyle.css';
 import { initiate, verify } from '../../utils/initotpless';
-
 const OtpLoginPopup = () => {
-
+  const [email, setemail] = useState<any>('');
   const [seconds, setSeconds] = useState(0);
   const [phone, setphone] = useState<any>('');
   const [otp, setOtp] = useState<any>('');
@@ -21,15 +22,18 @@ const OtpLoginPopup = () => {
   const [otpSent, setOtpSent] = useState<any>(false); // State to track if OTP is sent
   const { isUserOpen, setisUserOpen, isAuthenticated, setisAuthenticated } =
     useContext<any>(HeaderContext);
+  const [isverifying, setisverifying] = useState<any>(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [iserror, setiserror] = useState<any>(false);
+  const [error, seterror] = useState<any>('');
+  const [confirmationResult, setConfirmationResult] = useState<any>(null);
   const [resend, setresend] = useState(false);
   const [btnmsg, setBtnmsg] = useState<any>('Login');
-  
   useEffect(() => {
     if (!isUserOpen) {
       setOtpSent(false);
       setphone('');
-      // Reset verification state
+      setisverifying(false);
     }
     // Prefill last used number when opening the popup
     if (isUserOpen) {
@@ -37,7 +41,6 @@ const OtpLoginPopup = () => {
       if (last && !phone) setphone(last);
     }
   }, [isUserOpen]);
-  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Only numbers, limit to 4 digits
     setOtp(e.target.value);
@@ -51,7 +54,6 @@ const OtpLoginPopup = () => {
   const handleClick = () => {
     inputRef.current?.focus(); // Focus on input when clicking the container
   };
-  
   async function onOTPVerify(e: any) {
     e.preventDefault();
     // console.log("verifying")
@@ -96,10 +98,19 @@ const OtpLoginPopup = () => {
         if (data.status === 200) {
           console.log(true);
         } else {
-          console.log(false);
+          toast.error('Error Login ⚠️', {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+          });
         }
       } else {
-        toast.error('Invalid OTP', {
+        toast.error('Enter Valid OTP ', {
           position: 'top-right',
           autoClose: 3000,
           hideProgressBar: false,
@@ -109,13 +120,14 @@ const OtpLoginPopup = () => {
           progress: undefined,
           theme: 'light',
         });
+        setiserror(true);
+        seterror('Invalid OTP');
       }
     } catch (err) {
       console.log(err);
     }
   }
-  
-  async function onSignup(e: any) {
+  async function onSignup(e) {
     setSeconds(30);
     const secondsInterval = setInterval(() => {
       setSeconds((prev) => {
@@ -178,7 +190,7 @@ const OtpLoginPopup = () => {
           theme: 'light',
         });
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error('Error:', err);
       toast.error(err.message || 'Something went wrong.');
     } finally {
@@ -186,9 +198,58 @@ const OtpLoginPopup = () => {
     }
   }
 
+  // Validate Logic
+  const validateNumber = () => {
+    const isValidEmail = (email) => {
+      return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+    };
+    if (!isValidEmail) {
+      seterror('Invalid Email ID. Enter a valid Email');
+      return false;
+    }
+    seterror('');
+    return true;
+  };
 
-
-
+  const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const newOtp = [...otp];
+    newOtp[index] = e.target.value;
+    setOtp(newOtp);
+    if (e.target.value && index < 3) {
+      document.getElementById(`otp-input-${index + 1}`)?.focus();
+    }
+  };
+  async function otpVerified(e) {
+    e.preventDefault();
+    if (!validateNumber()) {
+      toast.error('Enter Valid Mobile Number');
+      alert('Enter Valid Mobile Number');
+    }
+    const res = await fetch(apiUrl('/user/login'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ email: email }),
+    });
+    const data = await res.json();
+    console.log(data);
+    toast.success('OTP Sent Successfully ✅', {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
+    setisAuthenticated(true);
+    setisUserOpen(false);
+    setisverifying(false);
+    setOtpSent(false);
+    setemail('');
+    setOtp(['', '', '', '']);
+  }
 
   return (
     <div>
@@ -279,10 +340,7 @@ const OtpLoginPopup = () => {
                     type="tel"
                     inputMode="numeric"
                     pattern="[0-9]*"
-                    onInput={(e) => {
-                      const target = e.target as HTMLInputElement;
-                      target.value = target.value.replace(/\D/g, '');
-                    }}
+                    onInput={(e) => (e.target.value = e.target.value.replace(/\D/g, ''))}
                     value={otp}
                     onChange={handleChange}
                     onPaste={handlePaste}

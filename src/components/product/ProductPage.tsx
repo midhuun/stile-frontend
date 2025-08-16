@@ -20,6 +20,7 @@ import { FaStar } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 import { RiShare2Fill } from 'react-icons/ri';
 import { apiUrl } from '../../utils/api';
+import SEO from '../seo/SEO';
 const ProductPage = () => {
   const params: any = useParams();
   const { product } = params;
@@ -164,6 +165,11 @@ const ProductPage = () => {
       setisUserOpen(true);
       return;
     }
+    // Prevent adding sold out products to cart
+    if (value === 'addToCart' && productdata.soldOut) {
+      toast.error('This product is sold out and cannot be added to cart');
+      return;
+    }
     setiscartOpen(true);
     if (value === 'addToCart') {
       dispatch(addtoCart({ product: productdata, selectedSize: activeSize }));
@@ -304,6 +310,112 @@ const ProductPage = () => {
 
   return (
     <>
+      {productdata && (
+        <SEO
+          title={`${productdata.name} | ${productdata?.subcategory?.name || 'Premium T-Shirt'} by Stile Sagio - Buy Online India`}
+          description={`Shop ${productdata.name} ${productdata?.subcategory?.name || 't-shirt'} by Stile Sagio. Premium cotton, perfect fit, trendy design. Available in sizes ${
+            (productdata?.sizes || []).map((s:any)=>s.size).join(', ') || 'S, M, L, XL, XXL'
+          }. Best price ₹${(productdata?.discountedPrice ?? productdata?.price) || ''}. Free shipping across India.`}
+          keywords={[
+            productdata.name,
+            productdata?.subcategory?.name || 't shirt',
+            'mens t shirts',
+            'polo t shirts',
+            'full sleeve t shirt',
+            'premium cotton t shirts',
+            'stylish t shirts',
+            'trendy t shirts',
+            'comfortable t shirts',
+            'fashion t shirts',
+            'buy t shirts online',
+            't shirts for men',
+            'custom t shirts',
+            'premium quality t shirts',
+            'stile sagio',
+            'tvt textiles',
+            'online t shirt store',
+            't shirt shopping',
+            'casual t shirts',
+            'cotton t shirts'
+          ]}
+          canonical={typeof window !== 'undefined' ? window.location.href : undefined}
+          image={productdata?.images?.[0]}
+          type="product"
+          structuredData={[
+            {
+              "@context": "https://schema.org",
+              "@type": "Product",
+              "name": productdata.name,
+              "image": productdata.images || [],
+              "description": productdata?.description || `${productdata.name} premium ${productdata?.subcategory?.name || 't-shirt'} by Stile Sagio`,
+              "sku": productdata?._id,
+              "brand": { "@type": "Brand", "name": "Stile Sagio" },
+              "category": productdata?.subcategory?.name || "Men's Clothing",
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": (Number.isFinite((avg as any)) && (avg as any)) || 4.8,
+                "reviewCount": reviewCount || 1,
+                "bestRating": 5,
+                "worstRating": 1
+              },
+              "offers": {
+                "@type": "Offer",
+                "url": typeof window !== 'undefined' ? window.location.href : 'https://stilesagio.com',
+                "priceCurrency": "INR",
+                "price": String(productdata?.discountedPrice ?? productdata?.price ?? ''),
+                "priceValidUntil": new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+                "availability": "https://schema.org/InStock",
+                "itemCondition": "https://schema.org/NewCondition",
+                "seller": {
+                  "@type": "Organization",
+                  "name": "Stile Sagio"
+                }
+              },
+              "additionalProperty": [
+                {
+                  "@type": "PropertyValue",
+                  "name": "Material",
+                  "value": "Premium Cotton"
+                },
+                {
+                  "@type": "PropertyValue",
+                  "name": "Fit",
+                  "value": "Regular Fit"
+                },
+                {
+                  "@type": "PropertyValue",
+                  "name": "Care Instructions",
+                  "value": "Machine Wash Cold"
+                }
+              ]
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": typeof window !== 'undefined' ? window.location.origin : 'https://stilesagio.com'
+                },
+                productdata?.subcategory?.name && {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": productdata.subcategory.name,
+                  "item": (typeof window !== 'undefined' ? window.location.origin : 'https://stilesagio.com') + `/subcategory/${productdata?.subcategory?.slug}`
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": productdata.name,
+                  "item": typeof window !== 'undefined' ? window.location.href : 'https://stilesagio.com'
+                }
+              ].filter(Boolean)
+            }
+          ]}
+        />
+      )}
       {/* {isLoading && <Loading />} */}
       <div className="w-full p-3 flex justify-center">
         <ToastContainer />
@@ -350,6 +462,15 @@ const ProductPage = () => {
                   loading="lazy"
                   onLoad={() => setImageLoading(false)}
                 />
+                {/* Sold Out Sticker */}
+                {productdata?.soldOut && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-4 rounded-xl transform -rotate-12 font-bold text-xl md:text-2xl shadow-2xl border-4 border-white z-20">
+                      SOLD OUT
+                    </div>
+                    <div className="absolute inset-0 bg-black bg-opacity-20 backdrop-blur-sm"></div>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -380,6 +501,15 @@ const ProductPage = () => {
                 onLoad={() => setImageLoading(false)}
                 alt={productdata?.name}
               />
+              {/* Sold Out Sticker - Mobile */}
+              {productdata?.soldOut && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-lg transform -rotate-12 font-bold text-base shadow-2xl border-2 border-white z-20">
+                    SOLD OUT
+                  </div>
+                  <div className="absolute inset-0 bg-black bg-opacity-20 backdrop-blur-sm"></div>
+                </div>
+              )}
               <button
                 onClick={() => handleChangeImage('prev')}
                 className="absolute left-0 top-1/2 -translate-y-1/2 p-2 bg-gray-200 rounded-full shadow-lg"
@@ -409,7 +539,14 @@ const ProductPage = () => {
           </div>
           {/* Right Side - Product Info */}
           <div className="space-y-2 p-2 md:w-[50%]">
-            <h1 className="text-md md:text-4xl">{productdata?.name}</h1>
+            <div className="flex items-center gap-3">
+              <h1 className="text-md md:text-4xl">{productdata?.name}</h1>
+              {productdata?.soldOut && (
+                <span className="bg-gradient-to-r from-red-600 to-red-700 text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold shadow-lg border border-red-500">
+                  SOLD OUT
+                </span>
+              )}
+            </div>
             <div className="flex items-center gap-3">
               <p className="rating p-1 md:p-2 text-[12px] select-none md:text-xs w-14 rounded-md flex text-white font-bold justify-center items-center gap-1 bg-green-500">
                 <FaStar className="text-white" />
@@ -488,21 +625,35 @@ const ProductPage = () => {
               <div className="flex items-center mt-2 border w-[120px]">
                 <button
                   onClick={() => handleCart('removeFromCart')}
+                  disabled={productdata?.soldOut}
                   className={`${
-                    thisProduct?.quantity === 0 || (1 && 'cursor-not-allowed')
-                  } md:px-3 px-2 py-1 md:py-2 hover:bg-gray-200`}
+                    thisProduct?.quantity === 0 || productdata?.soldOut ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-200'
+                  } md:px-3 px-2 py-1 md:py-2`}
                 >
                   -
                 </button>
                 <p className="flex-1 text-center">{(thisProduct && thisProduct?.quantity) || 1}</p>
                 <button
                   onClick={() => handleCart('addToCart')}
-                  className="md:px-3 px-2 py-1 md:py-2 hover:bg-gray-200"
+                  disabled={productdata?.soldOut}
+                  className={`md:px-3 px-2 py-1 md:py-2 ${
+                    productdata?.soldOut ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-200'
+                  }`}
                 >
                   +
                 </button>
               </div>
             </div>
+
+            {/* Sold Out Indicator */}
+            {productdata?.soldOut && (
+              <div className="flex items-center justify-center p-4 bg-gradient-to-r from-red-50 to-red-100 border-2 border-red-300 rounded-lg mb-4 shadow-sm">
+                <div className="flex items-center gap-3">
+                  <div className="w-4 h-4 bg-red-600 rounded-full animate-pulse"></div>
+                  <span className="text-red-800 font-bold text-sm md:text-base">🚫 This product is currently sold out</span>
+                </div>
+              </div>
+            )}
 
             {/* Buttons */}
             <div className="flex flex-col gap-3">
@@ -511,11 +662,16 @@ const ProductPage = () => {
             </Link> */}
               <button
                 onClick={() => handleCart('addToCart')}
+                disabled={productdata?.soldOut}
                 className={` ${
                   thisProduct ? 'hidden' : 'block'
-                } cursor-pointer uppercase bg-black text-white w-full text-sm md:text-md py-3 border border-gray-500 rounded-md hover:border-black`}
+                } ${
+                  productdata?.soldOut 
+                    ? 'cursor-not-allowed bg-gray-400 text-gray-600' 
+                    : 'cursor-pointer bg-black text-white hover:border-black'
+                } uppercase w-full text-sm md:text-md py-3 border border-gray-500 rounded-md`}
               >
-                Add to bag
+                {productdata?.soldOut ? 'Sold Out' : 'Add to bag'}
               </button>
 
               <button
